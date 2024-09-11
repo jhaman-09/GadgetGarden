@@ -3,17 +3,25 @@ import signingif from "../assest/signin.gif";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import imageToBase64 from "../helper/imageToBase64.js"
+import imageToBase64 from "../helper/imageToBase64.js";
+import { endPoint } from "../helper/api.js";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { isAutherized } from "../store/userSlice.js";
+import { Navigate } from "react-router-dom";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfPass, setShowConfPass] = useState(false);
+  const dispatch = useDispatch();
+  const { autherized } = useSelector((store) => store.user);
+
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     conformPassword: "",
-    profilepic : ""
+    profilepic: "",
   });
 
   const handleChange = (e) => {
@@ -27,21 +35,50 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // if password and confirm password match then fetch
+    if (data.password === data.conformPassword) {
+      const res = await fetch(endPoint.register.url, {
+        method: endPoint.register.method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        toast.error(errorData.message);
+        throw new Error(errorData.message);
+      }
+      const json = await res.json();
+      toast.success(json.message);
+      dispatch(isAutherized(true));
+    }
+    else {
+      throw new Error("Please check password and confirm password")
+    }
   };
 
-  const handleUploadPic = async(e) => {
-    const file = e.target.files[0]
-    const image = await imageToBase64(file)
+  const handleUploadPic = async (e) => {
+    const file = e.target.files[0];
+    const image = await imageToBase64(file);
     setData((prev) => {
       return {
         ...prev,
-        profilepic : image
-      }
-    })    
+        profilepic: image,
+      };
+    });
+  };
+
+  if (autherized) {
+    return <Navigate to="/login" />;
   }
 
+  
   return (
     <section id="signup">
       <div className="mx-auto container p-4">
@@ -56,7 +93,11 @@ const Signup = () => {
                 <div className="text-xs bg-opacity-75 bg-slate-200 pb-4 pt-2 cursor-pointer text-center absolute bottom-0 w-full">
                   Upload Photo
                 </div>
-                <input type="file" className="hidden" onChange={handleUploadPic}/>
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleUploadPic}
+                />
               </label>
             </form>
           </div>

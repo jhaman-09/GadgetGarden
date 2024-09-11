@@ -35,7 +35,7 @@ const Login = () => {
         <div className="bg-white p-4 w-full max-w-sm mx-auto rounded-md">
           <div className="w-20 h-20 mx-auto">
             <div>
-              <img src={signingif} />
+              <img src={signingif} alt="login-gif"/>
             </div>
           </div>
 
