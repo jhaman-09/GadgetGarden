@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import signingif from "../assest/signin.gif";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
+import { endPoint } from "../helper/api";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { isAutherized } from "../store/userSlice";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
@@ -10,6 +15,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,12 +29,33 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const res = await fetch(endPoint.login.url, {
+        method: endPoint.login.method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+
+      const json = await res.json();
+      if (json.error) {
+        toast.error(json.message);
+        throw new Error(json.message);
+      } else {
+        toast.success(json.message);
+        dispatch(isAutherized(true));
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(json.message);
+      throw new Error(json.message);
+    }
   };
-
-
-  
 
   return (
     <section id="login">
@@ -35,7 +63,7 @@ const Login = () => {
         <div className="bg-white p-4 w-full max-w-sm mx-auto rounded-md">
           <div className="w-20 h-20 mx-auto">
             <div>
-              <img src={signingif} alt="login-gif"/>
+              <img src={signingif} alt="login-gif" />
             </div>
           </div>
 

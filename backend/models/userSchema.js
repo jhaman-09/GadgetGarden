@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema(
     },
 
     profilePic: String,
+    role: {
+      type: String,
+      required: [true, "Please provide your role"],
+      enum: ["GENERAL", "ADMIN"],
+      default: "GENERAL",
+    },
     createdAt: {
       type: Date,
       default: Date.now,

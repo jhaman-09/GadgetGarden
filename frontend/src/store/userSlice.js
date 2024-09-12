@@ -8,6 +8,12 @@ const userSlice = createSlice({
   },
 
   reducers: {
+    addUser: (state, action) => {
+      state.user = action.payload
+    },
+    removeUser: (state, action) => {
+      state.user = null
+    },
     isAutherized: (state, action) => {
       state.autherized = action.payload;
     },
@@ -15,5 +21,5 @@ const userSlice = createSlice({
 });
 
 
-export const { isAutherized } = userSlice.actions;
+export const { isAutherized,addUser, removeUser } = userSlice.actions;
 export default userSlice.reducer

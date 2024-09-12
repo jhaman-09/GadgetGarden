@@ -3,12 +3,39 @@ import Logo from "./Logo";
 import { IoSearch } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { endPoint } from "../helper/api";
+import { toast } from "react-toastify";
+import { isAutherized, removeUser } from "../store/userSlice";
 
 const Header = () => {
   const { autherized } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(endPoint.logout.url, {
+        method: endPoint.logout.method,
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        toast(data.message);
+        throw new Error(data.message);
+      } else {
+        toast(data.message);
+        dispatch(removeUser());
+        dispatch(isAutherized(false));
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <header className="h-16 shadow-md bg-white">
       <div className="container mx-auto h-full flex items-center px-5 justify-between">
@@ -30,9 +57,7 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-7">
-          <div className="text-3xl cursor-pointer">
-            <FaCircleUser />
-          </div>
+          <div className="text-3xl cursor-pointer">{<FaCircleUser />}</div>
           <div className="text-2xl relative">
             <span>
               <FaShoppingCart />
@@ -52,8 +77,8 @@ const Header = () => {
               </Link>
             ) : (
               <Link
-                to={"/logout"}
                 className="px-3 py-1 rounded-full text-white bg-[#9F2B68] hover:bg-[#c20d6d]"
+                onClick={handleLogout}
               >
                 logout
               </Link>

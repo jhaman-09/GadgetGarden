@@ -12,12 +12,13 @@ app.use(
   cors({
     origin: [process.env.FRONTEND_URL],
     methods: ["GET", "PUT", "DELETE", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
 
-app.use(express.json({ limit: "16kb" }));     // convert user requested data into json formate
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.json({ limit: "10mb" }));     // convert user requested data into json formate
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 

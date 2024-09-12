@@ -2,26 +2,21 @@ import React, { useState } from "react";
 import signingif from "../assest/signin.gif";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import imageToBase64 from "../helper/imageToBase64.js";
 import { endPoint } from "../helper/api.js";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { isAutherized } from "../store/userSlice.js";
-import { Navigate } from "react-router-dom";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfPass, setShowConfPass] = useState(false);
-  const dispatch = useDispatch();
-  const { autherized } = useSelector((store) => store.user);
-
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
-    conformPassword: "",
-    profilepic: "",
+    confirmPassword: "",
+    profilePic: "",
   });
 
   const handleChange = (e) => {
@@ -38,8 +33,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if password and confirm password match then fetch
-    if (data.password === data.conformPassword) {
+    if (data.password === data.confirmPassword) {
       const res = await fetch(endPoint.register.url, {
         method: endPoint.register.method,
         headers: {
@@ -49,43 +43,39 @@ const Signup = () => {
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        toast.error(errorData.message);
-        throw new Error(errorData.message);
+      const jsonData = await res.json();
+      if (jsonData.error) {
+        toast.error(jsonData.message);
+        throw new Error(jsonData.message);
+      } else {
+        toast.success(jsonData.message);
+        navigate("/login");
       }
-      const json = await res.json();
-      toast.success(json.message);
-      dispatch(isAutherized(true));
-    }
-    else {
-      throw new Error("Please check password and confirm password")
+    } else {
+      toast.error("Please check password and confirm password");
     }
   };
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
     const image = await imageToBase64(file);
+    console.log(image);
+
     setData((prev) => {
       return {
         ...prev,
-        profilepic: image,
+        profilePic: image,
       };
     });
   };
 
-  if (autherized) {
-    return <Navigate to="/login" />;
-  }
-
-  
   return (
     <section id="signup">
       <div className="mx-auto container p-4">
         <div className="bg-white p-4 w-full max-w-sm mx-auto rounded-md">
           <div className="w-20 h-20 mx-auto relative overflow-hidden rounded-full">
             <div>
-              <img src={data.profilepic || signingif} alt="user-logo" />
+              <img src={data.profilePic || signingif} alt="user-logo" />
             </div>
 
             <form>
@@ -158,9 +148,9 @@ const Signup = () => {
               <div className="bg-slate-100 p-2 flex">
                 <input
                   type={showConfPass ? "text" : "password"}
-                  placeholder="Enter COnfirm Password.."
-                  name="conformPassword"
-                  value={data.conformPassword}
+                  placeholder="Enter Confirm Password.."
+                  name="confirmPassword"
+                  value={data.confirmPassword}
                   onChange={handleChange}
                   required
                   className="outline-none h-full w-full bg-transparent"
