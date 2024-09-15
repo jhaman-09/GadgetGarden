@@ -10,9 +10,9 @@ import appStore from "./store/appStore";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={appStore}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <RouterProvider router={router} />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </Provider>
 );
 

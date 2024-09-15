@@ -17,4 +17,12 @@ export const endPoint = {
     url: api + "/user/logout",
     method: "GET",
   },
+  allUser: {
+    url: api + "/user/all-users",
+    method: "GET",
+  },
+  updateUser: {
+    url: api + "/user/update-user",
+    method: "PUT",
+  },
 };

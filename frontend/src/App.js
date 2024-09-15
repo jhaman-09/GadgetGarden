@@ -21,14 +21,12 @@ function App() {
       });
 
       const data = await res.json();
-      console.log(data);
       
 
       if (data.error) {
         throw new Error("Failed to fetch user data");
       } else {
         dispatch(addUser(data.user));
-        dispatch(isAutherized(true));
       }
     } catch (error) {
       console.log(error);

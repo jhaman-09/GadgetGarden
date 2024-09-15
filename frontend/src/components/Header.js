@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import { IoSearch } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
@@ -7,10 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
-import { isAutherized, removeUser } from "../store/userSlice";
+import { isAutherized, removeUser } from "../store/userSlice.js";
 
 const Header = () => {
-  const { autherized } = useSelector((store) => store.user);
+  const [menuDisplay, setMenuDisplay] = useState(false);
+  const { autherized, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,6 +37,12 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+      if(!user) navigate('/')
+  },[user])
+
+  
+
   return (
     <header className="h-16 shadow-md bg-white">
       <div className="container mx-auto h-full flex items-center px-5 justify-between">
@@ -57,7 +64,37 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-7">
-          <div className="text-3xl cursor-pointer">{<FaCircleUser />}</div>
+          <div
+            className="flex justify-center relative group"
+            onClick={() => setMenuDisplay((prev) => !prev)}
+          >
+            <div className="text-3xl cursor-pointer relative flex justify-center">
+              {user?.profilePic ? (
+                <img
+                  src={user.profilePic}
+                  alt="user-profilePic"
+                  className="w-10 h-10 rounded-full"
+                />
+              ) : (
+                user && <FaCircleUser />
+              )}
+            </div>
+
+            {menuDisplay && (
+              <div className="absolute bg-white bottom-0 top-11 h-fit p-1 shalg rounded">
+                <nav>
+                  {user?.role === "ADMIN" && (
+                    <Link
+                      to={"/admin-panel/all-products"}
+                      className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                </nav>
+              </div>
+            )}
+          </div>
           <div className="text-2xl relative">
             <span>
               <FaShoppingCart />
@@ -73,14 +110,14 @@ const Header = () => {
                 to={"/login"}
                 className="px-3 py-1 rounded-full text-white bg-[#9F2B68] hover:bg-[#c20d6d]"
               >
-                login
+                Login
               </Link>
             ) : (
               <Link
                 className="px-3 py-1 rounded-full text-white bg-[#9F2B68] hover:bg-[#c20d6d]"
                 onClick={handleLogout}
               >
-                logout
+                Logout
               </Link>
             )}
           </div>

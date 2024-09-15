@@ -1,6 +1,8 @@
 import { User } from "../models/userSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+
 export const register = async (req, res) => {
   try {
     const { name, email, phone, password, profilePic, role } = req.body;
@@ -96,7 +98,7 @@ export const logout = async (req, res) => {
       user: [],
     });
   } catch (err) {
-    res.json({
+    res.status(400).json({
       message: err.message || err,
       error: true,
       success: false,
@@ -119,8 +121,66 @@ export const userDetails = async (req, res) => {
       user: user,
     });
   } catch (err) {
-    res.json({
+    res.status(400).json({
       message: err.message || err,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const allUsers = async (req, res) => {
+  try {
+    const alluser = await User.find();
+    res.status(200).json({
+      alluser,
+      message: "all user found",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+   res.status(400).json({
+     message: error.message || error,
+     error: true,
+     success: false,
+   });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const { _id, name, email, role } = req.body;
+    const sessionUser = req._id;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      throw new Error('User with this Id not found')
+    }
+
+    const payload = {
+      ...(email && { email: email }),
+      ...(name && { name: name }),
+      ...(role && { role: role }),
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(_id, payload, {
+      new: true,                  // Return the updated document
+      runValidators: true,        // Validate the update against the schema
+    });
+
+    if (!updatedUser) {
+      throw new Error("User not Found !");
+    }
+
+    res.status(200).json({
+      data: updatedUser,
+      message: "User Updated Successfully",
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message || error,
       error: true,
       success: false,
     });

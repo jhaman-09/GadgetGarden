@@ -17,6 +17,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
     profilePic: "",
+    role : ""
   });
 
   const handleChange = (e) => {
@@ -162,6 +163,17 @@ const Signup = () => {
                   <span>{!showConfPass ? <FaEye /> : <FaEyeSlash />}</span>
                 </div>
               </div>
+            </div>
+
+            <div>
+              <input
+                type="checkbox"
+                value="ADMIN"
+                name="role"
+                className="mr-2"
+                onChange={handleChange}
+              />
+              <label htmlFor="role">ADMIN</label>
             </div>
 
             <button className="bg-[#9F2B68] hover:bg-[#c20d6d]  text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-5">
