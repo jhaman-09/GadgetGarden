@@ -13,39 +13,37 @@ function App() {
   const dispatch = useDispatch();
   const { autherized } = useSelector((store) => store.user);
 
-  const userDetails = async () => {
+  const fetchUser = async () => {
     try {
-      const res = await fetch(endPoint.userDetails.url, {
+      const response = await fetch(endPoint.userDetails.url, {
+        method:endPoint.userDetails.method,
         credentials: "include",
-        method: endPoint.userDetails.method,
       });
 
-      const data = await res.json();
-      
-
-      if (data.error) {
-        throw new Error("Failed to fetch user data");
-      } else {
+      if (response.ok) {
+        const data = await response.json();
         dispatch(addUser(data.user));
+      } else {
+        throw new Error("Failed to fetch user data");
       }
     } catch (error) {
-      console.log(error);
       dispatch(isAutherized(false));
     }
   };
 
   useEffect(() => {
-    if (autherized) userDetails();
+    fetchUser();
   }, [autherized]);
+  
 
   return (
     <>
-      <Header />
-      <ToastContainer position="top-center" />
-      <main className="min-h-[calc(100vh-120px)]">
-        <Outlet />
-      </main>
-      <Footer />
+        <Header />
+        <ToastContainer position="top-center" />
+        <main className="min-h-[calc(100vh-120px)]">
+          <Outlet />
+        </main>
+        <Footer />
     </>
   );
 }

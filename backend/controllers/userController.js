@@ -34,7 +34,7 @@ export const register = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(404).json({
+    res.status(401).json({
       message: error.message || error,
       error: true,
       success: false,
@@ -50,6 +50,10 @@ export const login = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("Invalid Email or Password");
+    }
+
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     // if password match then generate token
@@ -60,7 +64,7 @@ export const login = async (req, res) => {
       };
 
       const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {
-        expiresIn: 60 * 60 * 8,
+        expiresIn: process.env.TOKEN_EXPIRY || "8h", // 8 hours
       });
 
       const tokenOptions = {
@@ -69,8 +73,8 @@ export const login = async (req, res) => {
         sameSite: "None",
       };
 
-      res.status(200).cookie("token", token, tokenOptions).json({
-        message: "User Login Successfully",
+      res.cookie("token", token, tokenOptions).status(200).json({
+        message: "Login Successfully",
         user: user,
         token: token,
         success: true,
@@ -80,7 +84,7 @@ export const login = async (req, res) => {
       throw new Error("Invalid Email or Password");
     }
   } catch (error) {
-    res.status(404).json({
+    res.status(401).json({
       message: error.message || error,
       success: false,
       error: true,
@@ -98,7 +102,7 @@ export const logout = async (req, res) => {
       user: [],
     });
   } catch (err) {
-    res.status(400).json({
+    res.status(401).json({
       message: err.message || err,
       error: true,
       success: false,
@@ -111,7 +115,11 @@ export const userDetails = async (req, res) => {
     const user = req.user;
 
     if (!user) {
-      throw new Error("Login User Not found.Please Login Again...!", 404);
+      return res.status(404).json({
+        message: "Login User Not found. Please Login Again...!",
+        success: false,
+        error: true,
+      });
     }
 
     return res.status(200).json({
@@ -121,7 +129,7 @@ export const userDetails = async (req, res) => {
       user: user,
     });
   } catch (err) {
-    res.status(400).json({
+    res.status(401).json({
       message: err.message || err,
       error: true,
       success: false,
@@ -139,11 +147,11 @@ export const allUsers = async (req, res) => {
       success: true,
     });
   } catch (error) {
-   res.status(400).json({
-     message: error.message || error,
-     error: true,
-     success: false,
-   });
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
   }
 };
 
@@ -152,9 +160,13 @@ export const updateUser = async (req, res) => {
     const { _id, name, email, role } = req.body;
     const sessionUser = req._id;
 
+    if (sessionUser !== _id) {
+      throw new Error("You are not authorized to update this user");
+    }
+
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
-      throw new Error('User with this Id not found')
+      throw new Error("User with this Id not found");
     }
 
     const payload = {
@@ -164,8 +176,8 @@ export const updateUser = async (req, res) => {
     };
 
     const updatedUser = await User.findByIdAndUpdate(_id, payload, {
-      new: true,                  // Return the updated document
-      runValidators: true,        // Validate the update against the schema
+      new: true, // Return the updated document
+      runValidators: true, // Validate the update against the schema
     });
 
     if (!updatedUser) {
@@ -179,7 +191,7 @@ export const updateUser = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(401).json({
       message: error.message || error,
       error: true,
       success: false,

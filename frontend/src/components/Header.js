@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Logo from "./Logo";
 import { IoSearch } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
@@ -11,7 +11,7 @@ import { isAutherized, removeUser } from "../store/userSlice.js";
 
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
-  const { autherized, user } = useSelector((store) => store.user);
+  const {autherized, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,24 +24,19 @@ const Header = () => {
 
       const data = await response.json();
       if (data.error) {
-        toast(data.message);
+        toast.error(data.message);
         throw new Error(data.message);
       } else {
-        toast(data.message);
+        toast.success(data.message);
         dispatch(removeUser());
         dispatch(isAutherized(false));
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-  useEffect(() => {
-      if(!user) navigate('/')
-  },[user])
-
-  
 
   return (
     <header className="h-16 shadow-md bg-white">
@@ -105,19 +100,19 @@ const Header = () => {
           </div>
 
           <div>
-            {!autherized ? (
-              <Link
-                to={"/login"}
-                className="px-3 py-1 rounded-full text-white bg-primary hover:bg-secondary"
-              >
-                Login
-              </Link>
-            ) : (
+            {autherized ? (
               <Link
                 className="px-3 py-1 rounded-full text-white  bg-primary hover:bg-secondary"
                 onClick={handleLogout}
               >
                 Logout
+              </Link>
+            ) : (
+              <Link
+                to={"/login"}
+                className="px-3 py-1 rounded-full text-white bg-primary hover:bg-secondary"
+              >
+                Login
               </Link>
             )}
           </div>

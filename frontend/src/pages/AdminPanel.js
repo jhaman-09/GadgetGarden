@@ -1,10 +1,13 @@
 import React from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const AdminPanel = () => {
   const { user } = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  
+    if (!user) navigate("/");
 
   return (
     <div className="min-h-[calc(100vh-120px)] bg-white flex">
