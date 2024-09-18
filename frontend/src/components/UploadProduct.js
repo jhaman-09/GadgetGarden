@@ -5,6 +5,8 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { uploadImageToClodinary } from "../helper/UploadToClodinary";
 import DisplayImageFullScreen from "./DisplayImageFullScreen";
+import { endPoint } from "../helper/api";
+import { toast } from "react-toastify";
 const UploadProduct = ({ onClose }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
   const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
@@ -58,7 +60,26 @@ const UploadProduct = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+
+    try {
+      const response = await fetch(endPoint.uploadProduct.url, {
+        method: endPoint.uploadProduct.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const jsonData = await response.json();
+      if (jsonData.success) {
+        toast.success(jsonData.message);
+        onClose();
+      }
+      if (jsonData.error) {
+        toast.error(jsonData.message);
+      }
+    } catch (error) {}
   };
 
   return (

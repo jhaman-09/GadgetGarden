@@ -1,6 +1,8 @@
 const api = "http://localhost:4000/api/v1";
 
 export const endPoint = {
+  // USER RELATED ROUTES
+
   register: {
     url: api + "/user/register",
     method: "POST",
@@ -24,5 +26,12 @@ export const endPoint = {
   updateUser: {
     url: api + "/user/update-user",
     method: "PUT",
+  },
+
+  // PRODUCT RELATED ROUTES
+
+  uploadProduct: {
+    url: api + "/product/upload-product",
+    method: "POST",
   },
 };

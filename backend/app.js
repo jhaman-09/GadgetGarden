@@ -4,6 +4,7 @@ import cors from "cors";
 import { dbConnection } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
+import productRouter from "./routes/productRoutes.js"
 
 const app = express();
 dotenv.config({ path: ".env" });
@@ -23,6 +24,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/product", productRouter);
 
 dbConnection();
 

@@ -160,10 +160,6 @@ export const updateUser = async (req, res) => {
     const { _id, name, email, role } = req.body;
     const sessionUser = req._id;
 
-    if (sessionUser !== _id) {
-      throw new Error("You are not authorized to update this user");
-    }
-
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
       throw new Error("User with this Id not found");
