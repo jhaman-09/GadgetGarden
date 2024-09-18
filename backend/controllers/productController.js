@@ -12,8 +12,6 @@ export const uploadProduct = async (req, res) => {
       sellingPrice,
     } = req.body;
 
-    console.log("req :", req);
-
     if (
       !productName ||
       !brandName ||
@@ -24,9 +22,9 @@ export const uploadProduct = async (req, res) => {
       !sellingPrice
     ) {
       throw new Error("Please Fill the product details Properly");
-    }
+    }    
 
-    if (!onlyAdminUploadProduct(req._id)) {
+    if (!onlyAdminUploadProduct(req.user._id)) {
       throw new Error("Access Denied...!");
     }
 
