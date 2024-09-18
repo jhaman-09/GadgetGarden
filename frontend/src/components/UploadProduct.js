@@ -4,8 +4,10 @@ import { categories } from "../helper/categoriesOptions";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { uploadImageToClodinary } from "../helper/UploadToClodinary";
+import DisplayImageFullScreen from "./DisplayImageFullScreen";
 const UploadProduct = ({ onClose }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
+  const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
   const [data, setData] = useState({
     productName: "",
     brandName: "",
@@ -42,7 +44,7 @@ const UploadProduct = ({ onClose }) => {
     }
   };
 
-  const handleProductImageDelete = async(index) => {
+  const handleProductImageDelete = async (index) => {
     const ProductImageArray = [...data.productImage];
     ProductImageArray.splice(index, 1);
 
@@ -54,18 +56,16 @@ const UploadProduct = ({ onClose }) => {
     });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(data);
   };
-
-  console.log(data?.productImage);
 
   return (
     <div className="top-0 bottom-0 left-0 right-0 bg-slate-200 h-full w-full fixed bg-opacity-35 flex justify-center items-center">
       <div className="bg-white p-4 rounded w-full h-full max-w-2xl max-h-[80%] overflow-hidden">
         <div className="flex justify-center items-center pb-3">
-          <h1>Upload Product</h1>
+          <h1 className="text-lg px-4 font-semibold">Upload Product</h1>
           <div
             className="w-fit ml-auto text-2xl bg-orange-300 hover:text-red-600 cursor-pointer"
             onClick={onClose}
@@ -75,40 +75,46 @@ const UploadProduct = ({ onClose }) => {
         </div>
 
         <form
-          className="flex flex-col p-4 overflow-y-scroll h-full pb-5"
+          className="flex flex-col p-4 overflow-y-scroll h-full"
           onSubmit={handleSubmit}
         >
-          <label htmlFor="productName">Product Name :</label>
-          <input
-            type="text"
-            id="productName"
-            placeholder="Enter Product Name"
-            name="productName"
-            value={data.productName}
-            onChange={handleChange}
-            className="p-2 bg-slate-100 border rounded"
-            required
-          />
-
-          <label htmlFor="brandName">Brand Name :</label>
-          <input
-            type="text"
-            id="brandName"
-            placeholder="Enter Product Name"
-            name="brandName"
-            value={data.brandName}
-            onChange={handleChange}
-            className="p-2 bg-slate-100 border rounded"
-            required
-          />
-
           <div className="flex flex-col">
-            <label htmlFor="category" className="">
-              Category :
-            </label>
+            <label htmlFor="productName">Product Name :</label>
+            <input
+              type="text"
+              id="productName"
+              placeholder="Enter Product Name"
+              name="productName"
+              value={data.productName}
+              onChange={handleChange}
+              className="p-2 mt-1 bg-slate-100 border rounded"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col mt-3">
+            <label htmlFor="brandName">Brand Name :</label>
+            <input
+              type="text"
+              id="brandName"
+              placeholder="Enter Product Name"
+              name="brandName"
+              value={data.brandName}
+              onChange={handleChange}
+              className="p-2 mt-1 bg-slate-100 border rounded"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col mt-3">
+            <label htmlFor="category">Category :</label>
             <select
               id="category"
-              className=" border-1 border-black bg-slate-100  mt-1 p-2 text-center"
+              className=" border-1 border-black rounded bg-slate-100  mt-1 p-2 text-center"
+              value={data.category}
+              name="category"
+              required
+              onChange={handleChange}
             >
               {categories &&
                 categories.map((ele, idx) => (
@@ -119,25 +125,32 @@ const UploadProduct = ({ onClose }) => {
             </select>
           </div>
 
-          <label htmlFor="productImage" className="mt-3">
-            Product Image
-          </label>
-          <label htmlFor="uploadImageInput">
-            <div className="p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer">
-              <div className="flex flex-col justify-center items-center text-slate-500 gap-2">
-                <span className="text-4xl">
-                  <FaCloudUploadAlt />
-                </span>
-                <p className="text-sm">Upload Product Image</p>
-                <input
-                  type="file"
-                  id="uploadImageInput"
-                  onChange={handleProductImageUpoad}
-                  className="hidden"
-                />
-              </div>
+          {/* Upload Product Images */}
+
+          <div className="mt-3">
+            <label htmlFor="productImage">Product Image :</label>
+            <div className="mt-1">
+              <label htmlFor="uploadImageInput">
+                <div className="p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer">
+                  <div className="flex flex-col justify-center items-center text-slate-500 gap-2">
+                    <span className="text-4xl">
+                      <FaCloudUploadAlt />
+                    </span>
+                    <p className="text-sm">Upload Product Image</p>
+                    <input
+                      type="file"
+                      id="uploadImageInput"
+                      onChange={handleProductImageUpoad}
+                      className="hidden"
+                    />
+                  </div>
+                </div>
+              </label>
             </div>
-          </label>
+          </div>
+
+          {/* Show Product Image */}
+
           <div className="">
             {data?.productImage[0] ? (
               <div className="flex items-center gap-2 p-2">
@@ -151,7 +164,8 @@ const UploadProduct = ({ onClose }) => {
                         height={80}
                         className="bg-slate-100 border cursor-pointer"
                         onClick={() => {
-                          // showImageFullScreen(true);
+                          setShowImageFullScreen(true);
+                          setShowImageFullScreenLink(ele);
                         }}
                       />
                       <div
@@ -170,8 +184,69 @@ const UploadProduct = ({ onClose }) => {
               </p>
             )}
           </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="price" className="mt-3">
+              Price :{" "}
+            </label>
+            <input
+              type="number"
+              id="price"
+              placeholder="Enter Price"
+              name="price"
+              onChange={handleChange}
+              className="p-2 mt-1 bg-slate-100 border rounded"
+              required
+              value={data.price}
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="sellingPrice" className="mt-3">
+              Selling Price :{" "}
+            </label>
+            <input
+              type="number"
+              id="sellingPrice"
+              placeholder="Enter Selling Price"
+              name="sellingPrice"
+              onChange={handleChange}
+              className="p-2 mt-1 bg-slate-100 border rounded"
+              required
+              value={data.sellingPrice}
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="description" className="mt-3">
+              Description :{" "}
+            </label>
+            <textarea
+              type="text"
+              id="description"
+              rows={3}
+              placeholder="Describe The Product"
+              name="description"
+              onChange={handleChange}
+              className="p-2 mt-1 bg-slate-100 border rounded"
+              value={data.description}
+            ></textarea>
+          </div>
+
+          <button className="px-3 my-5 py-2 rounded-sm transition-all bg-primary text-white  hover:bg-secondary">
+            Uplord Product
+          </button>
         </form>
       </div>
+
+      {/* Show Product Image In Full Screen */}
+
+      {showImageFullScreen && (
+        <DisplayImageFullScreen
+          onClose={() => setShowImageFullScreen(false)}
+          imageUrl={showImageFullScreenLink}
+        />
+      )}
     </div>
   );
 };
