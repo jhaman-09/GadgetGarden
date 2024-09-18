@@ -58,7 +58,7 @@ const Header = () => {
             placeholder="Search Your Product Here.."
             className="w-full outline-none "
           />
-          <div className="text-lg text-white bg-[#9F2B68] min-w-[50px] h-8 flex items-center justify-center rounded-r-full">
+          <div className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center rounded-r-full">
             <IoSearch />
           </div>
         </div>
@@ -98,7 +98,7 @@ const Header = () => {
           <div className="text-2xl relative">
             <span>
               <FaShoppingCart />
-              <div className="bg-[#9F2B68] text-white w-4 h-5 p-1 rounded-full flex items-center justify-center absolute -top-2 -right-3">
+              <div className="bg-primary text-white w-4 h-5 p-1 rounded-full flex items-center justify-center absolute -top-2 -right-3">
                 <p className="text-sm">0</p>
               </div>
             </span>
@@ -108,13 +108,13 @@ const Header = () => {
             {!autherized ? (
               <Link
                 to={"/login"}
-                className="px-3 py-1 rounded-full text-white bg-[#9F2B68] hover:bg-[#c20d6d]"
+                className="px-3 py-1 rounded-full text-white bg-primary hover:bg-secondary"
               >
                 Login
               </Link>
             ) : (
               <Link
-                className="px-3 py-1 rounded-full text-white bg-[#9F2B68] hover:bg-[#c20d6d]"
+                className="px-3 py-1 rounded-full text-white  bg-primary hover:bg-secondary"
                 onClick={handleLogout}
               >
                 Logout

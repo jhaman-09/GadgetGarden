@@ -34,11 +34,11 @@ const Login = () => {
 
     try {
       const res = await fetch(endPoint.login.url, {
-        method: endPoint.login.method,
+        method: endPoint.login.method || "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify(data),
       });
 
