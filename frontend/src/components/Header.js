@@ -11,7 +11,7 @@ import { isAutherized, removeUser } from "../store/userSlice.js";
 
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
-  const {autherized, user } = useSelector((store) => store.user);
+  const { autherized, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,13 +30,12 @@ const Header = () => {
         toast.success(data.message);
         dispatch(removeUser());
         dispatch(isAutherized(false));
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
-
 
   return (
     <header className="h-16 shadow-md bg-white">

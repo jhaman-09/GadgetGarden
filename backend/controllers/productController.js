@@ -1,5 +1,6 @@
 import { Product } from "../models/productSchema.js";
 import onlyAdminUploadProduct from "../middlewares/isRoleAdmin.js";
+import onlyAdminUploadProudct from "../middlewares/isRoleAdmin.js";
 export const uploadProduct = async (req, res) => {
   try {
     const {
@@ -22,7 +23,7 @@ export const uploadProduct = async (req, res) => {
       !sellingPrice
     ) {
       throw new Error("Please Fill the product details Properly");
-    }    
+    }
 
     if (!onlyAdminUploadProduct(req.user._id)) {
       throw new Error("Access Denied...!");
@@ -46,6 +47,48 @@ export const uploadProduct = async (req, res) => {
       success: true,
       message: "Product Uploaded Successfully",
       data: productSave,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const getAllProduct = async (req, res) => {
+  try {
+    const allProducts = await Product.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      data: allProducts,
+      message: "Product Found Successfully...!",
+      errror: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const editProduct = async (req, res) => {
+  try {
+    if (!onlyAdminUploadProudct(req.user._id)) {    // Checking role Admin or Not
+      throw new Error("Access Denied...!");
+    }
+    const { _id, ...dataToUpdate } = req.body;      // Product _id
+    const updatedProduct = await Product.findByIdAndUpdate(_id, dataToUpdate);
+
+    res.status(200).json({
+      message: "Product update Successfully..!",
+      data: updatedProduct,
+      success: true,
+      error: false,
     });
   } catch (error) {
     res.status(401).json({

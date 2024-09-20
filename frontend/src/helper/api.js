@@ -34,4 +34,12 @@ export const endPoint = {
     url: api + "/product/upload-product",
     method: "POST",
   },
+  allProduct: {
+    url: api + "/product/all-product",
+    method: "GET",
+  },
+  editProduct: {
+    url: api + "/product/update-product",
+    method: "POST",
+  },
 };
