@@ -3,13 +3,19 @@ import displayCurrency from "../helper/displayCurrency";
 import { MdModeEditOutline } from "react-icons/md";
 import AdminEditProduct from "./AdminEditProduct";
 
-{/* Product Card.... */}
-
+{
+  /* Product Card.... */
+}
 
 const AdminProductCard = ({ data, fetchData }) => {
   const [editPruduct, setEditProduct] = useState(false);
+
+  const toInteger = (num) => {
+    return Math.floor(num);
+  };
+
   return (
-    <div className="bg-white p-4 rounded">
+    <div className=" p-4 text-black rounded  hover:transition-all">
       <div className="w-40 flex">
         <div>
           <div className="w-32 h-32 flex justify-center items-center">
@@ -24,12 +30,15 @@ const AdminProductCard = ({ data, fetchData }) => {
       </div>
 
       <div>
-        <p className="font-semibold">{displayCurrency(data?.sellingPrice)}</p>
+        <span className="flex">
+          <p className="font-semibold">{displayCurrency(data?.sellingPrice)}</p>
+          <p className="px-2 text-green-700 font-semibold">{toInteger(data.discount)}% off</p>
+        </span>
         <div
-          className="w-fit ml-auto p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer"
+          className="w-fit ml-auto p-2  border-2 border-yellow-500 hover:shadow-md rounded-full  cursor-pointer"
           onClick={() => setEditProduct(true)}
         >
-          <MdModeEditOutline />
+          <MdModeEditOutline className="" />
         </div>
       </div>
 

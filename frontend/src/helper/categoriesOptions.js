@@ -16,7 +16,7 @@ export const categories = [
   },
   {
     id: 3,
-    name: "Charge",
+    name: "Charger",
     value: "charger",
   },
   {
@@ -83,5 +83,25 @@ export const categories = [
     id: 16,
     name: "Headphones",
     value: "headpone",
+  },
+  {
+    id: 17,
+    name: "Laptop",
+    value: "laptop",
+  },
+  {
+    id: 18,
+    name: "Washing Machine",
+    value: "washing machine",
+  },
+  {
+    id: 19,
+    name: "Headphone",
+    value: "headphone",
+  },
+  {
+    id: 20,
+    name: "Earphone",
+    value: "earphone",
   },
 ];

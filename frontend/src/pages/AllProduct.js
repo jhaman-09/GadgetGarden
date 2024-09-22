@@ -42,7 +42,7 @@ const AllProduct = () => {
         </button>
       </div>
 
-      <div className="flex items-center flex-wrap gap-s py-4  overflow-y-scroll">
+      <div className="flex items-center flex-wrap gap-5 py-4 h-[calc(100vh-190px)] overflow-y-scroll">
         {allProduct &&
           allProduct.map((product, index) => {
             return (

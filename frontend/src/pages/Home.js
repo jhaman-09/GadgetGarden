@@ -1,8 +1,13 @@
 import React from 'react'
+import CategoryProductList from "../components/CategoryProductList.js";
+import BannerAdvertiseProduct from '../components/BannerAdvertiseProduct.js';
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+      <CategoryProductList />
+      <BannerAdvertiseProduct/>
+    </>
   )
 }
 

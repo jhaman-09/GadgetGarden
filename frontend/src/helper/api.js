@@ -42,4 +42,8 @@ export const endPoint = {
     url: api + "/product/update-product",
     method: "POST",
   },
+  oneProductFromEachCategory: {
+    url: api + "/product/category-product",
+    method: "GET",
+  },
 };

@@ -7,7 +7,7 @@ import { uploadImageToClodinary } from "../helper/UploadToClodinary";
 import DisplayImageFullScreen from "./DisplayImageFullScreen";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
-const UploadProduct = ({ onClose }) => {
+const UploadProduct = ({ onClose, fetchData }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
   const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
   const [data, setData] = useState({
@@ -75,6 +75,7 @@ const UploadProduct = ({ onClose }) => {
       if (jsonData.success) {
         toast.success(jsonData.message);
         onClose();
+        fetchData();
       }
       if (jsonData.error) {
         toast.error(jsonData.message);

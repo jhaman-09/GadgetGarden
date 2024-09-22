@@ -78,10 +78,11 @@ export const getAllProduct = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    if (!onlyAdminUploadProudct(req.user._id)) {    // Checking role Admin or Not
+    if (!onlyAdminUploadProudct(req.user._id)) {
+      // Checking role Admin or Not
       throw new Error("Access Denied...!");
     }
-    const { _id, ...dataToUpdate } = req.body;      // Product _id
+    const { _id, ...dataToUpdate } = req.body; // Product _id
     const updatedProduct = await Product.findByIdAndUpdate(_id, dataToUpdate);
 
     res.status(200).json({
@@ -89,6 +90,39 @@ export const editProduct = async (req, res) => {
       data: updatedProduct,
       success: true,
       error: false,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const oneProductFromEachCategory = async (req, res) => {
+  try {
+    // Step 1: Fetch distinct categories from the products
+    const categoriesArray = await Product.distinct("category");
+
+    // Step 2: Initialize an array to hold one product from each category
+    const productsFromEachCategory = [];
+
+    // Step 3: Loop through each category and fetch one product
+    for (const category of categoriesArray) {
+      const product = await Product.findOne({ category });
+      if (product) {
+        productsFromEachCategory.push(product);
+      }
+    }
+
+    // Step 4: Return the array of selected products as the response
+
+    return res.status(200).json({
+      message: "Prudct Found from each category..!",
+      data: productsFromEachCategory,
+      error: false,
+      success: true,
     });
   } catch (error) {
     res.status(401).json({
