@@ -132,3 +132,28 @@ export const oneProductFromEachCategory = async (req, res) => {
     });
   }
 };
+
+export const allProductsOfThatCategory = async (req, res) => {
+  try {
+    const category = req.body || req.query;
+    const products = await Product.find(category);
+
+    if (!products) {
+      throw new Error("No Products Found..!");
+    }
+
+    res.status(200).json({
+      data: products,
+      message: "Products FOund Successfully..!",
+      error: false,
+      succee: true,
+    });
+    
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};

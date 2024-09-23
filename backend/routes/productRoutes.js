@@ -1,6 +1,7 @@
 import express from "express";
 import { authToken } from "../middlewares/auth.js";
 import {
+  allProductsOfThatCategory,
   editProduct,
   getAllProduct,
   oneProductFromEachCategory,
@@ -13,5 +14,5 @@ router.post("/upload-product", authToken, uploadProduct);
 router.get("/all-product", authToken, getAllProduct);
 router.post("/update-product", authToken, editProduct);
 router.get("/category-product", oneProductFromEachCategory);
-
+router.post("/products-by-category", allProductsOfThatCategory);
 export default router;

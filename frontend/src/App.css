@@ -2,15 +2,18 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.userTable{
-  @apply bg-white
+.userTable {
+  @apply bg-white;
 }
 
-.userTable th{
-  @apply border bg-slate-700
+.userTable th {
+  @apply border bg-slate-700;
 }
 
-.userTable td{
-  @apply border text-base text-center
+.userTable td {
+  @apply border text-base text-center;
+}
+
+.scrollBar-none ::-webkit-scrollbar {
+  display: none;
 }

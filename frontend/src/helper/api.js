@@ -46,4 +46,8 @@ export const endPoint = {
     url: api + "/product/category-product",
     method: "GET",
   },
+  productsByCategory: {
+    url: api + "/product/products-by-category",
+    method: "POST",
+  },
 };
