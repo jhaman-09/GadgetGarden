@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 import CategoryProductList from "../components/CategoryProductList.js";
-import BannerAdvertiseProduct from '../components/BannerAdvertiseProduct.js';
-import HorizontelProduct from '../components/HorizontelProduct.js';
-import VerticalProducts from '../components/VerticalProducts.js';
+import BannerAdvertiseProduct from "../components/BannerAdvertiseProduct.js";
+import HorizontelProduct from "../components/HorizontelProduct.js";
+import VerticalProducts from "../components/VerticalProducts.js";
 
 const Home = () => {
   return (
@@ -20,17 +20,41 @@ const Home = () => {
       />
 
       <VerticalProducts category={"watch"} heading={"Smart Watches"} />
-      <VerticalProducts category={"television"} heading={"Smart Watches"} />
-      <VerticalProducts category={"camera"} heading={"Smart Watches"} />
-      <VerticalProducts category={"trimmer"} heading={"Smart Watches"} />
-      <VerticalProducts category={"speaker"} heading={"Smart Watches"} />
-      <VerticalProducts category={"earphone"} heading={"Smart Watches"} />
-      <VerticalProducts category={"mouse"} heading={"Smart Watches"} />
-      <VerticalProducts category={"printer"} heading={"Smart Watches"} />
-      <VerticalProducts category={"processor"} heading={"Smart Watches"} />
-      <VerticalProducts category={"refrigerator"} heading={"Smart Watches"} />
+      <VerticalProducts
+        category={"television"}
+        heading={"Best Smart Television"}
+      />
+      <VerticalProducts
+        category={"camera"}
+        heading={"High Resolution Camera"}
+      />
+      <VerticalProducts
+        category={"trimmer"}
+        heading={"Most Durable Trimmer"}
+      />
+      <VerticalProducts
+        category={"speaker"}
+        heading={"Top Selling Speaker"}
+      />
+      <VerticalProducts
+        category={"earphone"}
+        heading={"Stylish Earphone From Top Brands"}
+      />
+      <VerticalProducts
+        category={"mouse"}
+        heading={"RBG Mouse With Microphone"}
+      />
+      <VerticalProducts category={"printer"} heading={"High Quality Printer"} />
+      <VerticalProducts
+        category={"processor"}
+        heading={"Processor From Top Brands"}
+      />
+      <VerticalProducts
+        category={"refrigerator"}
+        heading={"Refrigerator with Extra Cooling Techniques"}
+      />
     </>
   );
-}
+};
 
-export default Home
+export default Home;
