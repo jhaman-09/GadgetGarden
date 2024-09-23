@@ -12,7 +12,7 @@ export const categories = [
   {
     id: 2,
     name: "Camera",
-    value: "mobile",
+    value: "camera",
   },
   {
     id: 3,

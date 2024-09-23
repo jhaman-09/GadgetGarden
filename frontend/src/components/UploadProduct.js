@@ -140,7 +140,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
             >
               {categories &&
                 categories.map((ele, idx) => (
-                  <option value={ele.value} key={ele.id + idx} className="">
+                  <option value={ele.value} key={ele.id + idx} >
                     {ele.name}
                   </option>
                 ))}
