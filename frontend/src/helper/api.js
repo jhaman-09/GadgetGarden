@@ -54,4 +54,20 @@ export const endPoint = {
     url: api + "/product/product-details",
     method: "POST",
   },
+  addToCart: {
+    url: api + "/user/add-to-cart",
+    method: "POST",
+  },
+  getAllCartProduct: {
+    url: api + "/user/get-all-cart",
+    method: "GET",
+  },
+  reduceCartProduct: {
+    url: api + "/user/reduce-cart-product",
+    method: "POST",
+  },
+  deleteCartProduct: {
+    url: api + "/user/delete-cart-product",
+    method : "POST"
+  },
 };

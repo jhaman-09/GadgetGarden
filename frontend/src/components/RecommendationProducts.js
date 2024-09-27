@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import fetchProductsByCategory from "../hooks/fetchProductsByCategory";
 import displayCurrency from "../helper/displayCurrency";
 import { Link } from "react-router-dom";
+import { useFetchAddToCart } from "../hooks/useFetchCart";
 
 const RecommendationProducts = ({ category, heading }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const loadingCardArray = new Array(13).fill(null);
 
-  const [scroll, setScroll] = useState(0);
+  // const [scroll, setScroll] = useState(0);
   const scrollElement = useRef();
 
   const fetchCategoryByProduct = async () => {
@@ -22,6 +23,12 @@ const RecommendationProducts = ({ category, heading }) => {
     fetchCategoryByProduct();
   }, []);
 
+  const { fetchAddToCart } = useFetchAddToCart();
+
+  const handleAddToCart = (e, _id) => {
+    fetchAddToCart(e, _id);
+  };
+
   return (
     <div className="container px-4 mx-auto relative my-6 scrollBar-none">
       <h1 className="text-2xl font-semibold py-4">{heading}</h1>
@@ -31,9 +38,10 @@ const RecommendationProducts = ({ category, heading }) => {
         ref={scrollElement}
       >
         {loading
-          ? loadingCardArray.map((product) => (
+          ? loadingCardArray.map((product, index) => (
               <div
                 className={`w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow`}
+                key={index}
               >
                 <div
                   className={`bg-orange-500 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse flex justify-center items-center`}
@@ -62,6 +70,7 @@ const RecommendationProducts = ({ category, heading }) => {
             ))
           : data.map((product) => (
               <Link
+                key={product._id}
                 to={product?._id}
                 className={`w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow`}
               >
@@ -93,6 +102,7 @@ const RecommendationProducts = ({ category, heading }) => {
                   </div>
                   <button
                     className={`text-sm bg-primary hover:bg-secondary text-white px-3 py-3 rounded-full`}
+                    onClick={(e) => handleAddToCart(e, product?._id)}
                   >
                     Add to Cart
                   </button>

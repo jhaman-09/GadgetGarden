@@ -296,22 +296,21 @@ export const deleteProductFromCart = async (req, res) => {
     }
 
     const { productId } = req.body;
-    if (!productId) {
-      throw new Error(
-        "Please Sir, Provide a valid Product ID as a string to Add in Cart...!"
+
+    if (productId) {
+      // Find the product in user's cart
+      const productIndex = user.cart.findIndex(
+        (item) => item.product_Id === productId
       );
+
+      if (productIndex === -1) {
+        throw new Error("Product not found in cart!");
+      }
+
+      user.cart.splice(productIndex, 1); // Remove product from cart
+    } else {
+      user.cart.splice(0, user.cart.length);
     }
-
-    // Find the product in user's cart
-    const productIndex = user.cart.findIndex(
-      (item) => item.product_Id === productId
-    );
-
-    if (productIndex === -1) {
-      throw new Error("Product not found in cart!");
-    }
-
-    user.cart.splice(productIndex, 1); // Remove product from cart
 
     // Save updated user with the modified cart
     await user.save();

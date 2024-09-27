@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
 import { IoSearch } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
@@ -8,10 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
 import { isAutherized, removeUser } from "../store/userSlice.js";
+import { useFetchAddToCart } from "../hooks/useFetchCart.js";
 
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
   const { autherized, user } = useSelector((store) => store.user);
+
+  const [cart, setCart] = useState([]);
+  const [cartLen, setCartLen] = useState(0);
+
+  const { fetchAddToCart } = useFetchAddToCart();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,6 +35,7 @@ const Header = () => {
         throw new Error(data.message);
       } else {
         toast.success(data.message);
+        setCartLen(0);
         dispatch(removeUser());
         dispatch(isAutherized(false));
         navigate("/");
@@ -36,6 +44,38 @@ const Header = () => {
       toast.error(error.message);
     }
   };
+
+  // { cart with productId and quantity}
+  const fetchCartProducts = async () => {
+    try {
+      const res = await fetch(endPoint.getAllCartProduct.url, {
+        method: endPoint.getAllCartProduct.method,
+        credentials: "include",
+      });
+
+      const jsonData = await res.json();
+      const cartData = Array.isArray(jsonData.data) ? jsonData.data : [];
+      setCart(cartData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // {calculating product quantities}
+  const handleCartLength = async () => {
+    let len = 0;
+    cart.forEach((product) => {
+      len += product.quantity;
+    });
+    setCartLen(len);
+  };
+
+  useEffect(() => {
+    fetchCartProducts();
+    handleCartLength();
+  }, [fetchAddToCart]);
+
+  
 
   return (
     <header className="h-16 shadow-md bg-white fixed z-40 w-full">
@@ -92,8 +132,8 @@ const Header = () => {
           <div className="text-2xl relative">
             <span>
               <FaShoppingCart />
-              <div className="bg-primary text-white w-4 h-5 p-1 rounded-full flex items-center justify-center absolute -top-2 -right-3">
-                <p className="text-sm">0</p>
+              <div className="bg-primary text-white w-5 h-5 p-2 rounded-full flex items-center justify-center absolute -top-2 -right-3">
+                <p className="text-sm">{cartLen}</p>
               </div>
             </span>
           </div>

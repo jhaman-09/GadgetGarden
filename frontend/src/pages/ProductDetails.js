@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa6";
 import { FaStarHalf } from "react-icons/fa6";
 import displayCurrency from "../helper/displayCurrency";
 import RecommendationProducts from "../components/RecommendationProducts";
+import { useFetchAddToCart } from "../hooks/useFetchCart";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -46,15 +47,12 @@ const ProductDetails = () => {
 
     if (jsonData.error) {
       toast.error(jsonData.error);
-      console.log(jsonData.error);
     }
 
     setLoading(false);
     setData(jsonData?.data);
     setActiveImage(jsonData?.data?.productImage[0]);
   };
-
-  console.log(data);
 
   useEffect(() => {
     fetchProductDetails();
@@ -82,6 +80,12 @@ const ProductDetails = () => {
 
   const handleMouseEnterProduct = (imageURL) => {
     setActiveImage(imageURL);
+  };
+
+  const {fetchAddToCart} = useFetchAddToCart()
+
+  const handleAddToCart = (e, product_id) => {
+    fetchAddToCart(e, product_id);
   };
 
   return (
@@ -197,7 +201,10 @@ const ProductDetails = () => {
               <button className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-primary font-medium hover:bg-secondary hover:text-white transition-all">
                 Buy
               </button>
-              <button className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-white bg-secondary font-medium hover:bg-white hover:text-secondary transition-all">
+              <button
+                className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-white bg-secondary font-medium hover:bg-white hover:text-secondary transition-all"
+                onClick={(e) => handleAddToCart(e, data._id)}
+              >
                 Add to Cart
               </button>
             </div>

@@ -8,7 +8,6 @@ const VerticalProducts = ({ category, heading }) => {
   const [loading, setLoading] = useState(false);
   const loadingCardArray = new Array(13).fill(null);
 
-  const [scroll, setScroll] = useState(0);
   const scrollElement = useRef();
 
   const fetchCategoryByProduct = async () => {
@@ -31,7 +30,9 @@ const VerticalProducts = ({ category, heading }) => {
         ref={scrollElement}
       >
         {loading
-          ? loadingCardArray.map((product) => <HorizontalProductCardLoading />)
+          ? loadingCardArray.map((product, index) => (
+              <HorizontalProductCardLoading key={index} />
+            ))
           : data.map((product) => (
               <HorizontalProductCard
                 product={product}

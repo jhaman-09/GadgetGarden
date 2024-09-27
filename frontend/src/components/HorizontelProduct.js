@@ -31,8 +31,8 @@ const HorizontelProduct = ({ category, heading }) => {
         ref={scrollElement}
       >
         {loading
-          ? loadingCardArray.map((product) => (
-              <HorizontalProductCardLoading design={"flex"} />
+          ? loadingCardArray.map((product, index) => (
+              <HorizontalProductCardLoading design={"flex"} key={index} />
             ))
           : data.map((product) => (
               <HorizontalProductCard

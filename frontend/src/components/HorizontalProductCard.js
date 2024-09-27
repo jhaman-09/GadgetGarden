@@ -1,8 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import displayCurrency from "../helper/displayCurrency";
+import { useFetchAddToCart } from "../hooks/useFetchCart";
 
 const HorizontalProductCard = (props) => {
+  const { fetchAddToCart } = useFetchAddToCart();
+
+  const handleAddToCart = (e, _id) => {
+    fetchAddToCart(e, _id);
+  };
+
   return (
     <Link
       to={"product/" + props?.product?._id}
@@ -50,6 +57,7 @@ const HorizontalProductCard = (props) => {
               ? `text-sm bg-primary hover:bg-secondary text-white px-3 py-1 rounded-full`
               : `text-sm bg-primary hover:bg-secondary text-white px-3 py-3 rounded-full`
           }
+          onClick={(e) => handleAddToCart(e, props?.product?._id)}
         >
           Add to Cart
         </button>
