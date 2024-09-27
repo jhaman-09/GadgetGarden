@@ -26,7 +26,7 @@ const CategoryProductList = () => {
     console.log(oneProductFromEachCategory);
   }, []);
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 scrollBar-none">
       <div className="flex justify-between items-center gap-2 overflow-y-scroll scrollbar-none">
         {" "}
         {/* scrollBar-none = custom tailwind css */}

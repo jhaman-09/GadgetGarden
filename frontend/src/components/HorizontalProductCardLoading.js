@@ -14,7 +14,7 @@ const HorizontalProductCardLoading = ({ design }) => {
       ></div>
 
       <div className="p-4 grid gap-3">
-        <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200"></h2>
+        <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200"> </h2>
         <p
           className={
             design

@@ -33,6 +33,16 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+
+    cart: [
+      {
+        product_Id: String,
+        quantity: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

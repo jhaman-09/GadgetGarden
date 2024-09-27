@@ -4,6 +4,7 @@ import {
   allProductsOfThatCategory,
   editProduct,
   getAllProduct,
+  getProductById,
   oneProductFromEachCategory,
   uploadProduct,
 } from "../controllers/productController.js";
@@ -15,4 +16,5 @@ router.get("/all-product", authToken, getAllProduct);
 router.post("/update-product", authToken, editProduct);
 router.get("/category-product", oneProductFromEachCategory);
 router.post("/products-by-category", allProductsOfThatCategory);
+router.post("/product-details", getProductById);
 export default router;

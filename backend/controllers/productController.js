@@ -135,8 +135,13 @@ export const oneProductFromEachCategory = async (req, res) => {
 
 export const allProductsOfThatCategory = async (req, res) => {
   try {
-    const category = req.body || req.query;
-    const products = await Product.find(category);
+    const { category } = req.body || req.query
+
+    if (!category) {
+      throw new Error("Please Select a Category...!")
+    }
+    
+    const products = await Product.find({category});
 
     if (!products) {
       throw new Error("No Products Found..!");
@@ -148,7 +153,34 @@ export const allProductsOfThatCategory = async (req, res) => {
       error: false,
       succee: true,
     });
-    
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  try {
+    const { productId } = req.body;
+
+    if (!productId) {
+      throw new Error("Error While fetching Product Details..!")
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product Not Found..");
+    }
+    res.status(200).json({
+      data: product,
+      message: "Product Found Successfully...!",
+      error: false,
+      success: true,
+    });
   } catch (error) {
     res.status(401).json({
       message: error.message || error,

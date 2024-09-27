@@ -194,3 +194,161 @@ export const updateUser = async (req, res) => {
     });
   }
 };
+
+export const addToCardProduct = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("Please Sir, Login First..!");
+    }
+
+    const { productId } = req.body;
+    if (!productId) {
+      throw new Error(
+        "Please Sir, Provide a valid Product ID as a string to Add in Cart...!"
+      );
+    }
+
+    // Find if product already exists in user's cart
+    const productInCart = user.cart.find(
+      (item) => item.product_Id === productId
+    );
+
+    if (productInCart) {
+      productInCart.quantity += 1;
+    } else {
+      user.cart.push({ product_Id: productId, quantity: 1 });
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Product added to cart successfully!",
+      cart: user.cart,
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const reduceProductFromCart = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("Please Sir, Login First..!");
+    }
+
+    const { productId } = req.body;
+    if (!productId) {
+      throw new Error(
+        "Please Sir, Provide a valid Product ID as a string to Add in Cart...!"
+      );
+    }
+
+    // Find the product in user's cart
+    const productIndex = user.cart.findIndex(
+      (item) => item.product_Id === productId
+    );
+
+    if (productIndex === -1) {
+      throw new Error("Product not found in cart!");
+    }
+
+    const productInCart = user.cart[productIndex];
+
+    if (productInCart.quantity > 1) {
+      // Reduce the quantity by 1 if it's greater than 1
+      productInCart.quantity -= 1;
+    } else {
+      // Remove the product from the cart if quantity is 1 or less
+      user.cart.splice(productIndex, 1); // Remove product from cart
+    }
+
+    // Save updated user with the modified cart
+    await user.save();
+
+    res.status(200).json({
+      message: "Product quantity reduced successfully!",
+      cart: user.cart, // Returning updated cart
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const deleteProductFromCart = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("Please Sir, Login First..!");
+    }
+
+    const { productId } = req.body;
+    if (!productId) {
+      throw new Error(
+        "Please Sir, Provide a valid Product ID as a string to Add in Cart...!"
+      );
+    }
+
+    // Find the product in user's cart
+    const productIndex = user.cart.findIndex(
+      (item) => item.product_Id === productId
+    );
+
+    if (productIndex === -1) {
+      throw new Error("Product not found in cart!");
+    }
+
+    user.cart.splice(productIndex, 1); // Remove product from cart
+
+    // Save updated user with the modified cart
+    await user.save();
+
+    res.status(200).json({
+      message: "Product Deleted From Cart successfully!",
+      cart: user.cart, // Returning updated cart
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const getCartProduct = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("Please Sir, Login First..!");
+    }
+
+    res.status(200).json({
+      message: "found successfully..!",
+      data: user.cart,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
