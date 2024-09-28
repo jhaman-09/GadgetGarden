@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema(
   {
@@ -36,7 +35,10 @@ const userSchema = new mongoose.Schema(
 
     cart: [
       {
-        product_Id: String,
+        product_Id: {
+          type: String,
+          required: [true, "Please Selected Product to add in cart"],
+        },
         quantity: {
           type: Number,
           default: 0,

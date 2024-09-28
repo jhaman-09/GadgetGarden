@@ -223,6 +223,18 @@ const ProductDetails = () => {
           heading={"Recommended Product"}
         />
       )}
+      {data.category && (
+        <RecommendationProducts
+          category={"television"}
+          heading={"Recommended Product"}
+        />
+      )}
+      {data.category && (
+        <RecommendationProducts
+          category={"speaker"}
+          heading={"Recommended Product"}
+        />
+      )}
     </div>
   );
 };

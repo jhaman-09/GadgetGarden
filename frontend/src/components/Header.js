@@ -48,8 +48,8 @@ const Header = () => {
   // { cart with productId and quantity}
   const fetchCartProducts = async () => {
     try {
-      const res = await fetch(endPoint.getAllCartProduct.url, {
-        method: endPoint.getAllCartProduct.method,
+      const res = await fetch(endPoint.getAllCartProducts_id.url, {
+        method: endPoint.getAllCartProducts_id.method,
         credentials: "include",
       });
 
@@ -129,14 +129,20 @@ const Header = () => {
               </div>
             )}
           </div>
-          <div className="text-2xl relative">
-            <span>
-              <FaShoppingCart />
-              <div className="bg-primary text-white w-5 h-5 p-2 rounded-full flex items-center justify-center absolute -top-2 -right-3">
-                <p className="text-sm">{cartLen}</p>
-              </div>
-            </span>
-          </div>
+
+          { user && 
+            <Link
+              to={"/cart"}
+              className="text-2xl relative">
+              <span>
+                <FaShoppingCart />
+                <div className="bg-primary text-white w-5 h-5 p-2 rounded-full flex items-center justify-center absolute -top-2 -right-3">
+                  <p className="text-sm">{cartLen}</p>
+                </div>
+              </span>
+            </Link>
+
+          }
 
           <div>
             {autherized ? (

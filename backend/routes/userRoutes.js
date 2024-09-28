@@ -4,6 +4,7 @@ import {
   allUsers,
   deleteProductFromCart,
   getCartProduct,
+  getCartProduct_Id,
   login,
   logout,
   reduceProductFromCart,
@@ -12,6 +13,7 @@ import {
   userDetails,
 } from "../controllers/userController.js";
 import { authToken } from "../middlewares/auth.js";
+import { getAllProduct } from "../controllers/productController.js";
 
 const router = express.Router();
 
@@ -24,7 +26,7 @@ router.get("/logout", authToken, logout);
 router.get("/all-users", authToken, allUsers);
 
 // User Updation
-router.put('/update-user', authToken, updateUser);
+router.put("/update-user", authToken, updateUser);
 
 // product add to cart
 router.post("/add-to-cart", authToken, addToCardProduct);
@@ -33,9 +35,12 @@ router.post("/add-to-cart", authToken, addToCardProduct);
 router.post("/delete-cart-product", authToken, deleteProductFromCart);
 
 // reduce product quantity of cart
-router.post("/reduce-cart-product", authToken, reduceProductFromCart)
+router.post("/reduce-cart-product", authToken, reduceProductFromCart);
 
-// get all cart products
-router.get("/get-all-cart", authToken, getCartProduct);
+// get all cart products_id
+router.get("/get-all-cart-product-id", authToken, getCartProduct_Id);
+
+// get all cart product with all details
+router.get("/get-all-carts-products", authToken, getCartProduct);
 
 export default router;

@@ -2,6 +2,7 @@ import { User } from "../models/userSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { Product } from "../models/productSchema.js";
 
 export const register = async (req, res) => {
   try {
@@ -330,7 +331,7 @@ export const deleteProductFromCart = async (req, res) => {
   }
 };
 
-export const getCartProduct = async (req, res) => {
+export const getCartProduct_Id = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
@@ -340,6 +341,35 @@ export const getCartProduct = async (req, res) => {
     res.status(200).json({
       message: "found successfully..!",
       data: user.cart,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+
+export const getCartProduct = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("Please Sir, Login First..!");
+    }
+
+    const cartProducts = []
+    for (let cart of user.cart) {
+      const temp = await Product.findOne(cart.productId);
+      cartProducts.push(temp)
+    }
+
+    res.status(200).json({
+      message: "found successfully..!",
+      data: cartProducts,
       error: false,
       success: true,
     });

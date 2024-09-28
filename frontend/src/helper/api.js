@@ -58,16 +58,25 @@ export const endPoint = {
     url: api + "/user/add-to-cart",
     method: "POST",
   },
+
+  // this will give all cart product details
   getAllCartProduct: {
-    url: api + "/user/get-all-cart",
+    url: api + "/user/get-all-carts-products",
     method: "GET",
   },
+
+  // this will help to count the cart length using quantity
+  getAllCartProducts_id: {
+    url: api + "/user/get-all-cart-product-id",
+    method: "GET",
+  },
+  
   reduceCartProduct: {
     url: api + "/user/reduce-cart-product",
     method: "POST",
   },
   deleteCartProduct: {
     url: api + "/user/delete-cart-product",
-    method : "POST"
+    method: "POST",
   },
 };
