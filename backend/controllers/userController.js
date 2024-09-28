@@ -339,7 +339,7 @@ export const getCartProduct_Id = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "found successfully..!",
+      message: "Cart Products Id found successfully..!",
       data: user.cart,
       error: false,
       success: true,
@@ -362,13 +362,13 @@ export const getCartProduct = async (req, res) => {
     }
 
     const cartProducts = []
-    for (let cart of user.cart) {
-      const temp = await Product.findOne(cart.productId);
-      cartProducts.push(temp)
+    for (let cartItem of user.cart) {
+      const product = await Product.findOne({ _id: cartItem.product_Id });
+      if(product) cartProducts.push(product);
     }
 
     res.status(200).json({
-      message: "found successfully..!",
+      message: "Cart Products Found Successfully..!",
       data: cartProducts,
       error: false,
       success: true,
