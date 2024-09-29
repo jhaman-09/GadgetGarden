@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import displayCurrency from "../helper/displayCurrency";
-import { useFetchAddToCart } from "../hooks/useFetchCart";
+import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 
 const HorizontalProductCard = (props) => {
-  const { fetchAddToCart } = useFetchAddToCart();
+  const fetchAddToCart = useFetchAddToCart();
 
-  const handleAddToCart = (e, _id) => {
-    fetchAddToCart(e, _id);
+  const handleAddToCart = async (e, _id) => {
+    await fetchAddToCart(e, _id);
   };
 
   return (

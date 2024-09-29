@@ -1,9 +1,17 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { endPoint } from "../helper/api";
-import { addUser, isAutherized } from "../store/userSlice";
+import {
+  addToCart,
+  addUser,
+  isAutherized,
+  isCartSize,
+} from "../store/userSlice";
+import { useFetchCartAllProduct } from "./useAllCartProduct";
+import { useGetCartQuantity } from "./useGetCartQuantity";
 
 export const useFetchUser = () => {
+  const getAllCartProducts = useFetchCartAllProduct();
+  const cartQuantity = useGetCartQuantity();
   const dispatch = useDispatch();
 
   const fetchUser = async () => {
@@ -13,9 +21,13 @@ export const useFetchUser = () => {
         credentials: "include",
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(addUser(data.user));
+      const jsonData = await response.json();
+      if (jsonData.success) {
+        const updatedCart = await getAllCartProducts();
+        const updatedCartQuantity = await cartQuantity();
+        dispatch(addToCart(updatedCart.data));
+        dispatch(isCartSize(updatedCartQuantity.data));
+        dispatch(addUser(jsonData.user));
       } else {
         throw new Error("Failed to fetch user data");
       }

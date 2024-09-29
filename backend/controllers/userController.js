@@ -330,7 +330,6 @@ export const deleteProductFromCart = async (req, res) => {
     });
   }
 };
-
 export const getCartProduct_Id = async (req, res) => {
   try {
     const user = req.user;
@@ -353,6 +352,32 @@ export const getCartProduct_Id = async (req, res) => {
   }
 };
 
+export const getCartProductQuantity = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("Please Sir, Login First..!");
+    }
+
+    let len = 0;
+    await user?.cart.forEach((product) => {
+      len += product.quantity;
+    });
+
+    res.status(200).json({
+      message: "Cart Products Id found successfully..!",
+      data: len,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
 
 export const getCartProduct = async (req, res) => {
   try {
@@ -361,10 +386,10 @@ export const getCartProduct = async (req, res) => {
       throw new Error("Please Sir, Login First..!");
     }
 
-    const cartProducts = []
+    const cartProducts = [];
     for (let cartItem of user.cart) {
       const product = await Product.findOne({ _id: cartItem.product_Id });
-      if(product) cartProducts.push(product);
+      if (product) cartProducts.push(product);
     }
 
     res.status(200).json({

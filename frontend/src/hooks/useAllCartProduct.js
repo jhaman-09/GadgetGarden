@@ -20,5 +20,5 @@ export const useFetchCartAllProduct = () => {
       toast.error("Failed to get cart Products");
     }
   };
-  return { getAllCartProducts };
+  return getAllCartProducts ;
 };

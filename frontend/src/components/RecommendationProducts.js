@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import fetchProductsByCategory from "../hooks/fetchProductsByCategory";
 import displayCurrency from "../helper/displayCurrency";
 import { Link } from "react-router-dom";
-import { useFetchAddToCart } from "../hooks/useFetchCart";
+import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 
 const RecommendationProducts = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -22,10 +22,10 @@ const RecommendationProducts = ({ category, heading }) => {
     fetchCategoryByProduct();
   }, []);
 
-  const { fetchAddToCart } = useFetchAddToCart();
+  const  fetchAddToCart  = useFetchAddToCart();
 
-  const handleAddToCart = (e, _id) => {
-    fetchAddToCart(e, _id);
+  const handleAddToCart = async(e, _id) => {
+    await fetchAddToCart(e, _id);
   };
 
   return (

@@ -8,12 +8,12 @@ import { useFetchUser } from "./hooks/useFetchUser.js";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 function App() {
-    const { autherized } = useSelector((store) => store.user);
-
+  const { autherized } = useSelector((store) => store.user);
   const fetchUser = useFetchUser();
   useEffect(() => {
     fetchUser();
   }, [autherized]);
+
   return (
     <>
       <Header />

@@ -70,7 +70,7 @@ export const endPoint = {
     url: api + "/user/get-all-cart-product-id",
     method: "GET",
   },
-  
+
   reduceCartProduct: {
     url: api + "/user/reduce-cart-product",
     method: "POST",
@@ -78,5 +78,10 @@ export const endPoint = {
   deleteCartProduct: {
     url: api + "/user/delete-cart-product",
     method: "POST",
+  },
+
+  getCartQuantity: {
+    url: api + "/user/get-all-carts-quantity",
+    method: "GET",
   },
 };

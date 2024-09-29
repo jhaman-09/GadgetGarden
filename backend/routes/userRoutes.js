@@ -5,6 +5,7 @@ import {
   deleteProductFromCart,
   getCartProduct,
   getCartProduct_Id,
+  getCartProductQuantity,
   login,
   logout,
   reduceProductFromCart,
@@ -42,5 +43,8 @@ router.get("/get-all-cart-product-id", authToken, getCartProduct_Id);
 
 // get all cart product with all details
 router.get("/get-all-carts-products", authToken, getCartProduct);
+
+// get cart products quantity
+router.get("/get-all-carts-quantity", authToken, getCartProductQuantity);
 
 export default router;

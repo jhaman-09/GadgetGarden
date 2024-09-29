@@ -1,81 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Logo from "./Logo";
 import { IoSearch } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { endPoint } from "../helper/api";
-import { toast } from "react-toastify";
-import { isAutherized, removeUser } from "../store/userSlice.js";
-import { useFetchAddToCart } from "../hooks/useFetchCart.js";
-
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLogout } from "../hooks/useLogout.js";
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
-  const { autherized, user } = useSelector((store) => store.user);
+  const { autherized, user, cartSize } = useSelector((store) => store.user);
 
-  const [cart, setCart] = useState([]);
-  const [cartLen, setCartLen] = useState(0);
-
-  const { fetchAddToCart } = useFetchAddToCart();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const logout = useLogout();
 
   const handleLogout = async () => {
-    try {
-      const response = await fetch(endPoint.logout.url, {
-        method: endPoint.logout.method,
-        credentials: "include",
-      });
-
-      const data = await response.json();
-      if (data.error) {
-        toast.error(data.message);
-        throw new Error(data.message);
-      } else {
-        toast.success(data.message);
-        setCartLen(0);
-        dispatch(removeUser());
-        dispatch(isAutherized(false));
-        navigate("/");
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
+    logout();
   };
-
-  // { cart with productId and quantity}
-  const fetchCartProducts = async () => {
-    try {
-      const res = await fetch(endPoint.getAllCartProducts_id.url, {
-        method: endPoint.getAllCartProducts_id.method,
-        credentials: "include",
-      });
-
-      const jsonData = await res.json();
-      const cartData = Array.isArray(jsonData.data) ? jsonData.data : [];
-      setCart(cartData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // {calculating product quantities}
-  const handleCartLength = async () => {
-    let len = 0;
-    cart.forEach((product) => {
-      len += product.quantity;
-    });
-    setCartLen(len);
-  };
-
-  useEffect(() => {
-    fetchCartProducts();
-    handleCartLength();
-  }, [fetchAddToCart]);
-
-  
 
   return (
     <header className="h-16 shadow-md bg-white fixed z-40 w-full">
@@ -130,19 +69,16 @@ const Header = () => {
             )}
           </div>
 
-          { user && 
-            <Link
-              to={"/cart"}
-              className="text-2xl relative">
+          {user && (
+            <Link to={"/cart"} className="text-2xl relative">
               <span>
                 <FaShoppingCart />
                 <div className="bg-primary text-white w-5 h-5 p-2 rounded-full flex items-center justify-center absolute -top-2 -right-3">
-                  <p className="text-sm">{cartLen}</p>
+                  <p className="text-sm">{cartSize}</p>
                 </div>
               </span>
             </Link>
-
-          }
+          )}
 
           <div>
             {autherized ? (

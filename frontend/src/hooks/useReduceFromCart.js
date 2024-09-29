@@ -1,10 +1,14 @@
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
-import { useFetchUser } from "./useFetchUser";
+import { useFetchCartAllProduct } from "./useAllCartProduct";
+import { useGetCartQuantity } from "./useGetCartQuantity";
+import { useDispatch } from "react-redux";
+import { addToCart, isCartSize } from "../store/userSlice";
 
 export const useReduceFromCart = () => {
-  const fetchUser = useFetchUser(); // Fetch the updated user/cart after adding the product
-
+  const getAllCartProducts = useFetchCartAllProduct();
+  const cartQuantity = useGetCartQuantity();
+  const dispatch = useDispatch();
   const fetchReduceCart = async (e, productId) => {
     try {
       e?.stopPropagation();
@@ -22,10 +26,14 @@ export const useReduceFromCart = () => {
       const jsonData = await res.json();
       if (jsonData.success) {
         toast.success(jsonData.message);
-        fetchUser();
+        const updatedCart = await getAllCartProducts();
+        const updatedCartQuantity = await cartQuantity();
+        dispatch(addToCart(updatedCart.data));
+        dispatch(isCartSize(updatedCartQuantity.data));
       } else {
         toast.error(jsonData.message);
       }
+      return jsonData;
     } catch (error) {
       toast.error("Failed to Remove Product from Cart..!");
     }

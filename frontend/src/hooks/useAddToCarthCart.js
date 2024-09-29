@@ -1,10 +1,14 @@
-import { endPoint } from "../helper/api";
+import { endPoint } from "../helper/api.js";
 import { toast } from "react-toastify";
-import { useFetchUser } from "./useFetchUser.js";
+import { useFetchCartAllProduct } from "./useAllCartProduct.js";
+import { useDispatch } from "react-redux";
+import { addToCart, isCartSize } from "../store/userSlice.js";
+import { useGetCartQuantity } from "./useGetCartQuantity.js";
 
 export const useFetchAddToCart = () => {
-  const fetchUser = useFetchUser(); // Fetch the updated user/cart after adding the product
-
+  const getAllCartProducts = useFetchCartAllProduct();
+  const cartQuantity = useGetCartQuantity();
+  const dispatch = useDispatch();
   const fetchAddToCart = async (e, productId) => {
     try {
       e?.stopPropagation();
@@ -23,7 +27,12 @@ export const useFetchAddToCart = () => {
 
       if (jsonData.success) {
         toast.success(jsonData.message);
-        fetchUser();
+        const updatedCart = getAllCartProducts();
+        const updatedCartQuantity = cartQuantity();
+        console.log("updated card",updatedCart?.data);
+        
+        dispatch(addToCart(updatedCart.data));
+        dispatch(isCartSize(updatedCartQuantity.data));
       } else if (jsonData.error) {
         toast.error(jsonData.message);
       }
@@ -35,5 +44,5 @@ export const useFetchAddToCart = () => {
     }
   };
 
-  return { fetchAddToCart };
+  return fetchAddToCart ;
 };
