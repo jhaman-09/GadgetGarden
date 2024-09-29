@@ -19,81 +19,60 @@ const CartsProducts = () => {
   }, []);
 
   console.log(data);
-  
 
   return (
-    // <div className="container p-4 mx-auto rounded">
-    //   {data.length === 0 ? (
-    //     <div className="mx-24">
-    //       <div className="flex flex-col items-center justify-center">
-    //         <h1 className="text-center text-4xl">No Data Sir..!</h1>
-    //         <Link to={"/"} className="bg-secondary px-4 py-2 text-white">
-    //           <button className="rounded-full">Continue</button>
-    //         </Link>
-    //       </div>
-    //     </div>
-    //   ) : (
-    //     <div class="grid grid-cols-2 h-screen mx-24">
-    //       <div class="bg-blue-500 flex items-center justify-center">
-    //         <div className=""></div>
-    //       </div>
-
-    //       <div class="bg-green-500 flex items-center justify-center"></div>
-    //     </div>
-    //   )}
-    // </div>
-
     <div className="container p-4 mx-auto rounded">
       {data.length === 0 ? (
         <div className="mx-24">
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-center text-4xl">No Data Sir..!</h1>
             <Link to={"/"} className="bg-secondary px-4 py-2 text-white">
-              <button className="rounded-full">Continue Shopping</button>
+              <button className="rounded-full">Continue</button>
             </Link>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-4 h-screen mx-24">
-          {/* Left side: Cart items */}
-          <div className="col-span-2 p-4">
-            {data.map((product, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between mb-4 p-4 bg-gray-100 rounded-lg shadow-sm"
-              >
-                {/* Product Image */}
-                <img
-                  src={product?.productImage[0]}
-                  alt={product?.productName}
-                  className="w-24 h-24 object-cover rounded-lg"
-                />
+        // {Cart Products Details}
 
-                {/* Product details */}
-                <div className="ml-4 flex-grow">
-                  <h2 className="text-xl font-semibold">{product?.brandName}</h2>
-                  <p className="text-gray-600">Price: ${product?.price}</p>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <button className="px-2 py-1 bg-gray-300 rounded">-</button>
-                    <span className="px-3 py-1 bg-white border border-gray-300 rounded">
-                      {product?.quantity}
-                    </span>
-                    <button className="px-2 py-1 bg-gray-300 rounded">+</button>
+        <div class="grid md:grid-cols-3 mx-10 md:mx-24 gap-4 md:gap-8 h-screen">
+          <div class="md:col-span-2 grid gap-4 overflow-y-scroll">
+            {data.map((product, index) => {
+              return (
+                <div className="bg-white h-[225px]">
+                  <div className="grid grid-cols-2 md:grid-cols-3 h-full">
+                    <div className="col-span-1 w-full h-full bg-slate-300 flex md:flex-row flex-col items-center justify-center rounded-l-lg relative">
+                      <div className="md:w-44 md:h-44 h-32 w-32 flex items-center justify-center">
+                        <img
+                          alt="product_img"
+                          className="h-full w-full object-contain mix-blend-multiply p-2 hover:object-scale-down transition-all"
+                          src={product?.productImage[0]}
+                        />
+                      </div>
+                      <div className="font-semibold bg-white rounded-full px-1 py-0.5 shadow-md md:flex absolute top-1 right-1">
+                        <p className="text-green-900">
+                          {Math.floor(product?.discount)}%
+                        </p>
+                        <p className="text-green-900 px-1">off</p>
+                      </div>
+                    </div>
+
+                    <div className="md:col-span-2 rounded-r-lg f">
+                      <div className="flex items-center justify-center">
+                        <div className="flex items-center">
+                          <p className="bg-secondary px-4 py-2 text-white">
+                            {product?.brandName}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                {/* Total for this product */}
-                <div className="text-right">
-                  <p className="text-lg font-bold">
-                    ${(product.price * product?.quantity).toFixed(2)}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Right side: Summary & Buy now */}
-          <div className="col-span-1 p-4 bg-gray-100 rounded-lg shadow-sm">
+          {/* {Cart Summary of Products} */}
+          <div className="p-4 bg-gray-100 rounded-lg shadow-sm">
             <h3 className="text-xl font-semibold mb-4">Cart Summary</h3>
             <div className="flex justify-between">
               <p>Total Items:</p>
