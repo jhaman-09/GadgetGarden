@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { json, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFetchCartAllProduct } from "../hooks/useFetchCartAllProduct";
+import displayCurrency from "../helper/displayCurrency";
 
 const CartsProducts = () => {
   const [data, setData] = useState([]);
 
   const { getAllCartProducts } = useFetchCartAllProduct();
+  
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -41,7 +43,7 @@ const CartsProducts = () => {
                 return (
                   <div className="bg-white h-[225px]">
                     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
-                      <div className="col-span-1 w-full h-full bg-slate-300 flex md:flex-row flex-col items-center justify-center rounded-l-lg relative">
+                      <div className="col-span-1 w-full h-full bg-slate-300 flex md:flex-row flex-col items-center justify-center rounded-l-lg rounded-r-lg relative">
                         <div className="md:w-44 md:h-44 h-32 w-32 flex items-center justify-center mb-4">
                           <img
                             alt="product_img"
@@ -57,12 +59,36 @@ const CartsProducts = () => {
                         </div>
                       </div>
 
-                      <div className="md:col-span-2 rounded-r-lg">
-                        <div className="flex items-center justify-center">
-                          <div className="flex items-center">
-                            <p className="bg-secondary px-4 py-2 text-white">
+                      <div className="md:col-span-2 ">
+                        <div className="flex items-center justify-center ">
+                          <div className="flex flex-col items-center justify-between gap-2 md:gap-3">
+                            <p className="bg-secondary px-4 py-0.5 text-white hover:bg-white border-2 hover:border-secondary hover:text-secondary transition-all rounded-full md:mt-4 mt-3 shadow-lg">
                               {product?.brandName}
                             </p>
+
+                            <h1 className="text-md md:text-lg px-4 text-ellipsis line-clamp-1">
+                              {product?.productName}
+                            </h1>
+                            <p className="capitalize text-slate-500">
+                              {product?.category}
+                            </p>
+                            <div className="flex md:flex-row flex-col gap-2 md:gap-4 items-center justify-between ">
+                              <p className="text-secondary font-medium md:text-lg text-md ml-2">
+                                {displayCurrency(product?.sellingPrice)}
+                              </p>
+                              <p className="text-slate-600 font-semibold text-lg line-through">
+                                {displayCurrency(product?.price)}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <button className="border border-secondary text-secondary hover:bg-secondary hover:text-white md:w-8 md:h-8 w-6 h-6 flex justify-center items-center rounded">
+                                -
+                              </button>
+                              <span>{"5"}</span>
+                              <button className="border border-secondary text-secondary hover:bg-secondary hover:text-white md:w-8 md:h-8 w-6 h-6 flex justify-center items-center rounded">
+                                +
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>

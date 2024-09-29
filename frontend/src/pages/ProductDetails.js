@@ -165,7 +165,7 @@ const ProductDetails = () => {
             <p className="bg-secondary text-white px-2 rounded-full inline-block w-fit">
               {data?.brandName}
             </p>
-            <h2 className="text-2xl lg:text-4xl font-medium">
+            <h2 className="text-2xl lg:text-4xl font-medium line-clamp-2">
               {data?.productName}
             </h2>
             <p className="capitalize text-slate-400">{data?.category}</p>
