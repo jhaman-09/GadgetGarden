@@ -34,45 +34,47 @@ const CartsProducts = () => {
       ) : (
         // {Cart Products Details}
 
-        <div class="grid md:grid-cols-3 mx-10 md:mx-24 gap-4 md:gap-8 h-screen">
-          <div class="md:col-span-2 grid gap-4 overflow-y-scroll">
-            {data.map((product, index) => {
-              return (
-                <div className="bg-white h-[225px]">
-                  <div className="grid grid-cols-2 md:grid-cols-3 h-full">
-                    <div className="col-span-1 w-full h-full bg-slate-300 flex md:flex-row flex-col items-center justify-center rounded-l-lg relative">
-                      <div className="md:w-44 md:h-44 h-32 w-32 flex items-center justify-center">
-                        <img
-                          alt="product_img"
-                          className="h-full w-full object-contain mix-blend-multiply p-2 hover:object-scale-down transition-all"
-                          src={product?.productImage[0]}
-                        />
+        <div class="grid md:grid-cols-3 mx-10 md:mx-24 gap-4 md:gap-8 ">
+          <div className="h-screen md:col-span-2 overflow-y-scroll">
+            <div class=" grid gap-4 ">
+              {data.map((product, index) => {
+                return (
+                  <div className="bg-white h-[225px]">
+                    <div className="grid grid-cols-2 md:grid-cols-3 h-full">
+                      <div className="col-span-1 w-full h-full bg-slate-300 flex md:flex-row flex-col items-center justify-center rounded-l-lg relative">
+                        <div className="md:w-44 md:h-44 h-32 w-32 flex items-center justify-center mb-4">
+                          <img
+                            alt="product_img"
+                            className="h-full w-full object-contain mix-blend-multiply p-2 hover:object-scale-down transition-all"
+                            src={product?.productImage[0]}
+                          />
+                        </div>
+                        <div className="font-semibold bg-white rounded-full px-2 py-0.5 shadow-md md:absolute md:top-1 md:right-1">
+                          <span className="text-green-900 flex">
+                            {Math.floor(product?.discount)}%{" "}
+                            <p className="text-green-900 px-1">off</p>
+                          </span>
+                        </div>
                       </div>
-                      <div className="font-semibold bg-white rounded-full px-1 py-0.5 shadow-md md:flex absolute top-1 right-1">
-                        <p className="text-green-900">
-                          {Math.floor(product?.discount)}%
-                        </p>
-                        <p className="text-green-900 px-1">off</p>
-                      </div>
-                    </div>
 
-                    <div className="md:col-span-2 rounded-r-lg f">
-                      <div className="flex items-center justify-center">
-                        <div className="flex items-center">
-                          <p className="bg-secondary px-4 py-2 text-white">
-                            {product?.brandName}
-                          </p>
+                      <div className="md:col-span-2 rounded-r-lg">
+                        <div className="flex items-center justify-center">
+                          <div className="flex items-center">
+                            <p className="bg-secondary px-4 py-2 text-white">
+                              {product?.brandName}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
           {/* {Cart Summary of Products} */}
-          <div className="p-4 bg-gray-100 rounded-lg shadow-sm">
+          <div className="p-4 bg-gray-100 rounded-lg shadow-lg h-[225px]">
             <h3 className="text-xl font-semibold mb-4">Cart Summary</h3>
             <div className="flex justify-between">
               <p>Total Items:</p>
