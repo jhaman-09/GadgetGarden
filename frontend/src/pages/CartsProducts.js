@@ -6,7 +6,7 @@ import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 import { useReduceFromCart } from "../hooks/useReduceFromCart";
 
 const CartsProducts = () => {
-  const { cart } = useSelector((store) => store.user);
+  const {cart}  = useSelector((store) => store.user);
   const fetchAddToCart = useFetchAddToCart();
   const fetchReduceCart = useReduceFromCart();
 

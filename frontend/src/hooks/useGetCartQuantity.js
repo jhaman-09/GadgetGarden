@@ -5,7 +5,6 @@ import { isCartSize } from "../store/userSlice";
 
 export const useGetCartQuantity = () => {
   const dispatch = useDispatch();
-
   const cartQuantity = async () => {
     const res = await fetch(endPoint.getCartQuantity.url, {
       method: endPoint.getCartQuantity.method,
