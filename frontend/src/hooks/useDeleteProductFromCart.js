@@ -1,7 +1,6 @@
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
 import { useFetchCartAllProduct } from "./useAllCartProduct";
-import { useGetCartQuantity } from "./useGetCartQuantity";
 
 export const useFetchDeleteProductFromCart = () => {
   const getAllCartProducts = useFetchCartAllProduct();
