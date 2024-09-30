@@ -330,6 +330,8 @@ export const deleteProductFromCart = async (req, res) => {
     });
   }
 };
+
+
 export const getCartProduct_Id = async (req, res) => {
   try {
     const user = req.user;
