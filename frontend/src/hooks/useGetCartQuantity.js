@@ -13,7 +13,6 @@ export const useGetCartQuantity = () => {
 
     const jsonData = await res.json();
     if (jsonData.success) {
-      toast.success(jsonData.message);
       dispatch(isCartSize(jsonData.data))
     } else {
       toast.error(jsonData.message);

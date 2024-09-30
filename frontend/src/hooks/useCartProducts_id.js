@@ -10,11 +10,6 @@ export const useFetchCartAllProduct_id = () => {
       });
 
       const jsonData = await response.json();
-      if (jsonData.success) {
-        toast.success(jsonData.message);
-      } else {
-        toast.error(jsonData.message);
-      }
       return jsonData;
     } catch (error) {
       toast.error("Failed to get cart Products");

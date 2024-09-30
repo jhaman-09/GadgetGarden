@@ -14,10 +14,8 @@ export const useFetchCartAllProduct = () => {
 
       const jsonData = await response.json();
       if (jsonData.success) {
-        toast.success(jsonData.message);
         dispatch(addToCart(jsonData.data));
       } else {
-        toast.error(jsonData.message);
       }
       return jsonData;
     } catch (error) {

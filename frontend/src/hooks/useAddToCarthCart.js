@@ -32,7 +32,6 @@ export const useFetchAddToCart = () => {
 
       return jsonData;
     } catch (error) {
-      console.error("Error adding product to cart:", error);
       toast.error("Failed to add product to cart.");
     }
   };
