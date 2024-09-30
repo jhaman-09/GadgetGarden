@@ -6,7 +6,7 @@ const userSlice = createSlice({
     user: null,
     autherized: false,
     cartSize: 0,
-    cart: [],
+    cartProducts: [],
   },
 
   reducers: {
@@ -28,10 +28,10 @@ const userSlice = createSlice({
       state.cartSize = 0;
     },
     addToCart: (state, action) => {
-      state.cart = action.payload
+      state.cartProducts = action.payload;
     },
     removeCart: (state) => {
-      state.cart = [];
+      state.cartProducts = [];
     },
   },
 });

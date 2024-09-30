@@ -388,8 +388,15 @@ export const getCartProduct = async (req, res) => {
 
     const cartProducts = [];
     for (let cartItem of user.cart) {
+      const payload = {
+        product: null,
+        quantity: null,
+      };
       const product = await Product.findOne({ _id: cartItem.product_Id });
-      if (product) cartProducts.push(product);
+
+      (payload.product = product), (payload.quantity = cartItem.quantity);
+
+      if (payload) cartProducts.push(payload);
     }
 
     res.status(200).json({
