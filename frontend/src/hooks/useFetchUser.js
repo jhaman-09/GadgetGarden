@@ -2,11 +2,9 @@ import { useDispatch } from "react-redux";
 import { endPoint } from "../helper/api";
 import { addUser, isAutherized } from "../store/userSlice";
 import { useFetchCartAllProduct } from "./useAllCartProduct";
-import { useGetCartQuantity } from "./useGetCartQuantity";
 
 export const useFetchUser = () => {
   const getAllCartProducts = useFetchCartAllProduct();
-  const cartQuantity = useGetCartQuantity();
   const dispatch = useDispatch();
 
   const fetchUser = async () => {
@@ -20,7 +18,6 @@ export const useFetchUser = () => {
       if (jsonData.success) {
         dispatch(addUser(jsonData.user));
         getAllCartProducts();
-        cartQuantity();
       } else {
         throw new Error("Failed to fetch user data");
       }

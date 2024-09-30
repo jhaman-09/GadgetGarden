@@ -1,11 +1,9 @@
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
 import { useFetchCartAllProduct } from "./useAllCartProduct";
-import { useGetCartQuantity } from "./useGetCartQuantity";
 
 export const useReduceFromCart = () => {
   const getAllCartProducts = useFetchCartAllProduct();
-  const cartQuantity = useGetCartQuantity();
   const fetchReduceCart = async (e, productId) => {
     try {
       e?.stopPropagation();
@@ -24,7 +22,6 @@ export const useReduceFromCart = () => {
       if (jsonData.success) {
         toast.success(jsonData.message);
         getAllCartProducts();
-        cartQuantity();
       } else {
         toast.error(jsonData.message);
       }

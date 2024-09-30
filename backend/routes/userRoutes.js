@@ -3,9 +3,8 @@ import {
   addToCardProduct,
   allUsers,
   deleteProductFromCart,
-  getCartProduct,
+  getAllCartProducts,
   getCartProduct_Id,
-  getCartProductQuantity,
   login,
   logout,
   reduceProductFromCart,
@@ -14,7 +13,6 @@ import {
   userDetails,
 } from "../controllers/userController.js";
 import { authToken } from "../middlewares/auth.js";
-import { getAllProduct } from "../controllers/productController.js";
 
 const router = express.Router();
 
@@ -42,9 +40,7 @@ router.post("/reduce-cart-product", authToken, reduceProductFromCart);
 router.get("/get-all-cart-product-id", authToken, getCartProduct_Id);
 
 // get all cart product with all details
-router.get("/get-all-carts-products", authToken, getCartProduct);
+router.get("/get-all-carts-products", authToken, getAllCartProducts);
 
-// get cart products quantity
-router.get("/get-all-carts-quantity", authToken, getCartProductQuantity);
 
 export default router;

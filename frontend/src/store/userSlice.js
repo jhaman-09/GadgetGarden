@@ -5,7 +5,6 @@ const userSlice = createSlice({
   initialState: {
     user: null,
     autherized: false,
-    cartSize: 0,
     cartProducts: [],
   },
 
@@ -21,12 +20,6 @@ const userSlice = createSlice({
     isAutherized: (state, action) => {
       state.autherized = action.payload;
     },
-    isCartSize: (state, action) => {
-      state.cartSize = action.payload;
-    },
-    zeroCartSize: (state) => {
-      state.cartSize = 0;
-    },
     addToCart: (state, action) => {
       state.cartProducts = action.payload;
     },
@@ -36,6 +29,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { isAutherized, addUser, removeUser, isCartSize, addToCart, removeCart, zeroCartSize } =
+export const { isAutherized, addUser, removeUser, addToCart, removeCart } =
   userSlice.actions;
 export default userSlice.reducer;

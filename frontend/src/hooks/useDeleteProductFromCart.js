@@ -5,7 +5,6 @@ import { useGetCartQuantity } from "./useGetCartQuantity";
 
 export const useFetchDeleteProductFromCart = () => {
   const getAllCartProducts = useFetchCartAllProduct();
-  const cartQuantity = useGetCartQuantity();
   const fetchDeleteProduct = async (e, productId) => {
     try {
       e?.stopPropagation();
@@ -24,7 +23,6 @@ export const useFetchDeleteProductFromCart = () => {
       if (jsonData.success) {
         toast.success(jsonData.message);
         getAllCartProducts();
-        cartQuantity();
       } else {
         toast.error(jsonData.message);
       }

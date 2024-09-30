@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useLogout } from "../hooks/useLogout.js";
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
-  const { autherized, user, cartSize } = useSelector((store) => store.user);
+  const { autherized, user, cartProducts } = useSelector((store) => store.user);
 
   const logout = useLogout();
 
@@ -44,7 +44,7 @@ const Header = () => {
             <div className="text-3xl cursor-pointer relative flex justify-center">
               {user?.profilePic ? (
                 <img
-                  src={user.profilePic}
+                  src={user?.profilePic}
                   alt="user-profilePic"
                   className="w-10 h-10 rounded-full"
                 />
@@ -74,7 +74,15 @@ const Header = () => {
               <span>
                 <FaShoppingCart />
                 <div className="bg-primary text-white w-5 h-5 p-2 rounded-full flex items-center justify-center absolute -top-2 -right-3">
-                  <p className="text-sm">{cartSize}</p>
+                  <p className="text-sm">
+                    {cartProducts &&
+                      cartProducts.reduce(
+                        (acc, cartItem) =>
+                          acc +
+                          cartItem?.quantity,
+                        0
+                      )}
+                  </p>
                 </div>
               </span>
             </Link>

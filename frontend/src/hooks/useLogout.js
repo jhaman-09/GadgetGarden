@@ -5,7 +5,6 @@ import {
   isAutherized,
   removeUser,
   removeCart,
-  zeroCartSize,
 } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +28,6 @@ export const useLogout = () => {
         dispatch(removeUser());
         dispatch(isAutherized(false));
         dispatch(removeCart());
-        dispatch(zeroCartSize(0));
         navigate("/");
       }
     } catch (error) {
