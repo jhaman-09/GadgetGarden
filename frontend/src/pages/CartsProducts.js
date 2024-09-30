@@ -4,11 +4,15 @@ import displayCurrency from "../helper/displayCurrency";
 import { useSelector } from "react-redux";
 import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 import { useReduceFromCart } from "../hooks/useReduceFromCart";
+import { RiDeleteBin7Line } from "react-icons/ri";
+import { useFetchDeleteProductFromCart } from "../hooks/useDeleteProductFromCart";
+
 
 const CartsProducts = () => {
-  const { cartProducts, quantity } = useSelector((store) => store.user);
+  const { cartProducts } = useSelector((store) => store.user);
   const fetchAddToCart = useFetchAddToCart();
   const fetchReduceCart = useReduceFromCart();
+  const fetchDeleteProduct = useFetchDeleteProductFromCart();
 
   const handleAddToCart = async (e, _id) => {
     await fetchAddToCart(e, _id);
@@ -17,6 +21,10 @@ const CartsProducts = () => {
   const handleReduceFromCart = async (e, _id) => {
     await fetchReduceCart(e, _id);
   };
+
+  const handleDeleteProductItemFromCArt = async (e, _id) => {
+    await fetchDeleteProduct(e, _id)
+  }
 
   return (
     <div className="container p-4 mx-auto rounded">
@@ -59,7 +67,7 @@ const CartsProducts = () => {
                           </div>
                         </div>
 
-                        <div className="md:col-span-2 ">
+                        <div className="md:col-span-2 relative">
                           <div className="flex items-center justify-center ">
                             <div className="flex flex-col items-center justify-between gap-2 md:gap-3">
                               <p className="bg-secondary px-4 py-0.5 text-white hover:bg-white border-2 hover:border-secondary hover:text-secondary transition-all rounded-full md:mt-4 mt-3 shadow-lg">
@@ -106,6 +114,17 @@ const CartsProducts = () => {
                               </div>
                             </div>
                           </div>
+
+                          <div
+                            className="absolute top-2 right-2 md:top-5 md:right-4 text-lg md:text-xl cursor-pointer hover:text-secondary"
+                            onClick={(e) =>
+                              handleDeleteProductItemFromCArt(e,
+                                cartItem?.product?._id
+                              )
+                            }
+                          >
+                            <RiDeleteBin7Line />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -143,7 +162,7 @@ const CartsProducts = () => {
                 )}
               </p>
             </div>
-            <button className="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            <button className="mt-6 w-full bg-secondary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-secondary hover:bg-white hover:text-secondary hover:shadow-md transition-all">
               Buy Now
             </button>
           </div>
