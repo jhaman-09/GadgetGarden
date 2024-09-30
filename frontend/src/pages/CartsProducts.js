@@ -6,7 +6,7 @@ import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 import { useReduceFromCart } from "../hooks/useReduceFromCart";
 
 const CartsProducts = () => {
-  const cartProducts = useSelector((store) => store.user.cartProducts);
+  const { cartProducts, quantity } = useSelector((store) => store.user);
   const fetchAddToCart = useFetchAddToCart();
   const fetchReduceCart = useReduceFromCart();
 
@@ -122,22 +122,25 @@ const CartsProducts = () => {
               <p>
                 {cartProducts &&
                   cartProducts.reduce(
-                    (acc, product) => acc + product?.quantity,
+                    (acc, cartItem) => acc + cartItem?.quantity,
                     0
                   )}
               </p>
             </div>
             <div className="flex justify-between mt-2">
-              <p>Total Price:</p>
+              <p>Total Price</p>
               <p>
-                $
-                {cartProducts &&
-                  cartProducts
-                    .reduce(
-                      (acc, product) => acc + product.price * product.quantity,
-                      0
-                    )
-                    .toFixed(2)}
+                {displayCurrency(
+                  cartProducts &&
+                    cartProducts
+                      .reduce(
+                        (acc, cartItem) =>
+                          acc +
+                          cartItem?.product?.sellingPrice * cartItem?.quantity,
+                        0
+                      )
+                      .toFixed(2)
+                )}
               </p>
             </div>
             <button className="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
