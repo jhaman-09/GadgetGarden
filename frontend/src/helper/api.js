@@ -59,6 +59,11 @@ export const endPoint = {
     method: "POST",
   },
 
+  searchProductByQuery: {
+    url: api + "/product/search",
+    method: "GET",
+  },
+
   // this will give all cart product details
   getAllCartProduct: {
     url: api + "/user/get-all-carts-products",
