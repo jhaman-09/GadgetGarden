@@ -3,18 +3,30 @@ import Logo from "./Logo";
 import { IoSearch } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useLogout } from "../hooks/useLogout.js";
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
+  const [searchValue,setSearchValue] = useState("");
   const { autherized, user, cartProducts } = useSelector((store) => store.user);
 
   const logout = useLogout();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    logout();
+   await logout();
   };
+
+  const handleSearch = (e) => {
+    if (searchValue) {
+      navigate(`/search?keyword=${searchValue}`);
+      setSearchValue("")
+    }
+    else {
+      navigate("/search")
+    }
+  }
 
   return (
     <header className="h-16 shadow-md bg-white fixed z-40 w-full">
@@ -29,9 +41,12 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search Your Product Here.."
-            className="w-full outline-none "
+            className="w-full outline-none"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
-          <div className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center rounded-r-full">
+          <div className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center rounded-r-full"
+          onClick={() => handleSearch()}>
             <IoSearch />
           </div>
         </div>
@@ -77,9 +92,7 @@ const Header = () => {
                   <p className="text-sm">
                     {cartProducts &&
                       cartProducts.reduce(
-                        (acc, cartItem) =>
-                          acc +
-                          cartItem?.quantity,
+                        (acc, cartItem) => acc + cartItem?.quantity,
                         0
                       )}
                   </p>

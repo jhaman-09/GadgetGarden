@@ -82,7 +82,7 @@ const ProductDetails = () => {
     setActiveImage(imageURL);
   };
 
-  const {fetchAddToCart} = useFetchAddToCart()
+  const fetchAddToCart = useFetchAddToCart()
 
   const handleAddToCart = (e, product_id) => {
     fetchAddToCart(e, product_id);

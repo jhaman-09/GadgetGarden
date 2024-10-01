@@ -135,13 +135,13 @@ export const oneProductFromEachCategory = async (req, res) => {
 
 export const allProductsOfThatCategory = async (req, res) => {
   try {
-    const { category } = req.body || req.query
+    const { category } = req.body || req.query;
 
     if (!category) {
-      throw new Error("Please Select a Category...!")
+      throw new Error("Please Select a Category...!");
     }
-    
-    const products = await Product.find({category});
+
+    const products = await Product.find({ category });
 
     if (!products) {
       throw new Error("No Products Found..!");
@@ -167,7 +167,7 @@ export const getProductById = async (req, res) => {
     const { productId } = req.body;
 
     if (!productId) {
-      throw new Error("Error While fetching Product Details..!")
+      throw new Error("Error While fetching Product Details..!");
     }
 
     const product = await Product.findById(productId);
@@ -180,6 +180,38 @@ export const getProductById = async (req, res) => {
       message: "Product Found Successfully...!",
       error: false,
       success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const getProductsBySearch = async (req, res) => {
+  try {
+    const {keyword} = req.query;
+
+    // Create a regular expression for case-insensitive matching
+    const regex = new RegExp(keyword, "i", "g");
+
+    const products = await Product.find({
+      /* from where, we want to find product {through name, description, category where these keyword present,
+       it will will me those products} */
+      $or: [
+        { productName: regex },
+        { category: regex },
+        { brandName: regex },
+      ],
+    });
+
+    res.status(200).json({
+      message: "Product Found Successfully..!",
+      data: products,
+      error: false,
+      succee: true,
     });
   } catch (error) {
     res.status(401).json({
