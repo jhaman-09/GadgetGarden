@@ -162,7 +162,7 @@ const CartsProducts = () => {
                 )}
               </p>
             </div>
-            <button className="mt-6 w-full bg-secondary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-secondary hover:bg-white hover:text-secondary hover:shadow-md transition-all">
+            <button className="mt-6 w-full bg-secondary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-secondary hover:bg-white hover:text-secondary hover:shadow-md">
               Buy Now
             </button>
           </div>
