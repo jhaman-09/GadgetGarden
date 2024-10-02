@@ -14,8 +14,8 @@ const CategoryProducts = () => {
 
   /* Extract the query params from the URL*/
   const urlSearch = new URLSearchParams(location.search); // it will give url access
-  const urlCategoryListinArray = urlSearch.getAll("category");    // it will give category search in array form
-  const categoryValue = urlCategoryListinArray[0];    
+  const urlCategoryListinArray = urlSearch.getAll("category"); // it will give category search in array form
+  const categoryValue = urlCategoryListinArray[0];
 
   const fetchProductsByCategory = useFetchProductsByCategory();
 
@@ -105,15 +105,12 @@ const CategoryProducts = () => {
 
         {/* {Right side} */}
         <div className="px-4">
-
           <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
-            {data.length !== 0 && !loading && (
-              <VarticalyShowProducts
-                data={data}
-                loading={loading}
-                key={data.length}
-              />
-            )}
+            <VarticalyShowProducts
+              data={data}
+              loading={loading}
+              key={data.length}
+            />
           </div>
         </div>
       </div>
