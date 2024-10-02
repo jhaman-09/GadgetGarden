@@ -8,25 +8,25 @@ import { useSelector } from "react-redux";
 import { useLogout } from "../hooks/useLogout.js";
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
-  const [searchValue,setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const { autherized, user, cartProducts } = useSelector((store) => store.user);
 
   const logout = useLogout();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-   await logout();
+    await logout();
   };
 
   const handleSearch = (e) => {
-    if (searchValue) {
+    if (searchValue || (searchValue && e.key === "Enter")) {
       navigate(`/search?keyword=${searchValue}`);
-      setSearchValue("")
+      setSearchValue("");
+    } else {
+      // alert("Please enter a search query");
+      navigate("/search");
     }
-    else {
-      navigate("/search")
-    }
-  }
+  };
 
   return (
     <header className="h-16 shadow-md bg-white fixed z-40 w-full">
@@ -41,12 +41,15 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search Your Product Here.."
-            className="w-full outline-none"
+            className="w-full outline-none px-2"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            // onKeyPress={handleSearch} // Trigger search on "Enter" key press
           />
-          <div className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center rounded-r-full"
-          onClick={() => handleSearch()}>
+          <div
+            className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center rounded-r-full"
+            onClick={(e) => handleSearch(e)}
+          >
             <IoSearch />
           </div>
         </div>
