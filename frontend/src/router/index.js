@@ -11,7 +11,6 @@ import ProductDetails from "../pages/ProductDetails";
 import CategoryProducts from "../pages/CategoryProducts";
 import CartsProducts from "../pages/CartsProducts";
 import SearchProducts from "../pages/SearchProducts";
-import RecommendationProducts from "../components/RecommendationProducts";
 
 const router = createBrowserRouter([
   {
@@ -37,12 +36,6 @@ const router = createBrowserRouter([
       {
         path: "product/:id",
         element: <ProductDetails />,
-        children: [
-          {
-            path: ":id",
-            element: <RecommendationProducts />,
-          },
-        ],
       },
       {
         path: "category-product",

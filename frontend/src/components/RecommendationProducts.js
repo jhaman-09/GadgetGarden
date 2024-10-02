@@ -22,9 +22,9 @@ const RecommendationProducts = ({ category, heading }) => {
     fetchCategoryByProduct();
   }, []);
 
-  const  fetchAddToCart  = useFetchAddToCart();
+  const fetchAddToCart = useFetchAddToCart();
 
-  const handleAddToCart = async(e, _id) => {
+  const handleAddToCart = async (e, _id) => {
     await fetchAddToCart(e, _id);
   };
 
@@ -70,7 +70,7 @@ const RecommendationProducts = ({ category, heading }) => {
           : data.map((product) => (
               <Link
                 key={product._id}
-                to={product?._id}
+                to={`/product/${product?._id}`}
                 className={`w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow`}
               >
                 <div
