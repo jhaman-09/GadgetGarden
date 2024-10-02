@@ -135,7 +135,7 @@ export const oneProductFromEachCategory = async (req, res) => {
 
 export const allProductsOfThatCategory = async (req, res) => {
   try {
-    const { category } = req.body || req.query;
+    const { category } = req.body || req.query;   // post req to send category or take from url query part
 
     if (!category) {
       throw new Error("Please Select a Category...!");

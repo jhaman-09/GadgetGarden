@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import fetchProductsByCategory from "../hooks/fetchProductsByCategory";
 import displayCurrency from "../helper/displayCurrency";
 import { Link } from "react-router-dom";
 import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 
 const RecommendationProducts = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -10,6 +10,7 @@ const RecommendationProducts = ({ category, heading }) => {
   const loadingCardArray = new Array(13).fill(null);
 
   const scrollElement = useRef();
+  const fetchProductsByCategory = useFetchProductsByCategory();
 
   const fetchCategoryByProduct = async () => {
     setLoading(true);

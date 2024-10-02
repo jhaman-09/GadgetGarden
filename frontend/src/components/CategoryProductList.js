@@ -56,7 +56,7 @@ const CategoryProductList = () => {
                   <p className="text-center text-sm md:text-base capitalize">
                     {product?.category}
                   </p>
-                </Link>
+                </Link>  
               );
             })}
       </div>

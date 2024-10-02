@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import HorizontalProductCardLoading from "./HorizontalProductCardLoading";
 import HorizontalProductCard from "./HorizontalProductCard";
-import fetchProductsByCategory from "../hooks/fetchProductsByCategory";
+import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 
 const HorizontelProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -10,6 +10,7 @@ const HorizontelProduct = ({ category, heading }) => {
 
   const [scroll, setScroll] = useState(0);
   const scrollElement = useRef();
+  const fetchProductsByCategory = useFetchProductsByCategory();
 
   const fetchCategoryByProduct = async () => {
     setLoading(true);

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import HorizontalProductCardLoading from "./HorizontalProductCardLoading";
 import HorizontalProductCard from "./HorizontalProductCard";
-import fetchProductsByCategory from "../hooks/fetchProductsByCategory";
+import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 
 const VerticalProducts = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -9,6 +9,8 @@ const VerticalProducts = ({ category, heading }) => {
   const loadingCardArray = new Array(13).fill(null);
 
   const scrollElement = useRef();
+    const fetchProductsByCategory = useFetchProductsByCategory();
+
 
   const fetchCategoryByProduct = async () => {
     setLoading(true);
