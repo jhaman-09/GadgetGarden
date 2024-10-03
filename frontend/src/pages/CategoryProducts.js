@@ -5,21 +5,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useFilterProductsThroughCategories } from "../hooks/useFilterProductsThroughCategories";
 
 const CategoryProducts = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-   const location = useLocation();
-   const navigate = useNavigate();
-  
   /* Extract the query params from the URL */
-  const urlSearch = new URLSearchParams(location.search);              // it will give url access
-  const urlCategoryListInArray = urlSearch.getAll("category");         // it will give category search in array form
+  const urlSearch = new URLSearchParams(location.search); // it will give url access
+  const urlCategoryListInArray = urlSearch.getAll("category"); // it will give category search in array form
   // const categoryValue = urlCategoryListinArray[0];
 
-  const [filteredCategoryArray, setFilteredCategoryArray] = useState(urlCategoryListInArray);
+  const [filteredCategoryArray, setFilteredCategoryArray] = useState(
+    urlCategoryListInArray
+  );
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [sortBy, setSortBy] = useState("");
-
 
   const filterProductsThroughCategories = useFilterProductsThroughCategories();
 
@@ -31,8 +31,6 @@ const CategoryProducts = () => {
     setData(jsonData.data);
     setLoading(false);
   };
-
-  const handleChangeSortBy = () => {};
 
   // Handle category selection (checkbox change)
   const handleSeletedCategoryType = (e) => {
@@ -54,6 +52,18 @@ const CategoryProducts = () => {
     //format for url change when change on the checkbox
     const urlFormat = updatedCategories.map((el) => `category=${el}`).join("&");
     navigate("/product-category?" + urlFormat);
+  };
+
+  const handleChangeSortBy = (e) => {
+    const { value } = e.target;
+    setSortBy(value);
+
+    if (value === "asc") {
+      setData((prev) => prev.sort((a, b) => a.sellingPrice - b.sellingPrice));
+    }
+    if (value === "dsc") {
+      setData((prev) => prev.sort((a, b) => b.sellingPrice - a.sellingPrice));
+    }
   };
 
   useEffect(() => {
@@ -78,11 +88,12 @@ const CategoryProducts = () => {
                     type="radio"
                     name="sortBy"
                     checked={sortBy === "asc"}
-                    onChange={handleChangeSortBy}
+                    onChange={(e) => handleChangeSortBy(e)}
                     value={"asc"}
+                    id={"asc"}
                   />
                 }
-                <label>Price - Low to High</label>
+                <label htmlFor={"asc"}>Price - Low to High</label>
               </div>
 
               <div className="flex items-center gap-3">
@@ -90,10 +101,11 @@ const CategoryProducts = () => {
                   type="radio"
                   name="sortBy"
                   checked={sortBy === "dsc"}
-                  onChange={handleChangeSortBy}
+                  onChange={(e) => handleChangeSortBy(e)}
                   value={"dsc"}
+                  id={"dsc"}
                 />
-                <label>Price - High to Low</label>
+                <label htmlFor={"dsc"}>Price - High to Low</label>
               </div>
             </form>
           </div>
@@ -134,6 +146,7 @@ const CategoryProducts = () => {
             <VarticalyShowProducts
               data={data}
               loading={loading}
+              allowMargin="false"
             />
           </div>
         </div>

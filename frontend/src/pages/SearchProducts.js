@@ -24,7 +24,7 @@ const SearchProducts = () => {
 
   return (
     <>
-      <VarticalyShowProducts data={data} loading={loading} />
+      <VarticalyShowProducts allowMargin={"true"} data={data} loading={loading} />
     </>
   );
 };

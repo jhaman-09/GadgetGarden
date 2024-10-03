@@ -3,7 +3,7 @@ import displayCurrency from "../helper/displayCurrency";
 import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 import { Link } from "react-router-dom";
 
-const VarticalyShowProducts = ({ data, loading }) => {
+const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
   const loadingCardArray = new Array(13).fill(null);
 
   const fetchAddToCart = useFetchAddToCart();
@@ -13,7 +13,13 @@ const VarticalyShowProducts = ({ data, loading }) => {
   };
 
   return (
-    <div className="container px-4 mx-auto relative my-6 scrollBar-none">
+    <div
+      className={
+        allowMargin === "true"
+          ? `container px-4 mx-auto relative my-3 scrollBar-none`
+          : `container px-4 mx-auto relative scrollBar-none`
+      }
+    >
       {!loading && data.length > 0 && (
         <h1 className="text-2xl font-semibold py-4">{`Search Items: ${data.length}`}</h1>
       )}
