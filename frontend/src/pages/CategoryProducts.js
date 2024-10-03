@@ -10,13 +10,11 @@ const CategoryProducts = () => {
    const navigate = useNavigate();
   
   /* Extract the query params from the URL */
-  const urlSearch = new URLSearchParams(location.search); // it will give url access
-  const urlCategoryListInArray = urlSearch.getAll("category"); // it will give category search in array form
+  const urlSearch = new URLSearchParams(location.search);              // it will give url access
+  const urlCategoryListInArray = urlSearch.getAll("category");         // it will give category search in array form
   // const categoryValue = urlCategoryListinArray[0];
 
-  const [filteredCategoryArray, setFilteredCategoryArray] = useState(
-    urlCategoryListInArray
-  );
+  const [filteredCategoryArray, setFilteredCategoryArray] = useState(urlCategoryListInArray);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +30,6 @@ const CategoryProducts = () => {
     );
     setData(jsonData.data);
     setLoading(false);
-    console.log(jsonData.data);
   };
 
   const handleChangeSortBy = () => {};
