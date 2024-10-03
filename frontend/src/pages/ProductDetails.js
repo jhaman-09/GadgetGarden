@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
 import { FaStar } from "react-icons/fa6";
@@ -27,6 +27,7 @@ const ProductDetails = () => {
   });
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const productImageLodingArray = new Array(4).fill(null);
 
@@ -82,10 +83,15 @@ const ProductDetails = () => {
     setActiveImage(imageURL);
   };
 
-  const fetchAddToCart = useFetchAddToCart()
+  const fetchAddToCart = useFetchAddToCart();
 
   const handleAddToCart = (e, product_id) => {
     fetchAddToCart(e, product_id);
+  };
+
+  const handleBuYNow = (e, product_id) => {
+    fetchAddToCart(e, product_id);
+    navigate("/cart");
   };
 
   return (
@@ -198,7 +204,10 @@ const ProductDetails = () => {
             {/* {Buy and Sell Button} */}
 
             <div className="flex flex-col lg:flex-row gap-3 w-1/2 lg:w-full lg:items-center">
-              <button className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-primary font-medium hover:bg-secondary hover:text-white transition-all">
+              <button
+                className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-primary font-medium hover:bg-secondary hover:text-white transition-all"
+                onClick={(e) => handleBuYNow(e, data._id)}
+              >
                 Buy
               </button>
               <button
