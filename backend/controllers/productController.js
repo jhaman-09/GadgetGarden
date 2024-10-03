@@ -135,7 +135,7 @@ export const oneProductFromEachCategory = async (req, res) => {
 
 export const allProductsOfThatCategory = async (req, res) => {
   try {
-    const { category } = req.body || req.query;   // post req to send category or take from url query part
+    const { category } = req.body || req.query; // post req to send category or take from url query part
 
     if (!category) {
       throw new Error("Please Select a Category...!");
@@ -192,7 +192,7 @@ export const getProductById = async (req, res) => {
 
 export const getProductsBySearch = async (req, res) => {
   try {
-    const {keyword} = req.query;
+    const { keyword } = req.query;
 
     // Create a regular expression for case-insensitive matching
     const regex = new RegExp(keyword, "i", "g");
@@ -200,11 +200,7 @@ export const getProductsBySearch = async (req, res) => {
     const products = await Product.find({
       /* from where, we want to find product {through name, description, category where these keyword present,
        it will will me those products} */
-      $or: [
-        { productName: regex },
-        { category: regex },
-        { brandName: regex },
-      ],
+      $or: [{ productName: regex }, { category: regex }, { brandName: regex }],
     });
 
     res.status(200).json({
@@ -212,6 +208,39 @@ export const getProductsBySearch = async (req, res) => {
       data: products,
       error: false,
       succee: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const getFilterProductsByCategory = async (req, res) => {
+  try {
+    const categoriesArray = req.body.categories || [];
+    if (!categoriesArray) {
+      throw new Error("Please Provide a Valid Category");
+    }
+
+    // extract products through category from element of categoriesArray (providing through post route)
+    const products = await Product.find({
+      category: {
+        $in: categoriesArray,   // product through categoriesArray elements
+      },
+    });
+
+    if (!products) {
+      throw new Error("No Data Found..!");
+    }
+
+    res.status(200).json({
+      data: products,
+      message: "Categories Products Data Found...!",
+      error: false,
+      success: true,
     });
   } catch (error) {
     res.status(401).json({

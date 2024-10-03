@@ -4,6 +4,7 @@ import {
   allProductsOfThatCategory,
   editProduct,
   getAllProduct,
+  getFilterProductsByCategory,
   getProductById,
   getProductsBySearch,
   oneProductFromEachCategory,
@@ -22,4 +23,7 @@ router.post("/product-details", getProductById);
 
 // search Product using query
 router.get("/search", getProductsBySearch)
+
+// get Products according to given categories..
+router.post("/filter-categories", getFilterProductsByCategory);
 export default router;
