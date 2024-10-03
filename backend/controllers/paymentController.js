@@ -17,7 +17,7 @@ export const paymentGateway = async (req, res) => {
       mode: "payment",
       payment_method_types: ["card"],
       billing_address_collection: "auto",
-      shipping_options: [{ shipping_rate: "shr_1Q5roR07oBnVbbREyYl3NaAd" }],
+      shipping_options: [{ shipping_rate: process.env.SHIPPING_SECRET_KEY }],
       line_items: req.body.map((item) => {
         return {
           price_data: {
