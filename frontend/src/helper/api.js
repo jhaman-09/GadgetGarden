@@ -1,7 +1,6 @@
 const api = "http://localhost:4000/api/v1";
 
 export const endPoint = {
-  
   // USER RELATED ROUTES
 
   register: {
@@ -95,5 +94,11 @@ export const endPoint = {
   getCartQuantity: {
     url: api + "/user/get-all-carts-quantity",
     method: "GET",
+  },
+
+  // PAYMENT RELATED ROUTE
+  paymentGateway: {
+    url: api + "/checkout-payment",
+    method: "POST",
   },
 };

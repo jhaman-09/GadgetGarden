@@ -6,13 +6,14 @@ import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
 import { useReduceFromCart } from "../hooks/useReduceFromCart";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { useFetchDeleteProductFromCart } from "../hooks/useDeleteProductFromCart";
-
+import { usePaymentGateway } from "../hooks/usePaymentGateway";
 
 const CartsProducts = () => {
   const { cartProducts } = useSelector((store) => store.user);
   const fetchAddToCart = useFetchAddToCart();
   const fetchReduceCart = useReduceFromCart();
   const fetchDeleteProduct = useFetchDeleteProductFromCart();
+  const paymentGateway = usePaymentGateway();
 
   const handleAddToCart = async (e, _id) => {
     await fetchAddToCart(e, _id);
@@ -23,8 +24,12 @@ const CartsProducts = () => {
   };
 
   const handleDeleteProductItemFromCArt = async (e, _id) => {
-    await fetchDeleteProduct(e, _id)
-  }
+    await fetchDeleteProduct(e, _id);
+  };
+
+  const handlePayment = async () => {
+    await paymentGateway(cartProducts);
+  };
 
   return (
     <div className="container p-4 mx-auto rounded">
@@ -118,7 +123,8 @@ const CartsProducts = () => {
                           <div
                             className="absolute top-2 right-2 md:top-5 md:right-4 text-lg md:text-xl cursor-pointer hover:text-secondary"
                             onClick={(e) =>
-                              handleDeleteProductItemFromCArt(e,
+                              handleDeleteProductItemFromCArt(
+                                e,
                                 cartItem?.product?._id
                               )
                             }
@@ -162,7 +168,10 @@ const CartsProducts = () => {
                 )}
               </p>
             </div>
-            <button className="mt-6 w-full bg-secondary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-secondary hover:bg-white hover:text-secondary hover:shadow-md">
+            <button
+              className="mt-6 w-full bg-secondary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-secondary hover:bg-white hover:text-secondary hover:shadow-md"
+              onClick={handlePayment}
+            >
               Buy Now
             </button>
           </div>
