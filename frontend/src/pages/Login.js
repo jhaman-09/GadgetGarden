@@ -3,11 +3,7 @@ import signingif from "../assest/signin.gif";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { endPoint } from "../helper/api";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { isAutherized } from "../store/userSlice.js";
+import { useLogIn } from "../hooks/useLogIn";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
@@ -15,8 +11,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const login = useLogIn();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,31 +26,7 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token"); // Not recommended for long-term storage
-    try {
-      const response = await fetch(endPoint.login.url, {
-        method: endPoint.login.method,
-        credentials: "include",
-        headers: {
-          Authorization: `Bearer ${token}`, // Bearer token sent in headers
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(errorData.message);
-        throw new Error(errorData.message);
-      }
-      const jsonData = await response.json();
-      dispatch(isAutherized(true));
-      toast.success(jsonData.message);
-      navigate("/");
-    } catch (error) {
-      toast.error(error.message);
-    }
+    await login(e, data);
   };
 
   return (

@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import signingif from "../assest/signin.gif";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import imageToBase64 from "../helper/imageToBase64.js";
-import { endPoint } from "../helper/api.js";
-import { toast } from "react-toastify";
+import { useSignUp } from "../hooks/useSignUp.js";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfPass, setShowConfPass] = useState(false);
-  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
     profilePic: "",
-    role : ""
+    role: "",
   });
+
+  const signUp = useSignUp();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,35 +32,12 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (data.password === data.confirmPassword) {
-      const res = await fetch(endPoint.register.url, {
-        method: endPoint.register.method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
-
-      const jsonData = await res.json();
-      if (jsonData.error) {
-        toast.error(jsonData.message);
-        throw new Error(jsonData.message);
-      } else {
-        toast.success(jsonData.message);
-        navigate("/login");
-      }
-    } else {
-      toast.error("Please check password and confirm password");
-    }
+    await signUp(e, data);
   };
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
     const image = await imageToBase64(file);
-    console.log(image);
 
     setData((prev) => {
       return {
