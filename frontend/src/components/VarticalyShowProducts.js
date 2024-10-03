@@ -14,10 +14,8 @@ const VarticalyShowProducts = ({ data, loading }) => {
 
   return (
     <div className="container px-4 mx-auto relative my-6 scrollBar-none">
-      {!loading ? (
+      {!loading && data.length > 0 && (
         <h1 className="text-2xl font-semibold py-4">{`Search Items: ${data.length}`}</h1>
-      ) : (
-        <h1 className="text-2xl font-semibold py-4">{`Search Items: 0`}</h1>
       )}
 
       {data.length === 0 && (

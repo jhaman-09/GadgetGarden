@@ -220,7 +220,7 @@ export const getProductsBySearch = async (req, res) => {
 
 export const getFilterProductsByCategory = async (req, res) => {
   try {
-    const categoriesArray = req.body.categories || [];
+    const categoriesArray = req.body.categoriesArray || [];
     if (!categoriesArray) {
       throw new Error("Please Provide a Valid Category");
     }

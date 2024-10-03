@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { categories } from "../helper/categoriesOptions";
 import VarticalyShowProducts from "../components/VarticalyShowProducts";
-import { useLocation, useParams } from "react-router-dom";
-import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useFilterProductsThroughCategories } from "../hooks/useFilterProductsThroughCategories";
 
 const CategoryProducts = () => {
+
+   const location = useLocation();
+   const navigate = useNavigate();
+  
+  /* Extract the query params from the URL */
+  const urlSearch = new URLSearchParams(location.search); // it will give url access
+  const urlCategoryListInArray = urlSearch.getAll("category"); // it will give category search in array form
+  // const categoryValue = urlCategoryListinArray[0];
+
+  const [filteredCategoryArray, setFilteredCategoryArray] = useState(
+    urlCategoryListInArray
+  );
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // const params = useParams();
+  const [sortBy, setSortBy] = useState("");
 
-  const location = useLocation();
 
-  /* Extract the query params from the URL*/
-  const urlSearch = new URLSearchParams(location.search); // it will give url access
-  const urlCategoryListinArray = urlSearch.getAll("category"); // it will give category search in array form
-  const categoryValue = urlCategoryListinArray[0];
-
-  const fetchProductsByCategory = useFetchProductsByCategory();
+  const filterProductsThroughCategories = useFilterProductsThroughCategories();
 
   const fetchProductDataThroughCategory = async () => {
     setLoading(true);
-    const jsonData = await fetchProductsByCategory(categoryValue);
-
+    const jsonData = await filterProductsThroughCategories(
+      urlCategoryListInArray
+    );
     setData(jsonData.data);
     setLoading(false);
     console.log(jsonData.data);
@@ -30,11 +37,31 @@ const CategoryProducts = () => {
 
   const handleChangeSortBy = () => {};
 
-  const handleSeletedCategoryType = () => {};
+  // Handle category selection (checkbox change)
+  const handleSeletedCategoryType = (e) => {
+    const { name, checked } = e.target;
+    let updatedCategories = [];
+
+    if (checked) {
+      // Add the selected category to the filtered array
+      updatedCategories = [...filteredCategoryArray, name];
+    } else {
+      // Remove the unselected category from the filtered array
+      updatedCategories = filteredCategoryArray.filter(
+        (category) => category !== name
+      );
+    }
+
+    setFilteredCategoryArray(updatedCategories);
+
+    //format for url change when change on the checkbox
+    const urlFormat = updatedCategories.map((el) => `category=${el}`).join("&");
+    navigate("/product-category?" + urlFormat);
+  };
 
   useEffect(() => {
     fetchProductDataThroughCategory();
-  }, []);
+  }, [filteredCategoryArray]);
 
   return (
     <div className="container mx-auto p-4">
@@ -48,12 +75,12 @@ const CategoryProducts = () => {
             </h3>
 
             <form className="text-sm flex flex-col gap-2 py-2">
-              {/* {checked={sortBy === "asc"}} */}
               <div className="flex items-center gap-3">
                 {
                   <input
                     type="radio"
                     name="sortBy"
+                    checked={sortBy === "asc"}
                     onChange={handleChangeSortBy}
                     value={"asc"}
                   />
@@ -65,6 +92,7 @@ const CategoryProducts = () => {
                 <input
                   type="radio"
                   name="sortBy"
+                  checked={sortBy === "dsc"}
                   onChange={handleChangeSortBy}
                   value={"dsc"}
                 />
@@ -88,7 +116,7 @@ const CategoryProducts = () => {
                         <input
                           type="checkbox"
                           name={category?.value}
-                          value={category?.value}
+                          value={category?.value || false}
                           id={category?.value}
                           onChange={handleSeletedCategoryType}
                         />
@@ -109,7 +137,6 @@ const CategoryProducts = () => {
             <VarticalyShowProducts
               data={data}
               loading={loading}
-              key={data.length}
             />
           </div>
         </div>

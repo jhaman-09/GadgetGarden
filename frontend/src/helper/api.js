@@ -1,6 +1,7 @@
 const api = "http://localhost:4000/api/v1";
 
 export const endPoint = {
+  
   // USER RELATED ROUTES
 
   register: {
@@ -64,7 +65,13 @@ export const endPoint = {
     method: "GET",
   },
 
-  // this will give all cart product details
+  getFilteredProductsThroughCategories: {
+    url: api + "/product/filter-categories",
+    method: "POST",
+  },
+
+  // CART RELATED ROUTES
+
   getAllCartProduct: {
     url: api + "/user/get-all-carts-products",
     method: "GET",
