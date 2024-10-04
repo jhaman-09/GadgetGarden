@@ -1,6 +1,6 @@
 
 const cloudinary_name = process.env.REACT_APP_CLOUD_NAME_CLOUDINARY
-const url = `https://api.cloudinary.com/v1_1/${"doboojtkz"}/image/upload`;
+const url = `https://api.cloudinary.com/v1_1/${cloudinary_name}/image/upload`;
 
 /*
 CLOUDINARY SETUP

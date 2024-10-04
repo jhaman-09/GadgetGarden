@@ -20,7 +20,7 @@ const SearchProducts = () => {
 
   useEffect(() => {
     fetchSearchProducts();
-  }, [query.search]);
+  }, [query]);
 
   return (
     <>

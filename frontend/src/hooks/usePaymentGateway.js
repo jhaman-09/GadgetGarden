@@ -18,7 +18,7 @@ export const usePaymentGateway = () => {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify(cartProductsArray),
+        body: JSON.stringify({ cartProducts: cartProductsArray }),
       });
 
       if (!res.ok) {
@@ -26,18 +26,22 @@ export const usePaymentGateway = () => {
       }
 
       const jsonData = await res.json();
+      
       if (!jsonData.sessionId) {
         throw new Error("Invalid session data received");
       }
 
+      
+
       toast.success("Redirecting to the payment gateway...!");
-      const { error } = await stripePromise.redirectToCheckout({
+      const result = await stripePromise.redirectToCheckout({
         sessionId: jsonData.sessionId,
       });
-      if (error) {
+      if (result.error) {
         toast.error("Error redirecting to Stripe. Please try again.");
       }
-    } catch (error) {
+    }
+    catch (error) {
       toast.error(
         error.message || "An error occurred while processing the payment."
       );
