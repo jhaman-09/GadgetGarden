@@ -72,10 +72,11 @@ const CategoryProducts = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="hidden md:grid h-full grid-cols-[220px,1fr]">
-        {/* {Left Side} */}
-        <div className="bg-white p-2 min-h-[calc(100vh-120px)] overflow-y-scroll">
-          {/* {sort by} */}
+      {/* Grid for medium and larger screens */}
+      <div className="hidden md:grid grid-cols-[220px,1fr]">
+        {/* {Left Side - hidden on mobile} */}
+        <div className="bg-white p-2 min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
+          {/* {Sort by} */}
           <div>
             <h3 className="text-base uppercase font-medium text-slate-700 border-b pb-1 border-slate-500">
               Sort By
@@ -83,16 +84,14 @@ const CategoryProducts = () => {
 
             <form className="text-sm flex flex-col gap-2 py-2">
               <div className="flex items-center gap-3">
-                {
-                  <input
-                    type="radio"
-                    name="sortBy"
-                    checked={sortBy === "asc"}
-                    onChange={(e) => handleChangeSortBy(e)}
-                    value={"asc"}
-                    id={"asc"}
-                  />
-                }
+                <input
+                  type="radio"
+                  name="sortBy"
+                  checked={sortBy === "asc"}
+                  onChange={(e) => handleChangeSortBy(e)}
+                  value={"asc"}
+                  id={"asc"}
+                />
                 <label htmlFor={"asc"}>Price - Low to High</label>
               </div>
 
@@ -140,7 +139,7 @@ const CategoryProducts = () => {
           </div>
         </div>
 
-        {/* {Right side} */}
+        {/* {Right side - visible on all screens} */}
         <div className="px-4">
           <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
             <VarticalyShowProducts
@@ -150,6 +149,15 @@ const CategoryProducts = () => {
             />
           </div>
         </div>
+      </div>
+
+      {/* For mobile screens, show only the right side */}
+      <div className="md:hidden">
+        <VarticalyShowProducts
+          data={data}
+          loading={loading}
+          allowMargin="false"
+        />
       </div>
     </div>
   );

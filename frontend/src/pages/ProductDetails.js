@@ -19,6 +19,7 @@ const ProductDetails = () => {
     category: "",
     discount: "",
   });
+  const [suggestedProductType, setSuggestedProductType] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeImage, setActiveImage] = useState("");
   const [zoomImage, setZoomImage] = useState(false);
@@ -53,12 +54,14 @@ const ProductDetails = () => {
 
     setLoading(false);
     setData(jsonData?.data);
+    setSuggestedProductType(jsonData?.data?.category);
     setActiveImage(jsonData?.data?.productImage[0]);
   };
 
   useEffect(() => {
     fetchProductDetails();
-  }, [params]);
+  }, [params.id]);
+
 
   const handleZoomImage = useCallback(
     (e) => {
@@ -238,8 +241,9 @@ const ProductDetails = () => {
         data?.category && // Check if both categories and data.category are defined
         categories?.map(
           (ele) =>
-            ele?.value && ele?.value.length > 0 &&
-            ele?.value !== data?.category && ( 
+            ele?.value &&
+            ele?.value.length > 0 &&
+            ele?.value !== data?.category && (
               <RecommendationProducts
                 key={ele?.value}
                 category={ele?.value}
@@ -252,3 +256,5 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
+
