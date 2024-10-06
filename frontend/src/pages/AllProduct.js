@@ -26,10 +26,8 @@ const AllProduct = () => {
 
   useEffect(() => {
     handleFetchAllProductData();
-  }, [])
-  
-  console.log(allProduct);
-  
+  }, []);
+
   return (
     <div>
       <div className="bg-white py-2 px-4 flex justify-between items-center">

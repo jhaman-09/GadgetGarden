@@ -42,6 +42,11 @@ const productSchema = new mongoose.Schema(
       required: [true, "Please provide your Product name"],
     },
     discount: String,
+    uploadedBy: {
+      type: mongoose.Schema.Types.ObjectId,   // Reference to the user who uploaded the product
+      ref: "User",                            // Referencing the User model
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -3,6 +3,7 @@ import onlyAdminUploadProduct from "../middlewares/isRoleAdmin.js";
 import onlyAdminUploadProudct from "../middlewares/isRoleAdmin.js";
 export const uploadProduct = async (req, res) => {
   try {
+    const { _id } = req.user;
     const {
       productName,
       brandName,
@@ -41,6 +42,7 @@ export const uploadProduct = async (req, res) => {
       price,
       sellingPrice,
       discount,
+      uploadedBy: _id,
     });
 
     res.status(200).json({
@@ -50,7 +52,7 @@ export const uploadProduct = async (req, res) => {
     });
   } catch (error) {
     res.status(401).json({
-      message: error.message || error,
+      message: error.message || "Server Error..!",
       error: true,
       success: false,
     });
@@ -59,7 +61,12 @@ export const uploadProduct = async (req, res) => {
 
 export const getAllProduct = async (req, res) => {
   try {
-    const allProducts = await Product.find().sort({ createdAt: -1 });
+    const { _id } = req.user;
+    const allProducts = await Product.find({ uploadedBy: _id });
+
+    if (!allProducts) {
+      throw new Error("No Products Found with user..!");
+    }
 
     res.status(200).json({
       data: allProducts,
@@ -82,8 +89,19 @@ export const editProduct = async (req, res) => {
       // Checking role Admin or Not
       throw new Error("Access Denied...!");
     }
-    const { _id, ...dataToUpdate } = req.body; // Product _id
-    const updatedProduct = await Product.findByIdAndUpdate(_id, dataToUpdate);
+    const { _id, price, sellingPrice, discount, ...dataToUpdate } = req.body; // Product _id
+    if (price || sellingPrice) {
+      dataToUpdate.discount = ((price - sellingPrice) / price) * 100; // Calculate percentage discount
+    }
+    const updatedProduct = await Product.findByIdAndUpdate(
+      _id,
+      {
+        sellingPrice,
+        price,
+        ...dataToUpdate,
+      },
+      { new: true, runValidators: true }
+    );
 
     res.status(200).json({
       message: "Product update Successfully..!",
@@ -228,7 +246,7 @@ export const getFilterProductsByCategory = async (req, res) => {
     // extract products through category from element of categoriesArray (providing through post route)
     const products = await Product.find({
       category: {
-        $in: categoriesArray,   // product through categoriesArray elements
+        $in: categoriesArray, // product through categoriesArray elements
       },
     });
 
