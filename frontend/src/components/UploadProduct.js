@@ -89,7 +89,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
         <div className="flex justify-center items-center pb-3">
           <h1 className="text-lg px-4 font-semibold">Upload Product</h1>
           <div
-            className="w-fit ml-auto text-2xl bg-orange-300 hover:text-red-600 cursor-pointer"
+            className="w-fit ml-auto text-2xl bg-secondary rounded-sm  text-black cursor-pointer"
             onClick={onClose}
           >
             <CgClose />
@@ -201,7 +201,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
                 })}
               </div>
             ) : (
-              <p className="text-red-600 text-xs">
+              <p className="text-secondary text-xs">
                 *Please uplord product image...
               </p>
             )}

@@ -37,7 +37,7 @@ const HorizontalProductCard = (props) => {
         ></img>
       </div>
 
-      <div className={props.design ? `p-4 grid` : `p-4 grid gap-3`}>
+      <div className={props.design ? `p-4 md:grid hidden` : `p-4 grid gap-3`}>
         <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black">
           {props?.product?.productName}
         </h2>

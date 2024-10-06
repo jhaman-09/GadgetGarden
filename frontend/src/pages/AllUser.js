@@ -62,7 +62,7 @@ const AllUser = () => {
                   <td>{moment(ele?.updatedAt).format("LL")}</td>
                   <td className="p-2">
                     <button
-                      className="bg-green-100 p-2 cursor-pointer hover:bg-green-200 hover:text-slate-800"
+                      className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
                       onClick={() => {
                         setUpdateUserDetails(ele)
                         setUpdateRole(true);

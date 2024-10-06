@@ -37,7 +37,7 @@ const CartsProducts = () => {
         <div className="mx-24">
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-center text-4xl">No Data Sir..!</h1>
-            <Link to={"/"} className="bg-secondary px-4 py-2 text-white">
+            <Link to={"/"} className="bg-primary px-4 py-2 text-white">
               <button className="rounded-full">Continue</button>
             </Link>
           </div>
@@ -75,7 +75,7 @@ const CartsProducts = () => {
                         <div className="md:col-span-2 relative">
                           <div className="flex items-center justify-center ">
                             <div className="flex flex-col items-center justify-between gap-2 md:gap-3">
-                              <p className="bg-secondary px-4 py-0.5 text-white hover:bg-white border-2 hover:border-secondary hover:text-secondary transition-all rounded-full md:mt-4 mt-3 shadow-lg">
+                              <p className="bg-primary px-4 py-0.5 text-white hover:bg-white border-2 hover:border-primary hover:text-primary transition-all rounded-full md:mt-4 mt-3 shadow-lg">
                                 {cartItem?.product?.brandName}
                               </p>
 
@@ -86,7 +86,7 @@ const CartsProducts = () => {
                                 {cartItem?.product?.category}
                               </p>
                               <div className="flex md:flex-row flex-col gap-2 md:gap-4 items-center justify-between ">
-                                <p className="text-secondary font-medium md:text-lg text-md ml-2">
+                                <p className="text-primary font-medium md:text-lg text-md ml-2">
                                   {displayCurrency(
                                     cartItem?.product?.sellingPrice
                                   )}
@@ -97,7 +97,7 @@ const CartsProducts = () => {
                               </div>
                               <div className="flex items-center gap-3">
                                 <button
-                                  className="border border-secondary text-secondary hover:bg-secondary hover:text-white md:w-8 md:h-8 w-6 h-6 flex justify-center items-center rounded"
+                                  className="border border-primary text-primary hover:bg-primary hover:text-white md:w-8 md:h-8 w-6 h-6 flex justify-center items-center rounded"
                                   onClick={(e) =>
                                     handleReduceFromCart(
                                       e,
@@ -109,7 +109,7 @@ const CartsProducts = () => {
                                 </button>
                                 <span>{cartItem?.quantity}</span>
                                 <button
-                                  className="border border-secondary text-secondary hover:bg-secondary hover:text-white md:w-8 md:h-8 w-6 h-6 flex justify-center items-center rounded"
+                                  className="border border-primary text-primary hover:bg-primary hover:text-white md:w-8 md:h-8 w-6 h-6 flex justify-center items-center rounded"
                                   onClick={(e) =>
                                     handleAddToCart(e, cartItem?.product?._id)
                                   }
@@ -121,7 +121,7 @@ const CartsProducts = () => {
                           </div>
 
                           <div
-                            className="absolute top-2 right-2 md:top-5 md:right-4 text-lg md:text-xl cursor-pointer hover:text-secondary"
+                            className="absolute top-2 right-2 md:top-5 md:right-4 text-lg md:text-xl cursor-pointer hover:text-primary"
                             onClick={(e) =>
                               handleDeleteProductItemFromCArt(
                                 e,
@@ -169,7 +169,7 @@ const CartsProducts = () => {
               </p>
             </div>
             <button
-              className="mt-6 w-full bg-secondary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-secondary hover:bg-white hover:text-secondary hover:shadow-md"
+              className="mt-6 w-full bg-primary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-primary hover:bg-white hover:text-primary hover:shadow-md"
               onClick={handlePayment}
             >
               Buy Now

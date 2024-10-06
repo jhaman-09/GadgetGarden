@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col items-center justify-center p-4">
         <p
           className="text-center font-semibold shadow-sm py-1 px-4"
-          title="Aman Kumar Jha"
+          title="Aman Kumar Jha border"
         >
           Welcome! Experience the perfect blend of quality and affordability,
           crafted just for you.
@@ -22,25 +22,25 @@ const Footer = () => {
             <div className="flex md:flex-row gap-4 mt-2 text-xl">
               <Link
                 to="https://github.com/jhaman-09"
-                className="hover:animate-glow rounded-full"
+                className="hover:animate-glow rounded-full hover:text-primary transition-all"
               >
                 <FaGithub />
               </Link>
               <Link
                 to="https://www.linkedin.com/in/aman-kumar-jha-3b254823b/"
-                className="hover:animate-glow rounded-full"
+                className="hover:animate-glow rounded-full hover:text-primary transition-all"
               >
                 <FaLinkedin />
               </Link>
               <Link
                 to="https://www.instagram.com/a_manj9/"
-                className="hover:animate-glow rounded-full"
+                className="hover:animate-glow rounded-full hover:text-primary transition-all"
               >
                 <FaInstagramSquare />
               </Link>
               <Link
                 to="https://jhaman-09.github.io/portfolio/"
-                className="hover:animate-glow rounded-full"
+                className="hover:animate-glow rounded-full hover:text-primary transition-all"
               >
                 <GiCharacter />
               </Link>

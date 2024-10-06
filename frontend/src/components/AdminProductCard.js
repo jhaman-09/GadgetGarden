@@ -35,7 +35,7 @@ const AdminProductCard = ({ data, fetchData }) => {
           <p className="px-2 text-green-700 font-semibold">{toInteger(data.discount)}% off</p>
         </span>
         <div
-          className="w-fit ml-auto p-2  border-2 border-yellow-500 hover:shadow-md rounded-full  cursor-pointer"
+          className="w-fit ml-auto p-2  border-2 border-black hover:border-2 hover:border-primary hover:shadow-lg rounded-full cursor-pointer"
           onClick={() => setEditProduct(true)}
         >
           <MdModeEditOutline className="" />
