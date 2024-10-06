@@ -30,10 +30,10 @@ const AllProduct = () => {
 
   return (
     <div>
-      <div className="bg-white py-2 px-4 flex justify-between items-center">
+      <div className="bg-white py-2 md:px-4 flex justify-between items-center">
         <h2 className="font-bold text-lg">All Products</h2>
         <button
-          className="border-2 px-2 py-1 border-primary rounded-full text-primary hover:bg-secondary hover:text-white transition-all"
+          className="md:border-2 border md:px-2 md:text-base text-sm  md:py-1 border-primary md:rounded-full rounded text-primary hover:bg-primary hover:text-white transition-all"
           onClick={() => setShowProductUpload(true)}
         >
           Add New Product
