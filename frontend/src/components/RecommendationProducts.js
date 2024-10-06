@@ -44,7 +44,7 @@ const RecommendationProducts = ({ category, heading }) => {
                 key={index}
               >
                 <div
-                  className={`bg-orange-500 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse flex justify-center items-center`}
+                  className={`bg-white h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse flex justify-center items-center`}
                 ></div>
 
                 <div className="p-4 grid gap-3">
@@ -56,10 +56,10 @@ const RecommendationProducts = ({ category, heading }) => {
                   ></p>
                   <div className={`flex gap-3`}>
                     <p
-                      className={`text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`}
+                      className={`text-primary font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`}
                     ></p>
                     <p
-                      className={`text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`}
+                      className={`text-primary font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`}
                     ></p>
                   </div>
                   <button

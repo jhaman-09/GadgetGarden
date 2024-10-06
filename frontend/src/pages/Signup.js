@@ -153,7 +153,7 @@ const Signup = () => {
               <label htmlFor="role">ADMIN</label>
             </div>
 
-            <button className="bg-[#9F2B68] hover:bg-[#c20d6d]  text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-5">
+            <button className="bg-primary hover:bg-secondary  text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-5">
               Sign Up
             </button>
           </form>
@@ -163,7 +163,7 @@ const Signup = () => {
             Have a account ?{" "}
             <Link
               to={"/login"}
-              className=" text-[#9F2B68] hover:text-[#c20d6d] hover:underline"
+              className=" text-primary hover:text-secondary hover:underline"
             >
               Log In
             </Link>

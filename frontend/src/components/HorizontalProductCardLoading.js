@@ -8,13 +8,15 @@ const HorizontalProductCardLoading = ({ design }) => {
       <div
         className={
           design
-            ? `bg-orange-500 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse`
-            : `bg-orange-500 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse flex justify-center items-center`
+            ? `bg-slate-400 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse`
+            : `bg-slate-400 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse flex justify-center items-center`
         }
       ></div>
 
       <div className="p-4 grid gap-3">
-        <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200"> </h2>
+        <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200">
+          {" "}
+        </h2>
         <p
           className={
             design
@@ -26,15 +28,15 @@ const HorizontalProductCardLoading = ({ design }) => {
           <p
             className={
               design
-                ? `text-red-600 font-medium p-1 bg-slate-200 w-full animate-pulse rounded-full`
-                : `text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`
+                ? `text-primary font-medium p-1 bg-slate-200 w-full animate-pulse rounded-full`
+                : `text-primary font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`
             }
           ></p>
           <p
             className={
               design
-                ? `text-red-600 font-medium p-1 bg-slate-200 w-full animate-pulse rounded-full`
-                : `text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`
+                ? `text-primary font-medium p-1 bg-slate-200 w-full animate-pulse rounded-full`
+                : `text-primary font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2`
             }
           ></p>
         </div>

@@ -168,7 +168,7 @@ const ProductDetails = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-1">
-            <p className="bg-secondary text-white px-2 rounded-full inline-block w-fit">
+            <p className="bg-primary text-white px-2 rounded-full inline-block w-fit">
               {data?.brandName}
             </p>
             <h2 className="text-2xl lg:text-4xl font-medium line-clamp-2">
@@ -177,7 +177,7 @@ const ProductDetails = () => {
             <p className="capitalize text-slate-400">{data?.category}</p>
 
             {/* {Stars Rating} */}
-            <div className="flex items-center gap-1 text-xl text-red-500">
+            <div className="flex items-center gap-1 text-xl text-primary">
               <FaStar />
               <FaStar />
               <FaStar />
@@ -205,13 +205,13 @@ const ProductDetails = () => {
 
             <div className="flex flex-col lg:flex-row gap-3 w-1/2 lg:w-full lg:items-center">
               <button
-                className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-primary font-medium hover:bg-secondary hover:text-white transition-all"
+                className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-primary font-medium hover:bg-primary hover:text-white transition-all"
                 onClick={(e) => handleBuYNow(e, data._id)}
               >
                 Buy
               </button>
               <button
-                className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-white bg-secondary font-medium hover:bg-white hover:text-secondary transition-all"
+                className="border-2 border-pink-600 hover:border-primary rounded px-3 py-1 min-w-[125px] text-white bg-primary font-medium hover:bg-white hover:text-secondary transition-all"
                 onClick={(e) => handleAddToCart(e, data._id)}
               >
                 Add to Cart

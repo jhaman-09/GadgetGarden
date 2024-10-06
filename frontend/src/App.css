@@ -3,11 +3,12 @@
 }
 
 .userTable {
-  @apply bg-white;
+  @apply bg-black;
+  @apply text-white
 }
 
 .userTable th {
-  @apply border bg-slate-700;
+  @apply border-4 bg-slate-800 text-yellow-400;
 }
 
 .userTable td {

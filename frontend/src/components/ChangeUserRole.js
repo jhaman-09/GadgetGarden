@@ -36,7 +36,7 @@ const ChangeUserRole = ({ name, email, role, _id, onClose, CallToFetchAllUserAga
   };
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center bg-slate-200 bg-opacity-50">
-      <div className="mx-auto bg-yellow-200 shadow-md p-4 w-full max-w-sm">
+      <div className="mx-auto bg-white border-2 border-yellow-400 shadow-md p-4 w-full max-w-sm rounded-md">
         <button className="block ml-auto" onClick={onClose}>
           <IoMdClose />
         </button>
@@ -48,7 +48,7 @@ const ChangeUserRole = ({ name, email, role, _id, onClose, CallToFetchAllUserAga
 
         <div className="flex items-center justify-between my-4">
           <p>Role : </p>
-          <select value={userRole} onChange={handleChange}>
+          <select value={userRole} onChange={handleChange} className="border-2 border-yellow-400 rounded">
             <option value={userRole === "GENERAL" ? userRole : "ADMIN"}>
               {userRole === "GENERAL" ? userRole : "ADMIN"}
             </option>
@@ -59,7 +59,7 @@ const ChangeUserRole = ({ name, email, role, _id, onClose, CallToFetchAllUserAga
         </div>
 
         <button
-          className="w-fit mx-auto block py-1 px-3 rounded-full bg-[#9F2B68] text-white hover:bg-[#c20d6d]"
+          className="w-fit mx-auto block py-1 px-3 rounded-full bg-white text-black animate-glow p-6 border-2 border-yellow-500"
           onClick={handleUpdateUserRole}
         >
           Change Role

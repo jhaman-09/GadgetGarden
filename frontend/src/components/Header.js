@@ -72,12 +72,12 @@ const Header = () => {
             </div>
 
             {menuDisplay && (
-              <div className="absolute bg-white bottom-0 top-11 h-fit p-1 shalg rounded">
+              <div className="absolute bg-white bottom-0 top-11 h-fit shadow-lg rounded-lg font-semibold">
                 <nav>
                   {user?.role === "ADMIN" && (
                     <Link
                       to={"/admin-panel/all-products"}
-                      className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                      className="whitespace-nowrap  hidden md:block hover:bg-slate-100 p-2"
                     >
                       Admin
                     </Link>

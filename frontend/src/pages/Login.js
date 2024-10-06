@@ -77,13 +77,13 @@ const Login = () => {
 
               <Link
                 to={"/forget-password"}
-                className="block w-fit ml-auto hover:underline hover:text-[#9F2B68]"
+                className="block w-fit ml-auto hover:underline hover:text-secondary"
               >
                 Forget Password
               </Link>
             </div>
 
-            <button className="bg-[#9F2B68] hover:bg-[#c20d6d]  text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-5">
+            <button className="bg-primary hover:bg-secondary  text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-5">
               Login
             </button>
           </form>
@@ -92,7 +92,7 @@ const Login = () => {
             Don't have account ?{" "}
             <Link
               to={"/sign-up"}
-              className=" text-[#9F2B68] hover:text-[#c20d6d] hover:underline"
+              className=" text-primary hover:text-secondary hover:underline"
             >
               Sign Up
             </Link>
