@@ -59,7 +59,7 @@ const Header = () => {
             className="flex justify-center relative group"
             onClick={() => setMenuDisplay((prev) => !prev)}
           >
-            <div className="text-3xl cursor-pointer relative flex justify-center">
+            <div className="text-3xl relative flex justify-center cursor-pointer transition-all">
               {user?.profilePic ? (
                 <img
                   src={user?.profilePic}

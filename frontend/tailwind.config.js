@@ -12,15 +12,15 @@ module.exports = {
       keyframes: {
         glow: {
           "0%, 100%": {
-            boxShadow: "0 0 10px 2px rgba(194, 13, 109, 0.5)", // Adjusted to #C20D6D
+            boxShadow: "0 0 10px 2px rgba(194, 13, 109, 0.5)", // Stable glow at the start and end
           },
           "50%": {
-            boxShadow: "0 0 20px 4px rgba(194, 13, 109, 0.7)", // Increased intensity at mid-point
+            boxShadow: "0 0 20px 4px rgba(194, 13, 109, 0.7)", // Brighter glow at the middle, but not pulsing
           },
         },
       },
       animation: {
-        glow: "glow 1.5s infinite",
+        glow: "glow 2.0s infinite", // Use 'forwards' to keep the final state
       },
     },
   },

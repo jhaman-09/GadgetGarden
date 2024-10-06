@@ -31,7 +31,11 @@ const RecommendationProducts = ({ category, heading }) => {
 
   return (
     <div className="container px-4 mx-auto relative my-6 scrollBar-none">
-      <h1 className="text-2xl font-semibold py-4">{heading}</h1>
+      {
+        category &&
+        <h1 className="text-2xl font-semibold py-4">{heading}</h1>
+
+      }
 
       <div
         className="flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none transition-all"
