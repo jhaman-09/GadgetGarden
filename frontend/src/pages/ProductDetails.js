@@ -7,6 +7,7 @@ import { FaStarHalf } from "react-icons/fa6";
 import displayCurrency from "../helper/displayCurrency";
 import RecommendationProducts from "../components/RecommendationProducts";
 import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { categories } from "../helper/categoriesOptions";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -226,24 +227,26 @@ const ProductDetails = () => {
         )}
       </div>
 
-      {data.category && (
+      {data?.category && (
         <RecommendationProducts
           category={data?.category}
           heading={"Recommended Product"}
         />
       )}
-      {data.category && (
-        <RecommendationProducts
-          category={"television"}
-          heading={"Recommended Product"}
-        />
-      )}
-      {data.category && (
-        <RecommendationProducts
-          category={"speaker"}
-          heading={"Recommended Product"}
-        />
-      )}
+
+      {categories?.length > 0 &&
+        data?.category && // Check if both categories and data.category are defined
+        categories?.map(
+          (ele) =>
+            ele?.value && ele?.value.length > 0 &&
+            ele?.value !== data?.category && ( 
+              <RecommendationProducts
+                key={ele?.value}
+                category={ele?.value}
+                heading={"Recommended Product"}
+              />
+            )
+        )}
     </div>
   );
 };

@@ -11,8 +11,12 @@ module.exports = {
       },
       keyframes: {
         glow: {
-          "0%, 100%": { boxShadow: "0 0 10px 2px rgba(234, 179, 8, 0.5)" },
-          "50%": { boxShadow: "0 0 20px 4px rgba(234, 179, 8, 1)" },
+          "0%, 100%": {
+            boxShadow: "0 0 10px 2px rgba(194, 13, 109, 0.5)", // Adjusted to #C20D6D
+          },
+          "50%": {
+            boxShadow: "0 0 20px 4px rgba(194, 13, 109, 0.7)", // Increased intensity at mid-point
+          },
         },
       },
       animation: {
