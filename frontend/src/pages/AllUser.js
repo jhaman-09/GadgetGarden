@@ -1,44 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { endPoint } from "../helper/api.js";
-import { toast } from "react-toastify";
 import moment from "moment";
 import { MdModeEdit } from "react-icons/md";
-import ChangeUserRole from "../components/ChangeUserRole.js";
-
+import { useFetchAllUsers } from "../hooks/useFetchAllUsers.js";
+import UpdateUserDetails from "../components/UpdateUserDetails.js";
 
 const AllUser = () => {
   const [users, setUsers] = useState([]);
-  const [updateRole, setUpdateRole] = useState(false)
+  const [updateRole, setUpdateRole] = useState(false);
   const [updateUserDetails, setUpdateUserDetails] = useState({
     email: "",
     name: "",
     role: "",
-    _id : ""
-  })
+    _id: "",
+  });
+  const fetchAllUsers = useFetchAllUsers();
 
-  const fetchUsers = async () => {
-    const res = await fetch(endPoint.allUser.url, {
-      method: endPoint.allUser.method,
-      credentials: "include",
-    });
-
-
-    const jsonData = await res.json();    
-
+  const handleFetchUsers = async () => {
+    const jsonData = await fetchAllUsers();
     if (jsonData.success) {
       setUsers(jsonData.users);
-    }
-    if (jsonData.error) {
-      toast.error(jsonData.message);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    handleFetchUsers();
   }, []);
-
-  console.log(users);
-  
 
   return (
     <div className="bg-white pb-4 ">
@@ -85,13 +71,13 @@ const AllUser = () => {
       </table>
 
       {updateRole && (
-        <ChangeUserRole
+        <UpdateUserDetails
           onClose={() => setUpdateRole(false)}
           name={updateUserDetails.name}
           email={updateUserDetails.email}
           role={updateUserDetails.role}
           _id={updateUserDetails._id}
-          CallToFetchAllUserAgain={fetchUsers}
+          CallToFetchAllUserAgain={handleFetchUsers}
         />
       )}
     </div>

@@ -1,39 +1,33 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { endPoint } from "../helper/api";
-import {toast} from 'react-toastify'
+import { useUpdateUserDetails } from "../hooks/useUpdateUserDetails";
 
-const ChangeUserRole = ({ name, email, role, _id, onClose, CallToFetchAllUserAgain }) => {
+const UpdateUserDetails = ({name, email, password, profilePic, role, _id, onClose, CallToFetchAllUserAgain}) => {
   const [userRole, setUserRole] = useState(role);
 
   const handleChange = (event) => {
     setUserRole(event.target.value);
   };
 
-  const handleUpdateUserRole = async () => {
-    try {
-      const res = await fetch(endPoint.updateUser.url, {
-        method: endPoint.updateUser.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          _id: _id,
-          role: userRole,
-        }),
-      });
-
-      const jsonData = await res.json();
-      if (jsonData.success) {
-        toast.success(jsonData.message);
-        onClose();
-        CallToFetchAllUserAgain()
-      } else {
-        toast.error(jsonData.message);
-      }
-    } catch (error) {}
+  const PayloadToUpdate = {
+    name: name,
+    role: userRole,
+    _id: _id,
+    password: password,
+    profilePic: profilePic,
+    onClose: onClose,
   };
+
+  const updateAllDetailsOfUser = useUpdateUserDetails();
+
+  const handleUpdateUserRole = async () => {
+    const jsonData = await updateAllDetailsOfUser(PayloadToUpdate);
+    if (jsonData.success) {
+      setUserRole(jsonData.data.role);
+      CallToFetchAllUserAgain();
+    }
+  };
+
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center bg-slate-200 bg-opacity-50">
       <div className="mx-auto bg-white border-2 border-yellow-400 shadow-md p-4 w-full max-w-sm rounded-md">
@@ -48,7 +42,11 @@ const ChangeUserRole = ({ name, email, role, _id, onClose, CallToFetchAllUserAga
 
         <div className="flex items-center justify-between my-4">
           <p>Role : </p>
-          <select value={userRole} onChange={handleChange} className="border-2 border-yellow-400 rounded">
+          <select
+            value={userRole}
+            onChange={handleChange}
+            className="border-2 border-yellow-400 rounded"
+          >
             <option value={userRole === "GENERAL" ? userRole : "ADMIN"}>
               {userRole === "GENERAL" ? userRole : "ADMIN"}
             </option>
@@ -69,4 +67,4 @@ const ChangeUserRole = ({ name, email, role, _id, onClose, CallToFetchAllUserAga
   );
 };
 
-export default ChangeUserRole;
+export default UpdateUserDetails;
