@@ -19,8 +19,10 @@ export const useUpdateUserDetails = () => {
         role: PayloadToUpdate.role,
         name: PayloadToUpdate.name,
         profilePic: PayloadToUpdate.profilePic,
-        password: PayloadToUpdate.password,
+        comfirmPassword: PayloadToUpdate.comfirmPassword,
+        newPassword: PayloadToUpdate.newPassword,
         phone: PayloadToUpdate.phone,
+        email: PayloadToUpdate.email
       }),
     });
 

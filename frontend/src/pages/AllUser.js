@@ -11,6 +11,9 @@ const AllUser = () => {
     email: "",
     name: "",
     role: "",
+    password: "",
+    phone: "",
+    profilePic : "",
     _id: "",
   });
   const fetchAllUsers = useFetchAllUsers();
@@ -73,10 +76,13 @@ const AllUser = () => {
       {updateRole && (
         <UpdateUserDetails
           onClose={() => setUpdateRole(false)}
-          name={updateUserDetails.name}
-          email={updateUserDetails.email}
-          role={updateUserDetails.role}
-          _id={updateUserDetails._id}
+          name={updateUserDetails?.name}
+          email={updateUserDetails?.email}
+          role={updateUserDetails?.role}
+          _id={updateUserDetails?._id}
+          phone={updateUserDetails?.phone}
+          password={updateUserDetails?.password}
+          profilePic={updateUserDetails?.profilePic}
           CallToFetchAllUserAgain={handleFetchUsers}
         />
       )}

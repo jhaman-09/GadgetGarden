@@ -19,11 +19,7 @@ export const register = async (req, res) => {
 
     const isEmail = await User.findOne({ email });
     if (isEmail) {
-      return res.status(400).json({
-        messageg: "User already exists",
-        error: true,
-        success: false,
-      });
+      throw new Error("User already exists");
     }
 
     const user = await User.create({
@@ -166,9 +162,18 @@ export const allUsers = async (req, res) => {
     // Mask all the name, email, password and phone for each otherUsers
     const maskedOtherUsers = otherUsers.map((user) => ({
       ...user._doc, // Spread existing user data
-      email: user._id.toString() !== sessionUserId ? maskEmail(user.email) : user.email,
-      phone: user._id.toString() !== sessionUserId ? user.phone ? maskPhoneNumber(user.phone) : "?" : user.phone || "?",
-      name: user._id.toString() !== sessionUserId ? maskName(user.name) : user.name,
+      email:
+        user._id.toString() !== sessionUserId
+          ? maskEmail(user.email)
+          : user.email,
+      phone:
+        user._id.toString() !== sessionUserId
+          ? user.phone
+            ? maskPhoneNumber(user.phone)
+            : "?"
+          : user.phone || "?",
+      name:
+        user._id.toString() !== sessionUserId ? maskName(user.name) : user.name,
       password: user.password && maskPassword(user.password),
     }));
 
@@ -198,11 +203,36 @@ export const allUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { _id, name, email, role, password, profilePic, phone } = req.body;
+    const {
+      _id,
+      name,
+      email,
+      role,
+      comfirmPassword,
+      newPassword,
+      profilePic,
+      phone,
+    } = req.body;
     const sessionUserId = req.user._id.toString(); // logged in user _id
 
     if (sessionUserId !== _id) {
       throw new Error("Oops Sorry..! You can update only your details.");
+    }
+
+    const user = await User.findOne({ email });
+    console.log(email);
+    
+    if (!user) {
+      throw new Error("Invalid Email or Password");
+    }
+
+    const isPasswordMatch = await bcrypt.compare(
+      comfirmPassword,
+      user.password
+    );
+
+    if (isPasswordMatch) {
+      throw new Error("Password Not Matched..!")
     }
 
     // Validate ObjectId
@@ -214,7 +244,7 @@ export const updateUser = async (req, res) => {
       ...(email && { email: email }),
       ...(name && { name: name }),
       ...(role && { role: role }),
-      ...(password && { password: password }),
+      ...(password && isPasswordMatch && { password: newPassword }),
       ...(profilePic && { profilePic: profilePic }),
       ...(phone && { phone: phone }),
     };

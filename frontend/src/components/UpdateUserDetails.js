@@ -1,20 +1,64 @@
 import React, { useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose, IoMdCreate } from "react-icons/io";
 import { useUpdateUserDetails } from "../hooks/useUpdateUserDetails";
 
-const UpdateUserDetails = ({name, email, password, profilePic, role, _id, onClose, CallToFetchAllUserAgain}) => {
-  const [userRole, setUserRole] = useState(role);
+const UpdateUserDetails = ({
+  name,
+  email,
+  phone,
+  profilePic,
+  role,
+  _id,
+  onClose,
+  password,
+  CallToFetchAllUserAgain,
+}) => {
+  
+  const [data, setData] = useState({
+    role: role,
+    email: email, // for validation
+    name: name,
+    phone: phone,
+    confirmPassword: "",
+    newPassword: "",
+    profilePic: profilePic,
+  });
 
-  const handleChange = (event) => {
-    setUserRole(event.target.value);
+  // const [confirmPassword, setConfirmPassword] = useState(""); // Confirm password state
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setData((prevState) => ({
+        ...prevState,
+        profilePic: URL.createObjectURL(file),
+      }));
+    }
+  };
+
+  // Function to handle changes in input fields
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const PayloadToUpdate = {
-    name: name,
-    role: userRole,
+    name: data.name,
+    role: data.role,
     _id: _id,
-    password: password,
-    profilePic: profilePic,
+    email : data.email,
+    newPassword: data.newPassword,
+    confirmPassword: data.confirmPassword,
+    profilePic: data.profilePic,
+    phone: data.phone,
     onClose: onClose,
   };
 
@@ -23,8 +67,8 @@ const UpdateUserDetails = ({name, email, password, profilePic, role, _id, onClos
   const handleUpdateUserRole = async () => {
     const jsonData = await updateAllDetailsOfUser(PayloadToUpdate);
     if (jsonData.success) {
-      setUserRole(jsonData.data.role);
       CallToFetchAllUserAgain();
+      setIsEditing(false); // Close editing mode
     }
   };
 
@@ -35,32 +79,110 @@ const UpdateUserDetails = ({name, email, password, profilePic, role, _id, onClos
           <IoMdClose />
         </button>
 
-        <h1 className="pb-4 text-lg font-medium">Change User Role</h1>
+        <h1 className="pb-4 text-lg font-medium">Update User Details</h1>
 
-        <p>Name : {name}</p>
+        {isEditing ? (
+          <div className="flex justify-between">
+            <label htmlFor="name">Name : </label>
+            <input
+              id="name"
+              value={data.name}
+              onChange={handleChange}
+              name="name"
+            />
+          </div>
+        ) : (
+          <p>Name : {data.name}</p>
+        )}
+
         <p>Email : {email}</p>
+
+        <div className="flex">
+          <label htmlFor="phone">Phone : </label>
+          {isEditing ? (
+            <input
+              id="phone"
+              value={data.phone}
+              name="phone"
+              onChange={handleChange}
+            />
+          ) : (
+            <p>{data.phone}</p>
+          )}
+        </div>
+
+        {isEditing ? (
+          <div>
+            <label htmlFor="password">New Password : </label>
+            <input
+              id="newPassword"
+              value={data.newPassword}
+              name="newPassword"
+              type="password"
+              onChange={handleChange}
+              placeholder="Enter new password"
+            />
+            <label htmlFor="confirmPassword">Confirm Password : </label>
+            <input
+              id="confirmPassword"
+              value={data.confirmPassword}
+              name="confirmPassword"
+              type="password"
+              onChange={handleChange}
+              placeholder="Confirm new password"
+            />
+          </div>
+        ) : (
+          <p>Password : {data.password}</p>
+        )}
+
+        {isEditing ? (
+          <div className="flex justify-between">
+            <label htmlFor="profilePic">Profile:</label>
+            <input
+              id="profilePic"
+              type="file"
+              onChange={handleProfilePicChange}
+              className="border-2 border-yellow-400 rounded"
+            />
+            {data.profilePic && (
+              <img
+                src={data.profilePic}
+                alt="Profile"
+                className="w-16 h-16 rounded-full mt-2"
+              />
+            )}
+          </div>
+        ) : (
+          <img
+            src={data.profilePic}
+            alt="Profile"
+            className="w-16 h-16 rounded-full"
+          />
+        )}
 
         <div className="flex items-center justify-between my-4">
           <p>Role : </p>
           <select
-            value={userRole}
+            value={data.role}
+            name="role"
             onChange={handleChange}
             className="border-2 border-yellow-400 rounded"
           >
-            <option value={userRole === "GENERAL" ? userRole : "ADMIN"}>
-              {userRole === "GENERAL" ? userRole : "ADMIN"}
+            <option value={data?.role === "GENERAL" ? data?.role : "ADMIN"}>
+              {data?.role === "GENERAL" ? data?.role : "ADMIN"}
             </option>
-            <option value={userRole === "GENERAL" ? "ADMIN" : "GENERAL"}>
-              {userRole === "GENERAL" ? "ADMIN" : "GENERAL"}
+            <option value={data?.role === "GENERAL" ? "ADMIN" : "GENERAL"}>
+              {data?.role === "GENERAL" ? "ADMIN" : "GENERAL"}
             </option>
           </select>
         </div>
 
         <button
           className="w-fit mx-auto block py-1 px-3 rounded-full bg-white text-black animate-glow p-6 border-2 border-yellow-500"
-          onClick={handleUpdateUserRole}
+          onClick={isEditing ? handleUpdateUserRole : handleToggle}
         >
-          Change Role
+          {isEditing ? "Save Changes" : <IoMdCreate />}
         </button>
       </div>
     </div>

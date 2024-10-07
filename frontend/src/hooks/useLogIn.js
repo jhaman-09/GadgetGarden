@@ -24,7 +24,6 @@ export const useLogIn = () => {
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(errorData.message);
-        throw new Error(errorData.message);
       }
       const jsonData = await response.json();
       dispatch(isAutherized(true));
