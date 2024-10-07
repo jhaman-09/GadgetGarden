@@ -6,7 +6,7 @@ import { FaStar } from "react-icons/fa6";
 import { FaStarHalf } from "react-icons/fa6";
 import displayCurrency from "../helper/displayCurrency";
 import RecommendationProducts from "../components/RecommendationProducts";
-import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { categories } from "../helper/categoriesOptions";
 const ProductDetails = () => {
   const [data, setData] = useState({

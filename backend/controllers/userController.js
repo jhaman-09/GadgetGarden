@@ -175,7 +175,8 @@ export const allUsers = async (req, res) => {
     const responseUsers = [
       {
         ...loggedInUser._doc,
-        password: maskPassword(loggedInUser.password),
+        password: maskPassword(loggedInUser.password), // Masking password
+        phone: loggedInUser.phone ? maskPhoneNumber(loggedInUser.phone) : "?",
       },
       ...maskedOtherUsers,
     ];

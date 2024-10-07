@@ -1,6 +1,6 @@
 import React from "react";
 import displayCurrency from "../helper/displayCurrency";
-import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { Link } from "react-router-dom";
 
 const VarticalyShowProducts = ({ data, loading, allowMargin }) => {

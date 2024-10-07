@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import displayCurrency from "../helper/displayCurrency";
 import { Link } from "react-router-dom";
-import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 
 const RecommendationProducts = ({ category, heading }) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import displayCurrency from "../helper/displayCurrency";
-import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 
 const HorizontalProductCard = (props) => {
   const fetchAddToCart = useFetchAddToCart();

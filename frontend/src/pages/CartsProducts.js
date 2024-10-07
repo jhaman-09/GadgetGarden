@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import displayCurrency from "../helper/displayCurrency";
 import { useSelector } from "react-redux";
-import { useFetchAddToCart } from "../hooks/useAddToCarthCart";
+import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { useReduceFromCart } from "../hooks/useReduceFromCart";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { useFetchDeleteProductFromCart } from "../hooks/useDeleteProductFromCart";
