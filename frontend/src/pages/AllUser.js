@@ -26,7 +26,7 @@ const AllUser = () => {
     const jsonData = await res.json();    
 
     if (jsonData.success) {
-      setUsers(jsonData.alluser);
+      setUsers(jsonData.users);
     }
     if (jsonData.error) {
       toast.error(jsonData.message);
@@ -37,6 +37,9 @@ const AllUser = () => {
     fetchUsers();
   }, []);
 
+  console.log(users);
+  
+
   return (
     <div className="bg-white pb-4 ">
       <table className="w-full userTable">
@@ -46,6 +49,8 @@ const AllUser = () => {
             <th>NAME</th>
             <th>EMAIL</th>
             <th>ROLE</th>
+            <th>Phone</th>
+            <th>Password</th>
             <th>CREATAED DATE</th>
             <th>ACTION</th>
           </tr>
@@ -59,12 +64,14 @@ const AllUser = () => {
                   <td>{ele?.name}</td>
                   <td>{ele?.email}</td>
                   <td>{ele?.role}</td>
+                  <td>{ele?.phone}</td>
+                  <td>{ele?.password}</td>
                   <td>{moment(ele?.updatedAt).format("LL")}</td>
                   <td className="p-2">
                     <button
                       className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
                       onClick={() => {
-                        setUpdateUserDetails(ele)
+                        setUpdateUserDetails(ele);
                         setUpdateRole(true);
                       }}
                     >

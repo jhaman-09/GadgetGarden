@@ -3,6 +3,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { Product } from "../models/productSchema.js";
+import {
+  maskEmail,
+  maskName,
+  maskPassword,
+  maskPhoneNumber,
+} from "../helper/maskingDetails.js";
 
 export const register = async (req, res) => {
   try {
@@ -138,12 +144,45 @@ export const userDetails = async (req, res) => {
   }
 };
 
+// Example usage in your allUsers controller
 export const allUsers = async (req, res) => {
   try {
-    const alluser = await User.find();
+    const users = await User.find();
+    const sessionUserId = req.user._id.toString(); // logged in user _id
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(sessionUserId)) {
+      throw new Error("User with this Id not found");
+    }
+
+    // for showing the logged-in user on the top of the Users List
+    const loggedInUser = users.find(
+      (user) => user._id.toString() === sessionUserId
+    );
+    const otherUsers = users.filter(
+      (user) => user._id.toString() !== sessionUserId
+    );
+
+    // Mask all the name, email, password and phone for each otherUsers
+    const maskedOtherUsers = otherUsers.map((user) => ({
+      ...user._doc, // Spread existing user data
+      email: user._id.toString() !== sessionUserId ? maskEmail(user.email) : user.email,
+      phone: user._id.toString() !== sessionUserId ? user.phone ? maskPhoneNumber(user.phone) : "?" : user.phone || "?",
+      name: user._id.toString() !== sessionUserId ? maskName(user.name) : user.name,
+      password: user.password && maskPassword(user.password),
+    }));
+
+    const responseUsers = [
+      {
+        ...loggedInUser._doc,
+        password: maskPassword(loggedInUser.password),
+      },
+      ...maskedOtherUsers,
+    ];
+
     res.status(200).json({
-      alluser,
-      message: "all user found",
+      users: responseUsers,
+      message: "All users found",
       error: false,
       success: true,
     });
@@ -158,8 +197,12 @@ export const allUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { _id, name, email, role } = req.body;
-    const sessionUser = req._id;
+    const { _id, name, email, role, password, profilePic, phone } = req.body;
+    const sessionUserId = req.user._id.toString(); // logged in user _id
+
+    if (sessionUserId !== _id) {
+      throw new Error("Oops Sorry..! You can update only your details.");
+    }
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
@@ -170,6 +213,9 @@ export const updateUser = async (req, res) => {
       ...(email && { email: email }),
       ...(name && { name: name }),
       ...(role && { role: role }),
+      ...(password && { password: password }),
+      ...(profilePic && { profilePic: profilePic }),
+      ...(phone && { phone: phone }),
     };
 
     const updatedUser = await User.findByIdAndUpdate(_id, payload, {
@@ -330,7 +376,6 @@ export const deleteProductFromCart = async (req, res) => {
     });
   }
 };
-
 
 export const getCartProduct_Id = async (req, res) => {
   try {

@@ -16,6 +16,7 @@ const Signup = () => {
     confirmPassword: "",
     profilePic: "",
     role: "",
+    phone : ""
   });
 
   const signUp = useSignUp();
@@ -85,6 +86,7 @@ const Signup = () => {
                 />
               </div>
             </div>
+
             <div className="grid">
               <label>Email :</label>
               <div className="bg-slate-100 p-2">
@@ -93,6 +95,21 @@ const Signup = () => {
                   placeholder="Enter Your Email.."
                   name="email"
                   value={data.email}
+                  onChange={handleChange}
+                  required
+                  className="outline-none h-full w-full bg-transparent"
+                />
+              </div>
+            </div>
+
+            <div className="grid">
+              <label>Phone :</label>
+              <div className="bg-slate-100 p-2">
+                <input
+                  type="text"
+                  placeholder="Enter Your Phone Number.."
+                  name="phone"
+                  value={data.phone}
                   onChange={handleChange}
                   required
                   className="outline-none h-full w-full bg-transparent"

@@ -64,14 +64,10 @@ export const getAllProduct = async (req, res) => {
     const { _id } = req.user;
     const allProducts = await Product.find({ uploadedBy: _id });
 
-    if (!allProducts) {
-      throw new Error("No Products Found with user..!");
-    }
-
     res.status(200).json({
       data: allProducts,
-      message: "Product Found Successfully...!",
-      errror: false,
+      message: allProducts.length !== 0 ? "Product Found Successfully...!" : "Oops! No Product Found",
+      error: false,
       success: true,
     });
   } catch (error) {

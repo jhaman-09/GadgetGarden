@@ -23,7 +23,6 @@ const CategoryProductList = () => {
 
   useEffect(() => {
     fetchOneProductFromEachCategory();
-    console.log(oneProductFromEachCategory);
   }, []);
   return (
     <div className="container mx-auto p-4 scrollBar-none">
@@ -56,7 +55,7 @@ const CategoryProductList = () => {
                   <p className="text-center text-sm md:text-base capitalize">
                     {product?.category}
                   </p>
-                </Link>  
+                </Link>
               );
             })}
       </div>
