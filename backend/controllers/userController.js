@@ -3,12 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { Product } from "../models/productSchema.js";
-import {
-  maskEmail,
-  maskName,
-  maskPassword,
-  maskPhoneNumber,
-} from "../helper/maskingDetails.js";
 
 export const register = async (req, res) => {
   try {
@@ -150,41 +144,7 @@ export const allUsers = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(sessionUserId)) {
       throw new Error("User with this Id not found");
     }
-
-    // for showing the logged-in user on the top of the Users List
-    // const loggedInUser = users.find(
-    //   (user) => user._id.toString() === sessionUserId
-    // );
-    // const otherUsers = users.filter(
-    //   (user) => user._id.toString() !== sessionUserId
-    // );
-
-    // // Mask all the name, email, password and phone for each otherUsers
-    // const maskedOtherUsers = otherUsers.map((user) => ({
-    //   ...user._doc, // Spread existing user data
-    //   email:
-    //     user._id.toString() !== sessionUserId
-    //       ? maskEmail(user.email)
-    //       : user.email,
-    //   phone:
-    //     user._id.toString() !== sessionUserId
-    //       ? user.phone
-    //         ? maskPhoneNumber(user.phone)
-    //         : "?"
-    //       : user.phone || "?",
-    //   name:
-    //     user._id.toString() !== sessionUserId ? maskName(user.name) : user.name,
-    //   password: user.password && maskPassword(user.password),
-    // }));
-
-    // const responseUsers = [
-    //   {
-    //     ...loggedInUser._doc,
-    //     password: maskPassword(loggedInUser.password), // Masking password
-    //   },
-    //   ...maskedOtherUsers,
-    // ];
-
+    
     res.status(200).json({
       users: users,
       message: "All users found",
@@ -296,7 +256,7 @@ export const addToCardProduct = async (req, res) => {
     if (!user) {
       throw new Error("Please Sir, Login First..!");
     }
-    
+
     const { productId } = req.body;
     if (!productId) {
       throw new Error(
