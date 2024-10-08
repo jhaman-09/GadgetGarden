@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const AllUser = () => {
   const [users, setUsers] = useState([]);
-  const [updateRole, setUpdateRole] = useState(false);
+  const [editDetails, setEditDetails] = useState(false);
   const [updateUserDetails, setUpdateUserDetails] = useState({
     email: "",
     name: "",
@@ -65,7 +65,7 @@ const AllUser = () => {
                 className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
                 onClick={() => {
                   setUpdateUserDetails(user);
-                  setUpdateRole(true);
+                  setEditDetails(true);
                 }}
               >
                 <MdModeEdit />
@@ -74,7 +74,8 @@ const AllUser = () => {
           </tr>
           {users &&
             users.map((ele, index) => {
-              const isNotCurrentUser = ele?._id.toString() !== user?._id.toString();
+              const isNotCurrentUser =
+                ele?._id.toString() !== user?._id.toString();
               return !isNotCurrentUser ? null : (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -88,7 +89,7 @@ const AllUser = () => {
                       className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
                       onClick={() => {
                         setUpdateUserDetails(ele);
-                        setUpdateRole(true);
+                        setEditDetails(true);
                       }}
                     >
                       <MdModeEdit />
@@ -100,9 +101,9 @@ const AllUser = () => {
         </tbody>
       </table>
 
-      {updateRole && (
+      {editDetails && (
         <UpdateUserDetails
-          onClose={() => setUpdateRole(false)}
+          onClose={() => setEditDetails(false)}
           name={updateUserDetails?.name}
           email={updateUserDetails?.email}
           role={updateUserDetails?.role}

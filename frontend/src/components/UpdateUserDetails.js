@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { IoMdClose, IoMdCreate } from "react-icons/io";
 import { useUpdateUserDetails } from "../hooks/useUpdateUserDetails";
-import { maskPassword } from "../helper/maskingUsersDetails";
+import { maskEmail, maskName, maskPassword, maskPhoneNumber } from "../helper/maskingUsersDetails";
+import { useSelector } from "react-redux";
 
 const UpdateUserDetails = ({
   name,
@@ -27,6 +28,10 @@ const UpdateUserDetails = ({
 
   // const [confirmPassword, setConfirmPassword] = useState(""); // Confirm password state
   const [isEditing, setIsEditing] = useState(false);
+
+  const { user } = useSelector((store) => store.user);
+  const isNotCurrentUser = _id.toString() !== user?._id.toString();
+
 
   const handleToggle = () => {
     setIsEditing(!isEditing);
@@ -88,31 +93,31 @@ const UpdateUserDetails = ({
               <label htmlFor="name">Name : </label>
               <input
                 id="name"
-                value={data.name}
+                value={isNotCurrentUser ? maskName(data?.name) : data?.name}
                 onChange={handleChange}
                 name="name"
                 className="border-2 border-black"
               />
             </div>
           ) : (
-            <p>Name : {data.name}</p>
+            <p>Name : {isNotCurrentUser ? maskName(data?.name) : data?.name}</p>
           )}
 
-          <p>Email : {email}</p>
+          <p>Email : {isNotCurrentUser ? maskEmail(data?.email) : data?.email}</p>
 
           {isEditing ? (
             <div className="flex flex-row gap-2">
               <label htmlFor="phone">Phone : </label>
               <input
                 id="phone"
-                value={data.phone}
+                value={isNotCurrentUser ? maskPhoneNumber(data?.phone) : data?.phone}
                 name="phone"
                 onChange={handleChange}
                 className="border-2 border-black"
               />
             </div>
           ) : (
-            <p>Phone : {data.phone}</p>
+            <p>Phone : {isNotCurrentUser ? maskPhoneNumber(data?.phone) : data?.phone}</p>
           )}
 
           {isEditing ? (
@@ -120,7 +125,7 @@ const UpdateUserDetails = ({
               <label htmlFor="password">New Password : </label>
               <input
                 id="newPassword"
-                value={data.newPassword}
+                value={data?.newPassword}
                 name="newPassword"
                 type="password"
                 onChange={handleChange}
@@ -145,7 +150,7 @@ const UpdateUserDetails = ({
           {isEditing ? (
             <div className="w-20 h-20 mx-auto relative overflow-hidden rounded-full">
               <div>
-                <img src={data.profilePic} alt="user-logo" />
+                <img src={!isNotCurrentUser && data?.profilePic} alt="user-logo" />
               </div>
 
               <form>
@@ -156,14 +161,14 @@ const UpdateUserDetails = ({
                   <input
                     type="file"
                     className="hidden"
-                    onChange={handleProfilePicChange}
+                    onChange={handleProfilePicChange }
                   />
                 </label>
               </form>
             </div>
           ) : (
             <img
-              src={data.profilePic}
+              src={!isNotCurrentUser && data?.profilePic}
               alt="Profile"
               className="w-16 h-16 rounded-full absolute right-10 top-10"
             />

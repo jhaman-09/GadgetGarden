@@ -239,24 +239,21 @@ const ProductDetails = () => {
       {categories?.length > 0 &&
         data?.category && // Check if both categories and data.category are defined
         categories?.map((ele) => {
-          return (
-            ele?.value ===
-            data?.category ? null : (
-              ele?.value &&
-                ele?.value.length > 0 &&
-                ele?.value !== data?.category && (
+          const currentCategory = ele?.value.toString() !== data?.category.toString();
+          return !currentCategory
+            ? null
+            : ele?.value &&
+                ele?.value.length > 0  && (
                   <RecommendationProducts
                     key={ele?.value}
                     category={ele?.value}
                     heading={"Recommended Product"}
                   />
-                )
-            )
-          );
+                );
         })}
       
 
-      
+
     </div>
   );
 };
