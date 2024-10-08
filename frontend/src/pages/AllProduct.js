@@ -3,10 +3,16 @@ import AdminProductCard from "../components/AdminProductCard";
 import UploadProduct from "../components/UploadProduct";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AllProduct = () => {
   const [showProductUpload, setShowProductUpload] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
+  const { user } = useSelector((store) => store.user);
+  const navigate = useNavigate();
+
+
 
   const handleFetchAllProductData = async () => {
     const res = await fetch(endPoint.allProduct.url, {
@@ -27,6 +33,10 @@ const AllProduct = () => {
   useEffect(() => {
     handleFetchAllProductData();
   }, []);
+
+  if (!user) {
+    navigate("/");
+  }
 
   return (
     <div>

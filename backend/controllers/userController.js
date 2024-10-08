@@ -170,7 +170,7 @@ export const updateUser = async (req, res) => {
     }
 
     if (sessionUserId !== _id) {
-      throw new Error("Oops Sorry..! You cannot update other details.");
+      throw new Error("Oops Sorry..! You cannot update Other User details.");
     }
 
     const user = await User.findOne({ _id });

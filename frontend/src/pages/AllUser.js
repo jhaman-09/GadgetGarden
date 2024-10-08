@@ -3,12 +3,16 @@ import moment from "moment";
 import { MdModeEdit } from "react-icons/md";
 import { useFetchAllUsers } from "../hooks/useFetchAllUsers.js";
 import UpdateUserDetails from "../components/UpdateUserDetails.js";
+import { GiCrossMark } from "react-icons/gi";
+
 import {
   maskEmail,
   maskName,
   maskPhoneNumber,
 } from "../helper/maskingUsersDetails.js";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AllUser = () => {
   const [users, setUsers] = useState([]);
@@ -24,6 +28,7 @@ const AllUser = () => {
   });
 
   const { user } = useSelector((store) => store.user);
+  const navigate = useNavigate();
 
   const fetchAllUsers = useFetchAllUsers();
 
@@ -38,6 +43,9 @@ const AllUser = () => {
     handleFetchUsers();
   }, []);
 
+  if (!user) {
+    navigate("/")
+  }
   return (
     <div className="bg-white pb-4 ">
       <table className="w-full userTable">
@@ -62,7 +70,7 @@ const AllUser = () => {
             <td>{moment(user?.updatedAt).format("LL")}</td>
             <td className="p-2">
               <button
-                className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
+                className="bg-green-600 p-2 cursor-pointer hover:bg-white border-yellow-50 hover:text-black rounded-sm"
                 onClick={() => {
                   setUpdateUserDetails(user);
                   setEditDetails(true);
@@ -86,13 +94,12 @@ const AllUser = () => {
                   <td>{moment(ele?.updatedAt).format("LL")}</td>
                   <td className="p-2">
                     <button
-                      className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
+                      className="bg-green-300 p-2 cursor-pointe hover:text-slate-800 rounded-sm"
                       onClick={() => {
-                        setUpdateUserDetails(ele);
-                        setEditDetails(true);
+                        toast("You cannot update other user details..!");
                       }}
                     >
-                      <MdModeEdit />
+                      <GiCrossMark />
                     </button>
                   </td>
                 </tr>

@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { IoMdClose, IoMdCreate } from "react-icons/io";
 import { useUpdateUserDetails } from "../hooks/useUpdateUserDetails";
-import { maskEmail, maskName, maskPassword, maskPhoneNumber } from "../helper/maskingUsersDetails";
+import {
+  maskEmail,
+  maskName,
+  maskPassword,
+  maskPhoneNumber,
+} from "../helper/maskingUsersDetails";
 import { useSelector } from "react-redux";
+import imageToBase64 from "../helper/imageToBase64";
 
 const UpdateUserDetails = ({
   name,
@@ -32,19 +38,20 @@ const UpdateUserDetails = ({
   const { user } = useSelector((store) => store.user);
   const isNotCurrentUser = _id.toString() !== user?._id.toString();
 
-
   const handleToggle = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleProfilePicChange = (e) => {
+  const handleProfilePicChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setData((prevState) => ({
-        ...prevState,
-        profilePic: URL.createObjectURL(file),
-      }));
-    }
+    const image = await imageToBase64(file);
+
+    setData((prev) => {
+      return {
+        ...prev,
+        profilePic: image,
+      };
+    });
   };
 
   // Function to handle changes in input fields
@@ -67,6 +74,8 @@ const UpdateUserDetails = ({
     phone: data.phone,
     onClose: onClose,
   };
+
+  console.log("payload", PayloadToUpdate);
 
   const updateAllDetailsOfUser = useUpdateUserDetails();
 
@@ -96,32 +105,49 @@ const UpdateUserDetails = ({
                 value={isNotCurrentUser ? maskName(data?.name) : data?.name}
                 onChange={handleChange}
                 name="name"
-                className="border-2 border-black"
+                className="border-2 px-1 border-black"
               />
             </div>
           ) : (
             <p>Name : {isNotCurrentUser ? maskName(data?.name) : data?.name}</p>
           )}
 
-          <p>Email : {isNotCurrentUser ? maskEmail(data?.email) : data?.email}</p>
+          <p>
+            Email : {isNotCurrentUser ? maskEmail(data?.email) : data?.email}
+          </p>
 
           {isEditing ? (
             <div className="flex flex-row gap-2">
               <label htmlFor="phone">Phone : </label>
               <input
                 id="phone"
-                value={isNotCurrentUser ? maskPhoneNumber(data?.phone) : data?.phone}
+                value={
+                  isNotCurrentUser ? maskPhoneNumber(data?.phone) : data?.phone
+                }
                 name="phone"
                 onChange={handleChange}
-                className="border-2 border-black"
+                className="border-2 px-1 border-black"
               />
             </div>
           ) : (
-            <p>Phone : {isNotCurrentUser ? maskPhoneNumber(data?.phone) : data?.phone}</p>
+            <p>
+              Phone :{" "}
+              {isNotCurrentUser ? maskPhoneNumber(data?.phone) : data?.phone}
+            </p>
           )}
 
           {isEditing ? (
             <div className="flex flex-col gap-1">
+              <label htmlFor="confirmPassword">Current Password : </label>
+              <input
+                id="confirmPassword"
+                value={data.confirmPassword}
+                name="confirmPassword"
+                type="password"
+                onChange={handleChange}
+                placeholder="Confirm new password"
+                className="border-2 px-1 border-black"
+              />
               <label htmlFor="password">New Password : </label>
               <input
                 id="newPassword"
@@ -130,17 +156,7 @@ const UpdateUserDetails = ({
                 type="password"
                 onChange={handleChange}
                 placeholder="Enter new password"
-                className="border-2 border-black"
-              />
-              <label htmlFor="confirmPassword">Confirm Password : </label>
-              <input
-                id="confirmPassword"
-                value={data.confirmPassword}
-                name="confirmPassword"
-                type="password"
-                onChange={handleChange}
-                placeholder="Confirm new password"
-                className="border-2 border-black"
+                className="border-2 px-1 border-black"
               />
             </div>
           ) : (
@@ -150,7 +166,10 @@ const UpdateUserDetails = ({
           {isEditing ? (
             <div className="w-20 h-20 mx-auto relative overflow-hidden rounded-full">
               <div>
-                <img src={!isNotCurrentUser && data?.profilePic} alt="user-logo" />
+                <img
+                  src={!isNotCurrentUser && data?.profilePic}
+                  alt="user-logo"
+                />
               </div>
 
               <form>
@@ -161,7 +180,7 @@ const UpdateUserDetails = ({
                   <input
                     type="file"
                     className="hidden"
-                    onChange={handleProfilePicChange }
+                    onChange={handleProfilePicChange}
                   />
                 </label>
               </form>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import displayCurrency from "../helper/displayCurrency";
 import { useSelector } from "react-redux";
 import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
@@ -9,11 +9,13 @@ import { useFetchDeleteProductFromCart } from "../hooks/useDeleteProductFromCart
 import { usePaymentGateway } from "../hooks/usePaymentGateway";
 
 const CartsProducts = () => {
-  const { cartProducts } = useSelector((store) => store.user);
+  const { user, cartProducts } = useSelector((store) => store.user);
   const fetchAddToCart = useFetchAddToCart();
   const fetchReduceCart = useReduceFromCart();
   const fetchDeleteProduct = useFetchDeleteProductFromCart();
   const paymentGateway = usePaymentGateway();
+
+  const navigate = useNavigate();
 
   const handleAddToCart = async (e, _id) => {
     await fetchAddToCart(e, _id);
@@ -31,7 +33,9 @@ const CartsProducts = () => {
     await paymentGateway(cartProducts);
   };
 
-  return (
+  return !user ? (
+    navigate("/")
+  ) : (
     <div className="container p-4 mx-auto rounded">
       {cartProducts && cartProducts.length === 0 ? (
         <div className="mx-24">
