@@ -5,6 +5,7 @@ import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useFetchAllProductsOfAdmin } from "../hooks/useFetchAllProductsOfAdmin";
 
 const AllProduct = () => {
   const [showProductUpload, setShowProductUpload] = useState(false);
@@ -12,21 +13,12 @@ const AllProduct = () => {
   const { user } = useSelector((store) => store.user);
   const navigate = useNavigate();
 
-
+  const adminAllUploadedProducts = useFetchAllProductsOfAdmin();
 
   const handleFetchAllProductData = async () => {
-    const res = await fetch(endPoint.allProduct.url, {
-      credentials: "include",
-      method: endPoint.allProduct.method,
-    });
-
-    const jsonData = await res.json();
-
+    const jsonData = await adminAllUploadedProducts();
     if (jsonData.success) {
       setAllProduct(jsonData.data);
-      toast.success(jsonData.message);
-    } else {
-      toast.error(jsonData.message);
     }
   };
 

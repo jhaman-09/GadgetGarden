@@ -5,18 +5,17 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { uploadImageToClodinary } from "../helper/UploadToClodinary";
 import DisplayImageFullScreen from "./DisplayImageFullScreen";
-import { endPoint } from "../helper/api";
-import { toast } from "react-toastify";
+import { useEditProduct } from "../hooks/useEditProduct";
 
 {
-  /* Admin can Edit Product */
+  /* Admin can Edit its own Uploaded Products*/
 }
 
 const AdminEditProduct = ({ productData, onClose, fetchData }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
   const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
   const [data, setData] = useState({
-    ...productData,       // this will give productData. _id
+    ...productData, // this will give productData. _id
     productName: productData.productName,
     brandName: productData.brandName,
     category: productData.category,
@@ -25,6 +24,9 @@ const AdminEditProduct = ({ productData, onClose, fetchData }) => {
     price: productData.price,
     sellingPrice: productData.sellingPrice,
   });
+
+
+  const editProduct = useEditProduct();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,29 +67,8 @@ const AdminEditProduct = ({ productData, onClose, fetchData }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(endPoint.editProduct.url, {
-        method: endPoint.editProduct.method,
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const jsonData = await response.json();
-      if (jsonData.success) {
-        toast.success(jsonData.message);
-        onClose();
-        fetchData();
-      }
-      if (jsonData.error) {
-        toast.error(jsonData.message);
-      }
-    } catch (error) {
-      toast.error(error);
-    }
+    e.preventDefault(); 
+    await editProduct({ data, onClose, fetchData });
   };
 
   return (
