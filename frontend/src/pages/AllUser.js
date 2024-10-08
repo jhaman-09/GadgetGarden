@@ -3,6 +3,12 @@ import moment from "moment";
 import { MdModeEdit } from "react-icons/md";
 import { useFetchAllUsers } from "../hooks/useFetchAllUsers.js";
 import UpdateUserDetails from "../components/UpdateUserDetails.js";
+import {
+  maskEmail,
+  maskName,
+  maskPhoneNumber,
+} from "../helper/maskingUsersDetails.js";
+import { useSelector } from "react-redux";
 
 const AllUser = () => {
   const [users, setUsers] = useState([]);
@@ -13,9 +19,12 @@ const AllUser = () => {
     role: "",
     password: "",
     phone: "",
-    profilePic : "",
+    profilePic: "",
     _id: "",
   });
+
+  const { user } = useSelector((store) => store.user);
+
   const fetchAllUsers = useFetchAllUsers();
 
   const handleFetchUsers = async () => {
@@ -39,22 +48,40 @@ const AllUser = () => {
             <th>EMAIL</th>
             <th>ROLE</th>
             <th>Phone</th>
-            <th>Password</th>
             <th>CREATAED DATE</th>
             <th>ACTION</th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>{1}</td>
+            <td>{user?.name}</td>
+            <td>{user?.email}</td>
+            <td>{user?.role}</td>
+            <td>{user?.phone}</td>
+            <td>{moment(user?.updatedAt).format("LL")}</td>
+            <td className="p-2">
+              <button
+                className="bg-green-500 p-2 cursor-pointer hover:bg-green-600 hover:text-slate-800 rounded-sm"
+                onClick={() => {
+                  setUpdateUserDetails(user);
+                  setUpdateRole(true);
+                }}
+              >
+                <MdModeEdit />
+              </button>
+            </td>
+          </tr>
           {users &&
             users.map((ele, index) => {
-              return (
+              const isNotCurrentUser = ele?._id.toString() !== user?._id.toString();
+              return !isNotCurrentUser ? null : (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{ele?.name}</td>
-                  <td>{ele?.email}</td>
+                  <td>{maskName(ele.name)}</td>
+                  <td>{maskEmail(ele?.email)}</td>
                   <td>{ele?.role}</td>
-                  <td>{ele?.phone}</td>
-                  <td>{ele?.password}</td>
+                  <td>{maskPhoneNumber(ele?.phone)}</td>
                   <td>{moment(ele?.updatedAt).format("LL")}</td>
                   <td className="p-2">
                     <button

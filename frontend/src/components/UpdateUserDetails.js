@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoMdClose, IoMdCreate } from "react-icons/io";
 import { useUpdateUserDetails } from "../hooks/useUpdateUserDetails";
+import { maskPassword } from "../helper/maskingUsersDetails";
 
 const UpdateUserDetails = ({
   name,
@@ -13,7 +14,6 @@ const UpdateUserDetails = ({
   password,
   CallToFetchAllUserAgain,
 }) => {
-  
   const [data, setData] = useState({
     role: role,
     email: email, // for validation
@@ -22,6 +22,7 @@ const UpdateUserDetails = ({
     confirmPassword: "",
     newPassword: "",
     profilePic: profilePic,
+    password: password,
   });
 
   // const [confirmPassword, setConfirmPassword] = useState(""); // Confirm password state
@@ -54,7 +55,7 @@ const UpdateUserDetails = ({
     name: data.name,
     role: data.role,
     _id: _id,
-    email : data.email,
+    email: data.email,
     newPassword: data.newPassword,
     confirmPassword: data.confirmPassword,
     profilePic: data.profilePic,
@@ -74,108 +75,116 @@ const UpdateUserDetails = ({
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center bg-slate-200 bg-opacity-50">
-      <div className="mx-auto bg-white border-2 border-yellow-400 shadow-md p-4 w-full max-w-sm rounded-md">
+      <div className="mx-auto bg-white border-2 border-yellow-400 shadow-md p-4 w-full max-w-sm rounded-md relative">
         <button className="block ml-auto" onClick={onClose}>
           <IoMdClose />
         </button>
 
         <h1 className="pb-4 text-lg font-medium">Update User Details</h1>
 
-        {isEditing ? (
-          <div className="flex justify-between">
-            <label htmlFor="name">Name : </label>
-            <input
-              id="name"
-              value={data.name}
-              onChange={handleChange}
-              name="name"
-            />
-          </div>
-        ) : (
-          <p>Name : {data.name}</p>
-        )}
-
-        <p>Email : {email}</p>
-
-        <div className="flex">
-          <label htmlFor="phone">Phone : </label>
+        <div className="flex flex-col gap-2">
           {isEditing ? (
-            <input
-              id="phone"
-              value={data.phone}
-              name="phone"
-              onChange={handleChange}
-            />
-          ) : (
-            <p>{data.phone}</p>
-          )}
-        </div>
-
-        {isEditing ? (
-          <div>
-            <label htmlFor="password">New Password : </label>
-            <input
-              id="newPassword"
-              value={data.newPassword}
-              name="newPassword"
-              type="password"
-              onChange={handleChange}
-              placeholder="Enter new password"
-            />
-            <label htmlFor="confirmPassword">Confirm Password : </label>
-            <input
-              id="confirmPassword"
-              value={data.confirmPassword}
-              name="confirmPassword"
-              type="password"
-              onChange={handleChange}
-              placeholder="Confirm new password"
-            />
-          </div>
-        ) : (
-          <p>Password : {data.password}</p>
-        )}
-
-        {isEditing ? (
-          <div className="flex justify-between">
-            <label htmlFor="profilePic">Profile:</label>
-            <input
-              id="profilePic"
-              type="file"
-              onChange={handleProfilePicChange}
-              className="border-2 border-yellow-400 rounded"
-            />
-            {data.profilePic && (
-              <img
-                src={data.profilePic}
-                alt="Profile"
-                className="w-16 h-16 rounded-full mt-2"
+            <div className="flex flex-row gap-2">
+              <label htmlFor="name">Name : </label>
+              <input
+                id="name"
+                value={data.name}
+                onChange={handleChange}
+                name="name"
+                className="border-2 border-black"
               />
-            )}
-          </div>
-        ) : (
-          <img
-            src={data.profilePic}
-            alt="Profile"
-            className="w-16 h-16 rounded-full"
-          />
-        )}
+            </div>
+          ) : (
+            <p>Name : {data.name}</p>
+          )}
 
-        <div className="flex items-center justify-between my-4">
-          <p>Role : </p>
-          <select
-            value={data.role}
-            name="role"
-            onChange={handleChange}
-            className="border-2 border-yellow-400 rounded"
-          >
-            <option value={data?.role === "GENERAL" ? data?.role : "ADMIN"}>
-              {data?.role === "GENERAL" ? data?.role : "ADMIN"}
-            </option>
-            <option value={data?.role === "GENERAL" ? "ADMIN" : "GENERAL"}>
-              {data?.role === "GENERAL" ? "ADMIN" : "GENERAL"}
-            </option>
-          </select>
+          <p>Email : {email}</p>
+
+          {isEditing ? (
+            <div className="flex flex-row gap-2">
+              <label htmlFor="phone">Phone : </label>
+              <input
+                id="phone"
+                value={data.phone}
+                name="phone"
+                onChange={handleChange}
+                className="border-2 border-black"
+              />
+            </div>
+          ) : (
+            <p>Phone : {data.phone}</p>
+          )}
+
+          {isEditing ? (
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password">New Password : </label>
+              <input
+                id="newPassword"
+                value={data.newPassword}
+                name="newPassword"
+                type="password"
+                onChange={handleChange}
+                placeholder="Enter new password"
+                className="border-2 border-black"
+              />
+              <label htmlFor="confirmPassword">Confirm Password : </label>
+              <input
+                id="confirmPassword"
+                value={data.confirmPassword}
+                name="confirmPassword"
+                type="password"
+                onChange={handleChange}
+                placeholder="Confirm new password"
+                className="border-2 border-black"
+              />
+            </div>
+          ) : (
+            <p>Password : {maskPassword(data?.password)}</p>
+          )}
+
+          {isEditing ? (
+            <div className="w-20 h-20 mx-auto relative overflow-hidden rounded-full">
+              <div>
+                <img src={data.profilePic} alt="user-logo" />
+              </div>
+
+              <form>
+                <label>
+                  <div className="text-xs bg-opacity-75 bg-slate-200 pb-4 pt-2 cursor-pointer text-center absolute bottom-0 w-full">
+                    Update Photo
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={handleProfilePicChange}
+                  />
+                </label>
+              </form>
+            </div>
+          ) : (
+            <img
+              src={data.profilePic}
+              alt="Profile"
+              className="w-16 h-16 rounded-full absolute right-10 top-10"
+            />
+          )}
+
+          <div className="flex items-center justify-between">
+            <p>Role : </p>
+            <select
+              value={data.role}
+              name="role"
+              onChange={handleChange}
+              className="border-2 border-yellow-400 rounded"
+            >
+              <option value={data?.role === "GENERAL" ? data?.role : "ADMIN"}>
+                {data?.role === "GENERAL" ? data?.role : "ADMIN"}
+              </option>
+              <option value={data?.role === "GENERAL" ? "ADMIN" : "GENERAL"}>
+                {data?.role === "GENERAL" ? "ADMIN" : "GENERAL"}
+              </option>
+            </select>
+          </div>
         </div>
 
         <button

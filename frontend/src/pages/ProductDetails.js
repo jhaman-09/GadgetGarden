@@ -62,7 +62,6 @@ const ProductDetails = () => {
     fetchProductDetails();
   }, [params.id]);
 
-
   const handleZoomImage = useCallback(
     (e) => {
       setZoomImage(true);
@@ -239,22 +238,27 @@ const ProductDetails = () => {
 
       {categories?.length > 0 &&
         data?.category && // Check if both categories and data.category are defined
-        categories?.map(
-          (ele) =>
-            ele?.value &&
-            ele?.value.length > 0 &&
-            ele?.value !== data?.category && (
-              <RecommendationProducts
-                key={ele?.value}
-                category={ele?.value}
-                heading={"Recommended Product"}
-              />
+        categories?.map((ele) => {
+          return (
+            ele?.value ===
+            data?.category ? null : (
+              ele?.value &&
+                ele?.value.length > 0 &&
+                ele?.value !== data?.category && (
+                  <RecommendationProducts
+                    key={ele?.value}
+                    category={ele?.value}
+                    heading={"Recommended Product"}
+                  />
+                )
             )
-        )}
+          );
+        })}
+      
+
+      
     </div>
   );
 };
 
 export default ProductDetails;
-
-
