@@ -152,42 +152,41 @@ export const allUsers = async (req, res) => {
     }
 
     // for showing the logged-in user on the top of the Users List
-    const loggedInUser = users.find(
-      (user) => user._id.toString() === sessionUserId
-    );
-    const otherUsers = users.filter(
-      (user) => user._id.toString() !== sessionUserId
-    );
+    // const loggedInUser = users.find(
+    //   (user) => user._id.toString() === sessionUserId
+    // );
+    // const otherUsers = users.filter(
+    //   (user) => user._id.toString() !== sessionUserId
+    // );
 
-    // Mask all the name, email, password and phone for each otherUsers
-    const maskedOtherUsers = otherUsers.map((user) => ({
-      ...user._doc, // Spread existing user data
-      email:
-        user._id.toString() !== sessionUserId
-          ? maskEmail(user.email)
-          : user.email,
-      phone:
-        user._id.toString() !== sessionUserId
-          ? user.phone
-            ? maskPhoneNumber(user.phone)
-            : "?"
-          : user.phone || "?",
-      name:
-        user._id.toString() !== sessionUserId ? maskName(user.name) : user.name,
-      password: user.password && maskPassword(user.password),
-    }));
+    // // Mask all the name, email, password and phone for each otherUsers
+    // const maskedOtherUsers = otherUsers.map((user) => ({
+    //   ...user._doc, // Spread existing user data
+    //   email:
+    //     user._id.toString() !== sessionUserId
+    //       ? maskEmail(user.email)
+    //       : user.email,
+    //   phone:
+    //     user._id.toString() !== sessionUserId
+    //       ? user.phone
+    //         ? maskPhoneNumber(user.phone)
+    //         : "?"
+    //       : user.phone || "?",
+    //   name:
+    //     user._id.toString() !== sessionUserId ? maskName(user.name) : user.name,
+    //   password: user.password && maskPassword(user.password),
+    // }));
 
-    const responseUsers = [
-      {
-        ...loggedInUser._doc,
-        password: maskPassword(loggedInUser.password), // Masking password
-        phone: loggedInUser.phone ? maskPhoneNumber(loggedInUser.phone) : "?",
-      },
-      ...maskedOtherUsers,
-    ];
+    // const responseUsers = [
+    //   {
+    //     ...loggedInUser._doc,
+    //     password: maskPassword(loggedInUser.password), // Masking password
+    //   },
+    //   ...maskedOtherUsers,
+    // ];
 
     res.status(200).json({
-      users: responseUsers,
+      users: users,
       message: "All users found",
       error: false,
       success: true,
@@ -203,55 +202,72 @@ export const allUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const {
-      _id,
-      name,
-      email,
-      role,
-      comfirmPassword,
-      newPassword,
-      profilePic,
-      phone,
-    } = req.body;
+    const { _id, name, role, confirmPassword, newPassword, profilePic, phone } = req.body;
     const sessionUserId = req.user._id.toString(); // logged in user _id
 
-    if (sessionUserId !== _id) {
-      throw new Error("Oops Sorry..! You can update only your details.");
-    }
-
-    const user = await User.findOne({ email });
-    console.log(email);
-    
-    if (!user) {
-      throw new Error("Invalid Email or Password");
-    }
-
-    const isPasswordMatch = await bcrypt.compare(
-      comfirmPassword,
-      user.password
-    );
-
-    if (isPasswordMatch) {
-      throw new Error("Password Not Matched..!")
-    }
-
-    // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(_id)) {
       throw new Error("User with this Id not found");
     }
 
+    if (sessionUserId !== _id) {
+      throw new Error("Oops Sorry..! You cannot update other details.");
+    }
+
+    const user = await User.findOne({ _id });
+
+    if (!user) {
+      throw new Error("Invalid Email or Password");
+    }
+
+    // const user = req.user;
+
+    // if (!user) {
+    //   throw new Error("Invalid Email or Password");
+    // }
+
+    // if (confirmPassword && newPassword && user) {
+    //   const isPasswordMatch = await bcrypt.compare(
+    //     confirmPassword,
+    //     user.password
+    //   );
+
+    //   if (!isPasswordMatch) {
+    //     throw new Error("Incorrect current password");
+    //   }
+    //   if (newPassword) {
+    //     user.password = await bcrypt.hash(newPassword, 10);
+    //   }
+    // }
+
+    // user.name = name || user.name;
+    // user.role = role || user.role;
+    // user.phone = phone || user.phone;
+    // user.profilePic = profilePic || user.profilePic;
+
+    // const updatedUser = await user.save();
+
+    if (newPassword && confirmPassword) {
+      const isPasswordMatch = await bcrypt.compare(
+        confirmPassword,
+        user.password
+      );
+
+      if (!isPasswordMatch) {
+        throw new Error("Password Not Matched..!");
+      }
+    }
+
     const payload = {
-      ...(email && { email: email }),
-      ...(name && { name: name }),
-      ...(role && { role: role }),
-      ...(password && isPasswordMatch && { password: newPassword }),
-      ...(profilePic && { profilePic: profilePic }),
-      ...(phone && { phone: phone }),
+      ...(name && { name : name }), // Update if name is provided
+      ...(role && { role : role }), // Update if role is provided
+      ...(profilePic && { profilePic : profilePic }), // Update if profilePic is provided
+      ...(newPassword && { password: await bcrypt.hash(newPassword, 10) }), // Update and hash password if newPassword is provided
+      ...(phone && { phone : phone }), // Update if phone is provided
     };
 
     const updatedUser = await User.findByIdAndUpdate(_id, payload, {
-      new: true, // Return the updated document
-      runValidators: true, // Validate the update against the schema
+      new: true,
+      runValidators: true,
     });
 
     if (!updatedUser) {
@@ -273,13 +289,14 @@ export const updateUser = async (req, res) => {
   }
 };
 
+
 export const addToCardProduct = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
       throw new Error("Please Sir, Login First..!");
     }
-
+    
     const { productId } = req.body;
     if (!productId) {
       throw new Error(
