@@ -30,11 +30,11 @@ const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
         </h1>
       )}
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,300px))] gap-3 justify-center md:justify-between md:gap-4 overflow-x-scroll scrollbar-none transition-all">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,330px))] gap-3 justify-center md:justify-between md:gap-4 overflow-x-scroll scrollbar-none transition-all">
         {loading
           ? loadingCardArray.map((product, index) => (
               <div
-                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow"
+                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white shadow rounded-full"
                 key={index}
               >
                 <div className="bg-white h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse flex justify-center items-center"></div>
@@ -56,13 +56,13 @@ const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
               <Link
                 key={product._id}
                 to={`/product/${product?._id}`}
-                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow"
+                className="min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow transition-transform duration-300 hover:scale-105"
               >
                 <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex gap-4 justify-center items-center">
                   <img
                     src={product?.productImage[0]}
                     alt="product_img"
-                    className="object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply"
+                    className="object-scale-down h-full transition-all mix-blend-multiply"
                   ></img>
                 </div>
 
