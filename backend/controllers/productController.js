@@ -133,7 +133,7 @@ export const oneProductFromEachCategory = async (req, res) => {
     // Step 4: Return the array of selected products as the response
 
     return res.status(200).json({
-      message: "Prudct Found from each category..!",
+      message: "Product Found from each category..!",
       data: productsFromEachCategory,
       error: false,
       success: true,
@@ -163,7 +163,7 @@ export const allProductsOfThatCategory = async (req, res) => {
 
     res.status(200).json({
       data: products,
-      message: "Products FOund Successfully..!",
+      message: "Products Found Successfully..!",
       error: false,
       succee: true,
     });

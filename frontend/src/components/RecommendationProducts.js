@@ -29,7 +29,7 @@ const RecommendationProducts = ({ category, heading }) => {
     await fetchAddToCart(e, _id);
   };
 
-  return (
+  return data && data.length === 0 ? null : (
     <div className="container px-4 mx-auto relative my-6 scrollBar-none">
       {
         category &&

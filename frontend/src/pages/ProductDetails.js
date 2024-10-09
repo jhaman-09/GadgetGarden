@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { endPoint } from "../helper/api";
-import { toast } from "react-toastify";
 import { FaStar } from "react-icons/fa6";
 import { FaStarHalf } from "react-icons/fa6";
 import displayCurrency from "../helper/displayCurrency";
 import RecommendationProducts from "../components/RecommendationProducts";
 import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { categories } from "../helper/categoriesOptions";
+import { useFetchProductDetails } from "../hooks/useFetchProductDetails";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -19,7 +18,6 @@ const ProductDetails = () => {
     category: "",
     discount: "",
   });
-  const [suggestedProductType, setSuggestedProductType] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeImage, setActiveImage] = useState("");
   const [zoomImage, setZoomImage] = useState(false);
@@ -28,39 +26,30 @@ const ProductDetails = () => {
     y: 0,
   });
 
+  // for forcly re-reder this component again and again when detail of product change
+  const [forceUpdate, setForceUpdate] = useState(0);
+
   const params = useParams();
   const navigate = useNavigate();
 
+  const productDetails = useFetchProductDetails();
+
   const productImageLodingArray = new Array(4).fill(null);
 
-  const fetchProductDetails = async () => {
-    // setLoading(true);
-    const response = await fetch(endPoint.productDetails.url, {
-      method: endPoint.productDetails.method,
-      credentials: "include",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        productId: params?.id,
-      }),
-    });
-
-    const jsonData = await response.json();
-
-    if (jsonData.error) {
-      toast.error(jsonData.error);
+  const fetchProductDetails = async (paramsId) => {
+    setLoading(true);
+    const jsonData = await productDetails(paramsId);
+    if (jsonData.success) {
+      setData(jsonData?.data);
+      setActiveImage(jsonData?.data?.productImage[0]);
+      setForceUpdate((prev) => prev + 1); 
     }
-
     setLoading(false);
-    setData(jsonData?.data);
-    setSuggestedProductType(jsonData?.data?.category);
-    setActiveImage(jsonData?.data?.productImage[0]);
   };
 
   useEffect(() => {
-    fetchProductDetails();
-  }, [params.id]);
+    fetchProductDetails(params?.id);
+  }, [params?.id]);
 
   const handleZoomImage = useCallback(
     (e) => {
@@ -97,8 +86,9 @@ const ProductDetails = () => {
     navigate("/cart");
   };
 
+  {/* In This Component, I have to forcly re-reder the whole componnet which is not a good practice */}
   return (
-    <div className="container mx-auto p-4 scrollBar-none">
+    <div key={forceUpdate} className="container mx-auto p-4 scrollBar-none">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
         <div className="h-96 flex flex-col-reverse lg:flex-row  gap-4">
           {/* Side Product Images */}
@@ -229,31 +219,30 @@ const ProductDetails = () => {
         )}
       </div>
 
-      {data?.category && (
-        <RecommendationProducts
-          category={data?.category}
-          heading={"Recommended Product"}
-        />
+      {categories?.length > 0 && data?.category && (
+        <>
+          <RecommendationProducts
+            category={data.category}
+            heading={"Recommended Product"}
+          />
+
+          {categories?.map((ele) => {
+            const isNotCurrentCategory =
+              ele?.value.toString() !== data?.category;
+            return (
+              isNotCurrentCategory &&
+              ele?.value &&
+              ele?.value.length > 0 && (
+                <RecommendationProducts
+                  key={ele?.value}
+                  category={ele?.value}
+                  heading={"Recommended Product"}
+                />
+              )
+            );
+          })}
+        </>
       )}
-
-      {categories?.length > 0 &&
-        data?.category && // Check if both categories and data.category are defined
-        categories?.map((ele) => {
-          const currentCategory = ele?.value.toString() !== data?.category.toString();
-          return !currentCategory
-            ? null
-            : ele?.value &&
-                ele?.value.length > 0  && (
-                  <RecommendationProducts
-                    key={ele?.value}
-                    category={ele?.value}
-                    heading={"Recommended Product"}
-                  />
-                );
-        })}
-      
-
-
     </div>
   );
 };

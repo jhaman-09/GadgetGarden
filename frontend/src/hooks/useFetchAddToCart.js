@@ -24,7 +24,7 @@ export const useFetchAddToCart = () => {
         toast.success(jsonData.message);
         getAllCartProducts();
       } else if (jsonData.error) {
-        toast.error(jsonData.message);
+        toast(jsonData.message);
       }
 
       return jsonData;

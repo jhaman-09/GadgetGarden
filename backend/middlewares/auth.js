@@ -6,7 +6,7 @@ export const authToken = async (req, res, next) => {
 
   if (!token) {
     return res.status(400).json({
-      message: "please login first...!",
+      message: "Please log in first!",
       error: true,
       success: false,
     });
