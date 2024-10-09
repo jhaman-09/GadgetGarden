@@ -86,9 +86,8 @@ const ProductDetails = () => {
     navigate("/cart");
   };
 
-  {/* In This Component, I have to forcly re-reder the whole componnet which is not a good practice */}
   return (
-    <div key={forceUpdate} className="container mx-auto p-4 scrollBar-none">
+    <div className="container mx-auto p-4 scrollBar-none">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
         <div className="h-96 flex flex-col-reverse lg:flex-row  gap-4">
           {/* Side Product Images */}
@@ -221,7 +220,9 @@ const ProductDetails = () => {
 
       {categories?.length > 0 && data?.category && (
         <>
+          {/* In This Component, I have to forcly re-reder the whole componnet which is not a good practice */}
           <RecommendationProducts
+            key={forceUpdate}
             category={data.category}
             heading={"Recommended Product"}
           />

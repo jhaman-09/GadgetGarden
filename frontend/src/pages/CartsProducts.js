@@ -38,20 +38,22 @@ const CartsProducts = () => {
   ) : (
     <div className="container p-4 mx-auto rounded">
       {cartProducts && cartProducts.length === 0 ? (
-        <div className="mx-24">
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-center text-4xl">No Data Sir..!</h1>
-            <Link to={"/"} className="bg-primary px-4 py-2 text-white">
-              <button className="rounded-full">Continue</button>
+        <div className="flex-grow flex justify-center items-center md:h-screen">
+          <div className="flex flex-col items-center justify-center md:fixed">
+            <h1 className="text-center text-4xl">Nothing in the cart! 😒</h1>
+            <Link
+              to={"/"}
+              className="bg-primary rounded-lg border-2 hover:bg-secondary cursor-pointer transition-all mt-3 hover:text-black md:px-8 px-4 py-2 text-white"
+            >
+              <button>Continue</button>
             </Link>
           </div>
         </div>
       ) : (
         // {Cart Products Details}
-
-        <div class="grid md:grid-cols-3 mx-4 md:mx-24 gap-4 md:gap-8 ">
-          <div className="h-screen md:col-span-2 overflow-y-scroll">
-            <div class=" grid gap-4 ">
+        <div class="grid md:grid-cols-3 mx-4 md:mx-24  gap-4 md:gap-8">
+          <div className="md:h-screen md:col-span-2 col-span-1 transition-all overflow-y-scroll">
+            <div class=" grid gap-4 md:mb-10">
               {cartProducts &&
                 cartProducts.map((cartItem) => {
                   return (
@@ -144,40 +146,43 @@ const CartsProducts = () => {
           </div>
 
           {/* {Cart Summary of Products} */}
-          <div className="p-4 bg-gray-100 rounded-lg shadow-lg h-[225px]">
-            <h3 className="text-xl font-semibold mb-4">Cart Summary</h3>
-            <div className="flex justify-between">
-              <p>Total Items:</p>
-              <p>
-                {cartProducts &&
-                  cartProducts.reduce(
-                    (acc, cartItem) => acc + cartItem?.quantity,
-                    0
+          <div className="col-span-1 h-auto bg-gray-100 rounded-lg shadow-lg">
+            <div className="top-20 p-4 bg-gray-100 rounded-lg md:shadow-lg transition-all md:sticky">
+              <h3 className="text-xl font-semibold mb-4">Cart Summary</h3>
+              <div className="flex justify-between">
+                <p>Total Items:</p>
+                <p>
+                  {cartProducts &&
+                    cartProducts.reduce(
+                      (acc, cartItem) => acc + cartItem?.quantity,
+                      0
+                    )}
+                </p>
+              </div>
+              <div className="flex justify-between mt-2">
+                <p>Total Price</p>
+                <p>
+                  {displayCurrency(
+                    cartProducts &&
+                      cartProducts
+                        .reduce(
+                          (acc, cartItem) =>
+                            acc +
+                            cartItem?.product?.sellingPrice *
+                              cartItem?.quantity,
+                          0
+                        )
+                        .toFixed(2)
                   )}
-              </p>
+                </p>
+              </div>
+              <button
+                className="mt-6 w-full bg-primary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-primary hover:bg-white hover:text-primary hover:shadow-md"
+                onClick={handlePayment}
+              >
+                Buy Now
+              </button>
             </div>
-            <div className="flex justify-between mt-2">
-              <p>Total Price</p>
-              <p>
-                {displayCurrency(
-                  cartProducts &&
-                    cartProducts
-                      .reduce(
-                        (acc, cartItem) =>
-                          acc +
-                          cartItem?.product?.sellingPrice * cartItem?.quantity,
-                        0
-                      )
-                      .toFixed(2)
-                )}
-              </p>
-            </div>
-            <button
-              className="mt-6 w-full bg-primary text-white px-4 py-2 rounded-lg border hover:border-2 hover:border-primary hover:bg-white hover:text-primary hover:shadow-md"
-              onClick={handlePayment}
-            >
-              Buy Now
-            </button>
           </div>
         </div>
       )}
