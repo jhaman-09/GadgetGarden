@@ -16,7 +16,7 @@ const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
     <div
       className={
         allowMargin === "true"
-          ? `container px-4 mx-auto relative my-3 scrollBar-none`
+          ? `container px-4 mx-auto relative my-3 scrollBar-none md:mb-12`
           : `container px-4 mx-auto relative scrollBar-none`
       }
     >

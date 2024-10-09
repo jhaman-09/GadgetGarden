@@ -6,7 +6,7 @@ import VerticalProducts from "../components/VerticalProducts.js";
 
 const Home = () => {
   return (
-    <>
+    <div className="md:mb-10">
       <CategoryProductList />
       <BannerAdvertiseProduct />
 
@@ -53,7 +53,7 @@ const Home = () => {
         category={"refrigerator"}
         heading={"Refrigerator with Extra Cooling Techniques"}
       />
-    </>
+    </div>
   );
 };
 
