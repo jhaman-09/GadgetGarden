@@ -165,6 +165,7 @@ const Signup = () => {
                 value="ADMIN"
                 name="role"
                 className="mr-2"
+                id="role"
                 onChange={handleChange}
               />
               <label htmlFor="role">ADMIN</label>
