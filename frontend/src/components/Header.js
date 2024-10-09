@@ -31,7 +31,7 @@ const Header = () => {
   return (
     <header className="h-16 shadow-md bg-white fixed z-40 w-full">
       <div className="container mx-auto h-full flex items-center px-5 justify-between">
-        <div className="">
+        <div className="flex-shrink-0">
           <Link to={"/"}>
             <Logo w={90} h={50} />
           </Link>
@@ -44,10 +44,11 @@ const Header = () => {
             className="w-full outline-none px-2"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            style={{ minWidth: "250px" }}
             // onKeyPress={handleSearch} // Trigger search on "Enter" key press
           />
           <div
-            className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center rounded-r-full"
+            className="text-lg text-white bg-primary min-w-[50px] h-8 flex items-center justify-center cursor-pointer rounded-r-full"
             onClick={(e) => handleSearch(e)}
           >
             <IoSearch />
@@ -64,10 +65,11 @@ const Header = () => {
                 <img
                   src={user?.profilePic}
                   alt="user-profilePic"
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 rounded-full object-cover"
+                  style={{ width: "40px", height: "40px" }}
                 />
               ) : (
-                user && <FaCircleUser />
+                user && <FaCircleUser className="w-10 h-10" />
               )}
             </div>
 
@@ -93,11 +95,12 @@ const Header = () => {
                 <FaShoppingCart />
                 <div className="bg-primary text-white w-5 h-5 p-2 rounded-full flex items-center justify-center absolute -top-2 -right-3">
                   <p className="text-sm">
-                    {cartProducts &&
+                    {(cartProducts &&
                       cartProducts.reduce(
                         (acc, cartItem) => acc + cartItem?.quantity,
                         0
-                      )}
+                      )) ||
+                      0}
                   </p>
                 </div>
               </span>

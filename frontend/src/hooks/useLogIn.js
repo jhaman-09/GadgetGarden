@@ -21,16 +21,15 @@ export const useLogIn = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(errorData.message);
-      }
       const jsonData = await response.json();
+      if (jsonData.error) {
+        throw new Error(jsonData.message)
+      }
       dispatch(isAutherized(true));
       toast.success(jsonData.message);
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || error);
     }
   };
   return login;

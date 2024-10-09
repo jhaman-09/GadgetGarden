@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -7,7 +7,9 @@ const AdminPanel = () => {
   const { user } = useSelector((store) => store.user);
   const navigate = useNavigate();
   
+  useEffect(() => {
     if (!user) navigate("/");
+  },[user]) 
 
   return (
     <div className="min-h-[calc(100vh-120px)] bg-white flex">
@@ -18,21 +20,27 @@ const AdminPanel = () => {
               <img
                 src={user?.profilePic}
                 alt="user-profilePic"
-                className="w-20 h-20 rounded-full"
+                className="w-20 h-20 rounded-full object-cover"
               />
             ) : (
-              <FaCircleUser />
+              <FaCircleUser className="w-20 h-20" />
             )}
           </div>
           <p className="capitalize text-xl font-semibold">{user?.name}</p>
           <p className="text-sm">{user?.role}</p>
         </div>
-        <div>
+        <div className="">
           <nav className="grid p-4">
-            <Link to={"all-users"} className="px-2 py-1 hover:bg-slate-100 shadow-sm">
+            <Link
+              to={"all-users"}
+              className="px-3 py-1 min-w-[150px] hover:bg-slate-200 shadow-sm  hover:shadow-md border-black rounded-md"
+            >
               All Users
             </Link>
-            <Link to={"all-products"} className="px-2 py-1 hover:bg-slate-100 shadow-sm">
+            <Link
+              to={"all-products"}
+              className="px-3 py-1 min-w-[150px] hover:bg-slate-200 shadow-sm hover:shadow-md  border-black rounded-md"
+            >
               All Products
             </Link>
           </nav>
