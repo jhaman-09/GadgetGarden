@@ -50,7 +50,7 @@ const Signup = () => {
 
   return (
     <section id="signup">
-      <div className="mx-auto container p-4">
+      <div className="mx-auto container md:fixed p-4">
         <div className="bg-white p-4 w-full max-w-sm mx-auto rounded-md">
           <div className="w-20 h-20 mx-auto relative overflow-hidden rounded-full">
             <div>
@@ -71,7 +71,7 @@ const Signup = () => {
             </form>
           </div>
 
-          <form className="pt-6 flex flex-col gap-2" onSubmit={handleSubmit}>
+          <form className="pt-2 flex flex-col gap-2" onSubmit={handleSubmit}>
             <div className="grid">
               <label>Name :</label>
               <div className="bg-slate-100 p-2">
@@ -171,12 +171,12 @@ const Signup = () => {
               <label htmlFor="role">ADMIN</label>
             </div>
 
-            <button className="bg-primary hover:bg-secondary  text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-5">
+            <button className="bg-primary hover:bg-secondary text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block">
               Sign Up
             </button>
           </form>
 
-          <p className="my-4">
+          <p className="pt-1">
             {" "}
             Have a account ?{" "}
             <Link

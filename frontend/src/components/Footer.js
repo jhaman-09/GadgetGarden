@@ -44,7 +44,7 @@ const Footer = () => {
           </Link>
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="md:mt-4 mt-1 text-center">
           <p className="text-sm text-gray-500 text-center hover:text-black transition-all">
             &copy; {new Date().getFullYear()} Aman Kumar Jha. All rights
             reserved.

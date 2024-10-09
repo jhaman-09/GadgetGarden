@@ -39,8 +39,11 @@ const CartsProducts = () => {
     <div className="container p-4 mx-auto rounded">
       {cartProducts && cartProducts.length === 0 ? (
         <div className="flex-grow flex justify-center items-center md:h-screen">
-          <div className="flex flex-col items-center justify-center md:fixed">
-            <h1 className="text-center text-4xl">Nothing in the cart! 😒</h1>
+          <div className="flex flex-col md:top-64 items-center justify-center md:fixed">
+            <h1 className="text-center text-4xl font-semibold py-2">
+              Empty cart!
+            </h1>
+            <p className="text-4xl">😒</p>
             <Link
               to={"/"}
               className="bg-primary rounded-lg border-2 hover:bg-secondary cursor-pointer transition-all mt-3 hover:text-black md:px-8 px-4 py-2 text-white"
@@ -51,14 +54,14 @@ const CartsProducts = () => {
         </div>
       ) : (
         // {Cart Products Details}
-        <div class="grid md:grid-cols-3 mx-4 md:mx-24  gap-4 md:gap-8">
-          <div className="md:h-screen md:col-span-2 col-span-1 transition-all overflow-y-scroll">
+        <div class="grid md:grid-cols-3 mx-4 md:mx-24 gap-4 md:gap-8">
+          <div className="md:h-screen md:col-span-2 col-span-1 overflow-y-scroll">
             <div class=" grid gap-4 md:mb-10">
               {cartProducts &&
                 cartProducts.map((cartItem) => {
                   return (
                     <div
-                      className="bg-white h-[225px]"
+                      className="bg-white h-[225px] rounded-lg transition-all md:transition-transform duration-500 hover:scale-[98%]"
                       key={cartItem?.product?._id}
                     >
                       <div className="grid grid-cols-2 md:grid-cols-3 h-full">
@@ -146,8 +149,8 @@ const CartsProducts = () => {
           </div>
 
           {/* {Cart Summary of Products} */}
-          <div className="col-span-1 h-auto bg-gray-100 rounded-lg shadow-lg">
-            <div className="top-20 p-4 bg-gray-100 rounded-lg md:shadow-lg transition-all md:sticky">
+          <div className="col-span-1 h-auto rounded-lg">
+            <div className="md:top-20 p-4 rounded-lg shadow-lg transition-all bottom-12 md:sticky">
               <h3 className="text-xl font-semibold mb-4">Cart Summary</h3>
               <div className="flex justify-between">
                 <p>Total Items:</p>
