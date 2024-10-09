@@ -61,7 +61,7 @@ const CartsProducts = () => {
                 cartProducts.map((cartItem) => {
                   return (
                     <div
-                      className="bg-white h-[225px] rounded-lg transition-all md:transition-transform duration-500 hover:scale-[98%]"
+                      className="bg-white h-[225px] rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:bg-gray-50 md:hover:scale-100"
                       key={cartItem?.product?._id}
                     >
                       <div className="grid grid-cols-2 md:grid-cols-3 h-full">
