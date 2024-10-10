@@ -6,9 +6,13 @@
     description: "",
     price: "",
     sellingPrice: "",
+    discount : "",
+    uploadedBy : "" (objectId ref)
+    reviews : []
 */
 
 import mongoose from "mongoose";
+import { reviewProductSchema } from "./reviewProductSchema";
 
 const productSchema = new mongoose.Schema(
   {
@@ -47,6 +51,7 @@ const productSchema = new mongoose.Schema(
       ref: "User",                            // Referencing the User model
       required: true,
     },
+    reviews : [reviewProductSchema]
   },
   { timestamps: true }
 );
