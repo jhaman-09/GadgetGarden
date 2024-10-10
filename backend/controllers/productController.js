@@ -66,7 +66,10 @@ export const getAllProduct = async (req, res) => {
 
     res.status(200).json({
       data: allProducts,
-      message: allProducts.length !== 0 ? "Product Found Successfully...!" : "Oops! No Product Found",
+      message:
+        allProducts.length !== 0
+          ? "Product Found Successfully...!"
+          : "Oops! No Product Found",
       error: false,
       success: true,
     });
@@ -259,6 +262,250 @@ export const getFilterProductsByCategory = async (req, res) => {
   } catch (error) {
     res.status(401).json({
       message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+//  reviews controller ....
+export const addReviewOnProduct = async (req, res) => {
+  try {
+    const { reviewText, rating, productId } = req.body;
+    const userId = req.user._id;
+
+    if (!userId) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    if (!reviewText) {
+      throw new Error("Please Provide Review Too...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    product.reviews.push({
+      reviewText: reviewText,
+      rating: rating,
+      reviewedBy: userId,
+    });
+
+    await product.save();
+
+    res.status(200).json({
+      data: product,
+      message: "Review Added Successfully....!",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const editReview = async (req, res) => {
+  try {
+    const { reviewText, rating, productId, reviewId } = req.body;
+    const userId = req.user._id;
+
+    if ((!productId, reviewId === undefined)) {
+      throw new Error("Please Provide Proper Details....!");
+    }
+
+    if (!userId) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    // reviewId is within the array bounds
+    if (reviewId < 0 || reviewId >= product.reviews.length) {
+      throw new Error("Review not found....!");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    review.reviewText = reviewText;
+    review.rating = rating;
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Review Edited Successfully....",
+      data: product,
+      error: false,
+      succee: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+// delete your own review
+export const deleteReview = async (req, res) => {
+  try {
+    const { productId, reviewId } = req.body;
+    const userId = req.user._id;
+
+    if (!productId || reviewId === undefined) {
+      throw new Error("Please provide the product ID and review ID.");
+    }
+
+    if (!userId) {
+      throw new Error("You need to Login/Signup first.");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found.");
+    }
+
+    // reviewId is within the array bounds
+    if (reviewId < 0 || reviewId >= product.reviews.length) {
+      throw new Error("Review not found.");
+    }
+
+    const review = product.reviews[reviewId];
+    if (review.reviewedBy.toString() !== userId.toString()) {
+      throw new Error("You are not authorized to delete this review.");
+    }
+
+    product.reviews.splice(reviewId, 1);
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Review deleted successfully!",
+      data: product,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message || "Something went wrong.",
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const commentOnReview = async (req, res) => {
+  try {
+    const { commentText, productId, reviewId } = req.body; // here review Id is index of reviewsArray review
+    const userId = req.user._id;
+
+    if (!userId) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    if (!commentText || commentText.length === 0) {
+      throw new Error("Please Provide Comment Text...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    // reviewId is within the array bounds
+    if (reviewId < 0 || reviewId >= product.reviews.length) {
+      throw new Error("Review not found....!");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    review.comments.push({ commentText: commentText, commentedBy: userId });
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Comment added successfully....",
+      data: product,
+      error: false,
+      succee: true,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const replyToComment = async (req, res) => {
+  try {
+    const { productId, reviewId, commentId, replyText } = req.body;
+    const userId = req.user._id;
+
+    if (!userId) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    if (!replyText || replyText.length === 0) {
+      throw new Error("Please provide a reply text.");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found.");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    const comment = review.comments[commentId];
+    
+    if (!comment) {
+      throw new Error("Commet not found....!");
+    }
+
+    comment.replies.push({
+      commentText: replyText,
+      commentedBy: userId,
+    });
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Reply addedd Successfully....!",
+      data: product,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message || "Something went wrong.",
       error: true,
       success: false,
     });

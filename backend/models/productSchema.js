@@ -12,7 +12,7 @@
 */
 
 import mongoose from "mongoose";
-import { reviewProductSchema } from "./reviewProductSchema";
+import { reviewProductSchema } from "./reviewProductSchema.js";
 
 const productSchema = new mongoose.Schema(
   {
