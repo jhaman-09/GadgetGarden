@@ -485,9 +485,9 @@ export const replyToComment = async (req, res) => {
     }
 
     const comment = review.comments[commentId];
-    
+
     if (!comment) {
-      throw new Error("Commet not found....!");
+      throw new Error("Comment not found....!");
     }
 
     comment.replies.push({
