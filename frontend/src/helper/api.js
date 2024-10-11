@@ -69,6 +69,31 @@ export const endPoint = {
     method: "POST",
   },
 
+  addReview : {
+    url: api + "/product/review-product",
+    method: "POST",
+  },
+
+  editReview: {
+    url: api + "/product/edit-review",
+    method: "PUT",
+  },
+
+  deleteReview: {
+    url: api + "/product/delete-review",
+    method: "DELETE",
+  },
+
+  commentOnReview: {
+    url: api + "/product/comment-review",
+    method: "POST",
+  },
+
+  replyComment: {
+    url: api + "/product/reply-comment",
+    method: "POST",
+  },
+
   // CART RELATED ROUTES
 
   getAllCartProduct: {

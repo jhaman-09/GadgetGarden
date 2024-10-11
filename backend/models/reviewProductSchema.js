@@ -19,9 +19,11 @@ const commentSchema = new mongoose.Schema(
       required: true,
       default: "Anonymous User", // Default name
     },
+
     commentedByProfilePic: {
       type: String, // URL or path to profile picture
     },
+
     commentedByUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -61,9 +63,11 @@ export const reviewProductSchema = new mongoose.Schema(
       required: true,
       default: "Anonymous User", // Default name
     },
+    
     reviewedByProfilePic: {
       type: String, // URL or path to profile picture
     },
+
     reviewedByUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

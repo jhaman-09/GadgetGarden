@@ -7,6 +7,9 @@ import RecommendationProducts from "../components/RecommendationProducts";
 import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { categories } from "../helper/categoriesOptions";
 import { useFetchProductDetails } from "../hooks/useFetchProductDetails";
+import Review from "../components/Review";
+import { useReviewProduct } from "../hooks/useReviewProduct";
+import AddReview from "../components/AddReview";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -30,6 +33,15 @@ const ProductDetails = () => {
   // for forcly re-reder this component again and again when detail of product change
   const [forceUpdate, setForceUpdate] = useState(0);
 
+  const [reviewInput, setReviewInput] = useState({
+    name: "",
+    text: "",
+    rating: 0,
+  });
+
+  const [openReviewAdd, setOpenReviewAdd] = useState(true);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
   // Reviews scroll
   const [isReviewSectionVisible, setIsReviewSectionVisible] = useState(false);
   const reviewSectionRef = useRef(null);
@@ -46,7 +58,7 @@ const ProductDetails = () => {
     setLoading(true);
     const jsonData = await productDetails(paramsId);
     if (jsonData.success) {
-      setData(jsonData?.data);      
+      setData(jsonData?.data);
       setActiveImage(jsonData?.data?.productImage[0]);
       setForceUpdate((prev) => prev + 1);
     }
@@ -101,11 +113,11 @@ const ProductDetails = () => {
       const reviewPosition = reviewSection.getBoundingClientRect();
       const containerPosition = scrollAbleSection.getBoundingClientRect();
 
-      // check review sction within view
-      if (reviewPosition.top() <= containerPosition.bottom) {
+      // Check if review section is in view
+      if (reviewPosition.top <= containerPosition.bottom) {
         setIsReviewSectionVisible(true);
       } else {
-        setIsReviewSectionVisible(false)
+        setIsReviewSectionVisible(false);
       }
     }
   };
@@ -113,19 +125,40 @@ const ProductDetails = () => {
   useEffect(() => {
     const scrollAbleSection = scrollAbleSectionRef.current;
     if (scrollAbleSection) {
-      scrollAbleSection.addEventListener('scroll', handleScroll);
+      scrollAbleSection.addEventListener("scroll", handleScroll);
     }
 
     return () => {
       if (scrollAbleSection) {
-        scrollAbleSection.removeEventListener('scroll', handleScroll);
+        scrollAbleSection.removeEventListener("scroll", handleScroll);
       }
+    };
+  }, []);
+
+  // review, comment, replies
+
+  const reviewProduct = useReviewProduct();
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmittingReview(true);
+
+    const newReview = {
+      reviewText: reviewInput.text,
+      rating: reviewInput.rating,
+      productId: params?.id,
+    };
+
+    const jsonData = await reviewProduct({ ...newReview });
+    if (jsonData.success) {
+      setData((prevData) => ({
+        ...prevData,
+        reviews: [...prevData.reviews, newReview],
+      }));
     }
-  },[])
-
-      console.log(data);
-
-
+    setReviewInput({ name: "", rating: 0, text: "" });
+    setIsSubmittingReview(true);
+  };
 
   return (
     <div className="container mx-auto p-4 scrollBar-none">
@@ -211,11 +244,7 @@ const ProductDetails = () => {
 
             {/* {Stars Rating} */}
             <div className="flex items-center gap-1 text-xl text-primary">
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStar />
-              <FaStarHalf />
+              {data.reviews.map((review) => review.rating * <FaStar />)}
             </div>
 
             {/* {Price and Discount} */}
@@ -264,19 +293,20 @@ const ProductDetails = () => {
 
                 {/* {Reviews} */}
                 <div ref={reviewSectionRef}>
-                  <p className="font-medium">Reviews: </p>
+                  <p className="font-medium">Ratings & Reviews: </p>
                   {data?.reviews?.length > 0 ? (
                     data?.reviews.map((review, index) => (
-                      <div key={review + index} className="mt-2">
-                        <p>{review?.reviewText}</p>
-                        <p className="text-xs text-gray-500">
-                          - {review.reviewedBy}
-                        </p>
-                      </div>
+                      <Review review={review} index={index} />
                     ))
                   ) : (
                     <p>No Any Review yet..!</p>
                   )}
+                  <AddReview
+                    handleReviewSubmit={handleReviewSubmit}
+                    reviewInput={reviewInput}
+                    setReviewInput={setReviewInput}
+                    isSubmittingReview={isSubmittingReview}
+                  />
                 </div>
               </div>
             </div>
