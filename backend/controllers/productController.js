@@ -272,9 +272,9 @@ export const getFilterProductsByCategory = async (req, res) => {
 export const addReviewOnProduct = async (req, res) => {
   try {
     const { reviewText, rating, productId } = req.body;
-    const userId = req.user._id;
+    const user = req.user;
 
-    if (!userId) {
+    if (!user) {
       throw new Error("You have to Login/Signup first...!");
     }
 
@@ -291,7 +291,11 @@ export const addReviewOnProduct = async (req, res) => {
     product.reviews.push({
       reviewText: reviewText,
       rating: rating,
-      reviewedBy: userId,
+      reviewedBy: {
+        userId: user._id,
+        profilePic: user.profilePic,
+        userName: user.name
+      },
     });
 
     await product.save();
@@ -336,9 +340,13 @@ export const editReview = async (req, res) => {
     }
 
     const review = product.reviews[reviewId];
+    
+        if (!review) {
+          throw new Error("Review not found....!");
+        }
 
-    if (!review) {
-      throw new Error("Review not found....!");
+    if (review.reviewedBy.userId.toString() !== userId.toString()) {
+      throw new Error("You are not authorized to edit this review.");
     }
 
     review.reviewText = reviewText;
@@ -387,7 +395,7 @@ export const deleteReview = async (req, res) => {
     }
 
     const review = product.reviews[reviewId];
-    if (review.reviewedBy.toString() !== userId.toString()) {
+    if (review.reviewedBy.userId.toString() !== userId.toString()) {
       throw new Error("You are not authorized to delete this review.");
     }
 
@@ -413,9 +421,9 @@ export const deleteReview = async (req, res) => {
 export const commentOnReview = async (req, res) => {
   try {
     const { commentText, productId, reviewId } = req.body; // here review Id is index of reviewsArray review
-    const userId = req.user._id;
+    const user = req.user;
 
-    if (!userId) {
+    if (!user) {
       throw new Error("You have to Login/Signup first...!");
     }
 
@@ -436,11 +444,18 @@ export const commentOnReview = async (req, res) => {
 
     const review = product.reviews[reviewId];
 
-    if (!review) {
-      throw new Error("Review not found....!");
-    }
+      if (!review) {
+        throw new Error("Review not found....!");
+      }
 
-    review.comments.push({ commentText: commentText, commentedBy: userId });
+    review.comments.push({
+      commentText: commentText,
+      commentedBy: {
+        userId: user._id,
+        profilePic: user.profilePic,
+        userName: user.name,
+      },
+    });
 
     await product.save();
 
@@ -462,9 +477,9 @@ export const commentOnReview = async (req, res) => {
 export const replyToComment = async (req, res) => {
   try {
     const { productId, reviewId, commentId, replyText } = req.body;
-    const userId = req.user._id;
+    const user = req.user;
 
-    if (!userId) {
+    if (!user) {
       throw new Error("You have to Login/Signup first...!");
     }
 
@@ -492,7 +507,11 @@ export const replyToComment = async (req, res) => {
 
     comment.replies.push({
       commentText: replyText,
-      commentedBy: userId,
+      commentedBy: {
+        userId: user._id,
+        profilePic: user.profilePic,
+        userName: user.name,
+      },
     });
 
     await product.save();

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import { FaStarHalf } from "react-icons/fa6";
@@ -17,6 +17,7 @@ const ProductDetails = () => {
     sellingPrice: "",
     category: "",
     discount: "",
+    reviews: [],
   });
   const [loading, setLoading] = useState(false);
   const [activeImage, setActiveImage] = useState("");
@@ -29,6 +30,11 @@ const ProductDetails = () => {
   // for forcly re-reder this component again and again when detail of product change
   const [forceUpdate, setForceUpdate] = useState(0);
 
+  // Reviews scroll
+  const [isReviewSectionVisible, setIsReviewSectionVisible] = useState(false);
+  const reviewSectionRef = useRef(null);
+  const scrollAbleSectionRef = useRef(null);
+
   const params = useParams();
   const navigate = useNavigate();
 
@@ -40,9 +46,9 @@ const ProductDetails = () => {
     setLoading(true);
     const jsonData = await productDetails(paramsId);
     if (jsonData.success) {
-      setData(jsonData?.data);
+      setData(jsonData?.data);      
       setActiveImage(jsonData?.data?.productImage[0]);
-      setForceUpdate((prev) => prev + 1); 
+      setForceUpdate((prev) => prev + 1);
     }
     setLoading(false);
   };
@@ -85,6 +91,41 @@ const ProductDetails = () => {
     fetchAddToCart(e, product_id);
     navigate("/cart");
   };
+
+  // Scroll review and description
+  const handleScroll = () => {
+    const scrollAbleSection = scrollAbleSectionRef.current;
+    const reviewSection = reviewSectionRef.current;
+
+    if (scrollAbleSection && reviewSection) {
+      const reviewPosition = reviewSection.getBoundingClientRect();
+      const containerPosition = scrollAbleSection.getBoundingClientRect();
+
+      // check review sction within view
+      if (reviewPosition.top() <= containerPosition.bottom) {
+        setIsReviewSectionVisible(true);
+      } else {
+        setIsReviewSectionVisible(false)
+      }
+    }
+  };
+
+  useEffect(() => {
+    const scrollAbleSection = scrollAbleSectionRef.current;
+    if (scrollAbleSection) {
+      scrollAbleSection.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (scrollAbleSection) {
+        scrollAbleSection.removeEventListener('scroll', handleScroll);
+      }
+    }
+  },[])
+
+      console.log(data);
+
+
 
   return (
     <div className="container mx-auto p-4 scrollBar-none">
@@ -159,7 +200,7 @@ const ProductDetails = () => {
             <p className="capitalize text-slate-400 bg-slate-200 min-w-[100px] animate-pulse h-6 lg:h-8 w-full"></p>
           </div>
         ) : (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 max-h-[500px]">
             <p className="bg-primary text-white px-2 rounded-full inline-block w-fit">
               {data?.brandName}
             </p>
@@ -211,8 +252,33 @@ const ProductDetails = () => {
             </div>
 
             <div className="mt-2">
-              <p className="text-slate-700 font-medium">Description : </p>
-              <p className="text-base lg:text-sm">{data?.description}</p>
+              <p className="text-slate-700 font-medium">
+                {isReviewSectionVisible ? "Reviews" : "Description"}
+              </p>
+              <div
+                className="text-base lg:text-sm overflow-y-scroll max-h-[146px]"
+                ref={scrollAbleSectionRef}
+              >
+                {/* {Description} */}
+                <p className="mb-4">{data?.description}</p>
+
+                {/* {Reviews} */}
+                <div ref={reviewSectionRef}>
+                  <p className="font-medium">Reviews: </p>
+                  {data?.reviews?.length > 0 ? (
+                    data?.reviews.map((review, index) => (
+                      <div key={review + index} className="mt-2">
+                        <p>{review?.reviewText}</p>
+                        <p className="text-xs text-gray-500">
+                          - {review.reviewedBy}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No Any Review yet..!</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         )}
