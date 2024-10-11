@@ -14,20 +14,18 @@ const commentSchema = new mongoose.Schema(
       required: [true, "Please provide a comment"],
     },
 
-    commentedBy: {
-      userName: {
-        type: String,
-        required: true,
-        default: "Anonymous User", // Default name
-      },
-      profilePic: {
-        type: String, // URL or path to profile picture
-      },
-      userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      },
+    commentedByUserName: {
+      type: String,
+      required: true,
+      default: "Anonymous User", // Default name
+    },
+    commentedByProfilePic: {
+      type: String, // URL or path to profile picture
+    },
+    commentedByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
 
     replies: {
@@ -58,20 +56,18 @@ export const reviewProductSchema = new mongoose.Schema(
       required: [true, "Please Provide a review text"],
     },
 
-    reviewedBy: {
-      userName: {
-        type: String,
-        required: true,
-        default: "Anonymous User", // Default name
-      },
-      profilePic: {
-        type: String, // URL or path to profile picture
-      },
-      userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-      },
+    reviewedByUserName: {
+      type: String,
+      required: true,
+      default: "Anonymous User", // Default name
+    },
+    reviewedByProfilePic: {
+      type: String, // URL or path to profile picture
+    },
+    reviewedByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
 
     comments: [commentSchema], // embed comments in each review

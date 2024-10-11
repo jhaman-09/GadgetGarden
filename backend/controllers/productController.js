@@ -291,11 +291,9 @@ export const addReviewOnProduct = async (req, res) => {
     product.reviews.push({
       reviewText: reviewText,
       rating: rating,
-      reviewedBy: {
-        userId: user._id,
-        profilePic: user.profilePic,
-        userName: user.name
-      },
+      reviewedByUserId: user._id,
+      reviewedByProfilePic: user.profilePic,
+      reviewedByUserName: user.name,
     });
 
     await product.save();
@@ -340,10 +338,10 @@ export const editReview = async (req, res) => {
     }
 
     const review = product.reviews[reviewId];
-    
-        if (!review) {
-          throw new Error("Review not found....!");
-        }
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
 
     if (review.reviewedBy.userId.toString() !== userId.toString()) {
       throw new Error("You are not authorized to edit this review.");
@@ -395,7 +393,7 @@ export const deleteReview = async (req, res) => {
     }
 
     const review = product.reviews[reviewId];
-    if (review.reviewedBy.userId.toString() !== userId.toString()) {
+    if (review.reviewedByUserId.toString() !== userId.toString()) {
       throw new Error("You are not authorized to delete this review.");
     }
 
@@ -444,17 +442,15 @@ export const commentOnReview = async (req, res) => {
 
     const review = product.reviews[reviewId];
 
-      if (!review) {
-        throw new Error("Review not found....!");
-      }
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
 
     review.comments.push({
       commentText: commentText,
-      commentedBy: {
-        userId: user._id,
-        profilePic: user.profilePic,
-        userName: user.name,
-      },
+      commentedByUserId: user._id,
+      commentedByProfilePic: user.profilePic,
+      commentedByUserName: user.name,
     });
 
     await product.save();
@@ -507,11 +503,9 @@ export const replyToComment = async (req, res) => {
 
     comment.replies.push({
       commentText: replyText,
-      commentedBy: {
-        userId: user._id,
-        profilePic: user.profilePic,
-        userName: user.name,
-      },
+      commentedByUserId: user._id,
+      commentedByProfilePic: user.profilePic,
+      commentedByUserName: user.name,
     });
 
     await product.save();
