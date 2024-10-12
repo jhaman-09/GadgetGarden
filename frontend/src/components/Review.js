@@ -1,41 +1,61 @@
 import React, { useState } from "react";
 import { useCommentOnReview } from "../hooks/useCommentOnReview";
 import { FaRegWindowClose } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { FaUserCircle } from "react-icons/fa";
 
-const Review = ({ review, index, productId }) => {
+const Review = ({ review, index, productId, setData }) => {
   const [addReply, setAddReply] = useState(false);
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
-  const [data, setData] = useState("");
+  const [commentText, setCommentText] = useState("");
 
   const commentOnReview = useCommentOnReview();
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
     setIsSubmittingReply(true);
-    await commentOnReview({ commentText: data, productId, reviewId: index });
+    const jsonData = await commentOnReview({
+      commentText: commentText,
+      productId,
+      reviewId: index,
+    });
+    if (jsonData.success) {
+      toast.success(jsonData.message);
+      // reviews: {
+      //   ...prev.reviews, // Spread the existing reviews object
+      //   comments: jsonData.data.reviews.comments, // Update the comments with new data
+      // },
+      setData((prevData) => ({
+        ...prevData,
+        reviews: jsonData.data.reviews,
+      }));
+    }
     setIsSubmittingReply(false);
     setAddReply(false); // Hide reply box after submitting
-    setData(""); // Clear input field
+    setCommentText(""); // Clear input field
   };
-
-  console.log(data);
 
   return (
     <div key={index} className="mt-2">
       {/* User Info */}
       <span className="text-xs text-gray-500 flex gap-1 items-center">
-        <img
-          src={review?.reviewedByProfilePic || review?.commentedByProfilePic}
-          alt="reviewedProfilePic"
-          className="w-5 h-5 rounded-full"
-        />
+        {review?.reviewedByProfilePic || review?.commentedByProfilePic ? (
+          <img
+            src={review?.reviewedByProfilePic || review?.commentedByProfilePic}
+            alt="reviewedProfilePic"
+            className="w-5 h-5 rounded-full"
+          />
+        ) : (
+          <FaUserCircle className="w-5 h-5" />
+        )}
+
         <p>{review?.reviewedByUserName || review?.commentedByUserName}</p>
       </span>
 
       {/* Review or Comment Text */}
       <p className="flex gap-4 items-center">
         - {review?.reviewText || review?.commentText}{" "}
-        {review?.reviewText && (        // only show in Review to reply
+        {review?.reviewText && ( // only show in Review to reply
           <button
             onClick={() => setAddReply(true)} // Correct the onClick behavior
             className="p-1 px-2 bg-slate-200"
@@ -55,8 +75,8 @@ const Review = ({ review, index, productId }) => {
             placeholder="Your Review or Comment"
             className="border p-2 rounded"
             rows={4}
-            value={data}
-            onChange={(e) => setData(e.target.value)}
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
             required
           />
           <p

@@ -27,8 +27,9 @@ export const Reviews = ({ data }) => {
   return (
     <div className="flex items-center gap-1 text-xl text-primary">
       {renderStars(averageRating)}
-      <p className="text-white flex gap-2 items-center bg-green-600 rounded-md px-2 ml-3">
-        {getAverageRating(data.reviews)} <FaStar />
+      <p className="text-white flex gap-2 items-center bg-green-700 rounded-md px-2 ml-3">
+        {/* {Show rating at just one decimal place} */}
+        {Math.round(getAverageRating(data.reviews) * 10)/10} <FaStar />   
       </p>
       {/* Optional: Show average value */}
     </div>

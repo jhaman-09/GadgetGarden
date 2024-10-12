@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaStar } from "react-icons/fa6";
-import { FaStarHalf } from "react-icons/fa6";
 import displayCurrency from "../helper/displayCurrency";
 import RecommendationProducts from "../components/RecommendationProducts";
 import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
@@ -154,7 +152,7 @@ const ProductDetails = () => {
     if (jsonData.success) {
       setData((prevData) => ({
         ...prevData,
-        reviews: [...prevData.reviews, newReview],
+        reviews: jsonData.data.reviews,
       }));
     }
     setReviewInput({ name: "", rating: 0, text: "" });
@@ -243,7 +241,7 @@ const ProductDetails = () => {
             </h2>
             <p className="capitalize text-slate-400">{data?.category}</p>
 
-            {/* {Stars Rating} */}
+            {/* {to calculate and show the avarage rating in the form of stars} */}
             <Reviews data={data} />
 
             {/* {Price and Discount} */}
@@ -253,7 +251,7 @@ const ProductDetails = () => {
                   {displayCurrency(data?.sellingPrice)}
                 </p>
                 <p className="text-slate-400 lg:text-lg line-through font-medium">
-                  {displayCurrency(data?.sellingPrice)}
+                  {displayCurrency(data?.price)}
                 </p>
               </div>
               <p className="text-green-900 text-[20px] lg:text-lg font-medium">
@@ -290,11 +288,17 @@ const ProductDetails = () => {
                 <p className="mb-4">{data?.description}</p>
 
                 {/* {Reviews} */}
+                {/* {Stars Rating , input Reviews, commenst and its replis and aslo shows all reviews and its comments} */}
                 <div ref={reviewSectionRef}>
                   <p className="font-medium">Ratings & Reviews: </p>
                   {data?.reviews?.length > 0 ? (
                     data?.reviews.map((review, index) => (
-                      <Review review={review} index={index} productId={params?.id}/>
+                      <Review
+                        review={review}
+                        index={index}
+                        productId={params?.id}
+                        setData={setData}
+                      />
                     ))
                   ) : (
                     <p>No Any Review yet..!</p>

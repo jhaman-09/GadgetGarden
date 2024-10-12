@@ -17,12 +17,11 @@ export const useCommentOnReview = () => {
     });
 
     const jsonData = await res.json();
-
-    if (jsonData.error) {
-      toast.error(jsonData.message);
-    }
     if (jsonData.success) {
       toast(jsonData.message);
+    }
+    if (jsonData.error) {
+      toast.error(jsonData.message);
     }
     return jsonData;
   };
