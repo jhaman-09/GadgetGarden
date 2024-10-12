@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { endPoint } from "../helper/api";
 
 export const useCommentOnReview = () => {
-  const commentOnReview = async ({ reviewText, productId, reviewId }) => {
+  const commentOnReview = async ({ commentText, productId, reviewId }) => {
     const res = await fetch(endPoint.commentOnReview.url, {
       method: endPoint.commentOnReview.method,
       credentials: "include",
@@ -10,7 +10,7 @@ export const useCommentOnReview = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        reviewText,
+        commentText,
         productId,
         reviewId,
       }),

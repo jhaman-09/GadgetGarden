@@ -10,6 +10,7 @@ import { useFetchProductDetails } from "../hooks/useFetchProductDetails";
 import Review from "../components/Review";
 import { useReviewProduct } from "../hooks/useReviewProduct";
 import AddReview from "../components/AddReview";
+import { getAverageRating, Reviews } from "../components/calculateAvrageRating";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -39,7 +40,6 @@ const ProductDetails = () => {
     rating: 0,
   });
 
-  const [openReviewAdd, setOpenReviewAdd] = useState(true);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   // Reviews scroll
@@ -59,6 +59,7 @@ const ProductDetails = () => {
     const jsonData = await productDetails(paramsId);
     if (jsonData.success) {
       setData(jsonData?.data);
+      getAverageRating(jsonData.data.reviews); // it is a function to calculate avg rating
       setActiveImage(jsonData?.data?.productImage[0]);
       setForceUpdate((prev) => prev + 1);
     }
@@ -157,7 +158,7 @@ const ProductDetails = () => {
       }));
     }
     setReviewInput({ name: "", rating: 0, text: "" });
-    setIsSubmittingReview(true);
+    setIsSubmittingReview(false);
   };
 
   return (
@@ -243,12 +244,9 @@ const ProductDetails = () => {
             <p className="capitalize text-slate-400">{data?.category}</p>
 
             {/* {Stars Rating} */}
-            <div className="flex items-center gap-1 text-xl text-primary">
-              {data.reviews.map((review) => review.rating * <FaStar />)}
-            </div>
+            <Reviews data={data} />
 
             {/* {Price and Discount} */}
-
             <div className="flex lg:flex-row gap-2 lg:gap-2 lg:items-center my-1 text-2xl">
               <div className="flex items-center gap-2">
                 <p className="text-primary  lg:text-3xl font-medium">
@@ -296,7 +294,7 @@ const ProductDetails = () => {
                   <p className="font-medium">Ratings & Reviews: </p>
                   {data?.reviews?.length > 0 ? (
                     data?.reviews.map((review, index) => (
-                      <Review review={review} index={index} />
+                      <Review review={review} index={index} productId={params?.id}/>
                     ))
                   ) : (
                     <p>No Any Review yet..!</p>
@@ -306,6 +304,7 @@ const ProductDetails = () => {
                     reviewInput={reviewInput}
                     setReviewInput={setReviewInput}
                     isSubmittingReview={isSubmittingReview}
+                    data={data}
                   />
                 </div>
               </div>

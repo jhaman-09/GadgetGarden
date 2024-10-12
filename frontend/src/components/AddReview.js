@@ -1,10 +1,16 @@
 import React from "react";
 import { FaStar } from "react-icons/fa6";
+import { getAverageRating } from "./calculateAvrageRating";
 
-const AddReview = ({ handleReviewSubmit, reviewInput, setReviewInput, isSubmittingReview }) => {
+const AddReview = ({ handleReviewSubmit, reviewInput, setReviewInput, isSubmittingReview, data }) => {
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-medium">Add a Review or Comment</h3>
+      <h3 className="text-lg font-medium flex gap-4 items-center">
+        Add a Review or Comment{" "}
+        <p className="text-white flex gap-2 items-center bg-green-600 rounded-md px-2 text-base">
+          {getAverageRating(data.reviews)} <FaStar />
+        </p>
+      </h3>
       <form onSubmit={(e) => handleReviewSubmit(e)}>
         <div className="flex flex-col gap-2 mt-1">
           <div className="flex items-center gap-2 text-2xl">
