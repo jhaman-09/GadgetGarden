@@ -47,11 +47,10 @@ const productSchema = new mongoose.Schema(
     },
     discount: String,
     uploadedBy: {
-      type: mongoose.Schema.Types.ObjectId,   // Reference to the user who uploaded the product
-      ref: "User",                            // Referencing the User model
-      required: true,
+      type: mongoose.Schema.Types.ObjectId, // Reference to the user who uploaded the product
+      ref: "User", // Referencing the User model
     },
-    reviews : [reviewProductSchema]
+    reviews: [reviewProductSchema],
   },
   { timestamps: true }
 );
