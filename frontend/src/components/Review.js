@@ -4,7 +4,7 @@ import { FaRegWindowClose } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
 
-const Review = ({ review, index, productId, setData }) => {
+const Review = ({ review, index, productId, setData}) => {
   const [addReply, setAddReply] = useState(false);
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -20,7 +20,6 @@ const Review = ({ review, index, productId, setData }) => {
       reviewId: index,
     });
     if (jsonData.success) {
-      toast.success(jsonData.message);
       // reviews: {
       //   ...prev.reviews, // Spread the existing reviews object
       //   comments: jsonData.data.reviews.comments, // Update the comments with new data
@@ -29,6 +28,7 @@ const Review = ({ review, index, productId, setData }) => {
         ...prevData,
         reviews: jsonData.data.reviews,
       }));
+      console.log(jsonData);
     }
     setIsSubmittingReply(false);
     setAddReply(false); // Hide reply box after submitting
@@ -68,7 +68,7 @@ const Review = ({ review, index, productId, setData }) => {
       {/* Reply Form */}
       {addReply && (
         <form
-          onSubmit={handleCommentSubmit}
+          onSubmit={(e) => handleCommentSubmit(e)}
           className="flex items-end gap-2 relative mt-2 transition-all"
         >
           <textarea

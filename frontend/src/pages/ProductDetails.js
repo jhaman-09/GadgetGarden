@@ -159,6 +159,9 @@ const ProductDetails = () => {
     setIsSubmittingReview(false);
   };
 
+  console.log(data?.reviews);
+  
+
   return (
     <div className="container mx-auto p-4 scrollBar-none">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
@@ -294,6 +297,7 @@ const ProductDetails = () => {
                   {data?.reviews?.length > 0 ? (
                     data?.reviews.map((review, index) => (
                       <Review
+                        key={index}
                         review={review}
                         index={index}
                         productId={params?.id}

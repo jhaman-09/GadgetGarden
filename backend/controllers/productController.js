@@ -356,7 +356,7 @@ export const editReview = async (req, res) => {
       message: "Review Edited Successfully....",
       data: product,
       error: false,
-      succee: true,
+      success: true,
     });
   } catch (error) {
     res.status(401).json({
@@ -459,7 +459,7 @@ export const commentOnReview = async (req, res) => {
       message: "Comment added successfully....",
       data: product,
       error: false,
-      succee: true,
+      success: true,
     });
   } catch (error) {
     res.status(404).json({
