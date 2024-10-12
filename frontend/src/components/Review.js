@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useCommentOnReview } from "../hooks/useCommentOnReview";
 import { FaRegWindowClose } from "react-icons/fa";
-import { toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
 
-const Review = ({ review, index, productId, setData}) => {
+const Review = ({ review, index, productId, setData }) => {
   const [addReply, setAddReply] = useState(false);
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -20,15 +19,10 @@ const Review = ({ review, index, productId, setData}) => {
       reviewId: index,
     });
     if (jsonData.success) {
-      // reviews: {
-      //   ...prev.reviews, // Spread the existing reviews object
-      //   comments: jsonData.data.reviews.comments, // Update the comments with new data
-      // },
       setData((prevData) => ({
         ...prevData,
         reviews: jsonData.data.reviews,
       }));
-      console.log(jsonData);
     }
     setIsSubmittingReply(false);
     setAddReply(false); // Hide reply box after submitting

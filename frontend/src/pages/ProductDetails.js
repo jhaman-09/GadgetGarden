@@ -135,7 +135,6 @@ const ProductDetails = () => {
   }, []);
 
   // review, comment, replies
-
   const reviewProduct = useReviewProduct();
 
   const handleReviewSubmit = async (e) => {
@@ -158,8 +157,6 @@ const ProductDetails = () => {
     setReviewInput({ name: "", rating: 0, text: "" });
     setIsSubmittingReview(false);
   };
-
-  console.log(data?.reviews);
   
 
   return (
