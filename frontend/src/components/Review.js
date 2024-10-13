@@ -52,48 +52,72 @@ const Review = ({ review, index, productId, setData, data }) => {
         productId,
         reviewId: index,
       });
+
       if (jsonData.success) {
         setIsLike(false);
-        setLikeCount((prev) => prev - 1);
+        setLikeCount(jsonData.data.reviews[index].likeReview);
       }
-    } else {
+    }
+    // two condition here, 1) only just do like without touching dislike button
+    //                     2) remove dislike and do like
+    else {
+      // here do like and
       const jsonData = await likeProductReview({ productId, reviewId: index });
       if (jsonData.success) {
         setIsLike(true);
-        setLikeCount((prev) => prev + 1);
+        setLikeCount(jsonData.data.reviews[index].likeReview);
+        // and here if dislike allready then remove it..
         if (isDislike) {
-          setIsDislike(false);
-          setDislikeCount((prev) => prev - 1);
+          const jsonData = await removeDislikeProductReview({
+            productId,
+            reviewId: index,
+          });
+          if (jsonData.success) {
+            setDislikeCount(jsonData.data.reviews[index].dislikeReview);
+            setIsDislike(false);
+          }
         }
       }
     }
   };
 
-    const handleDislike = async () => {
-      if (isDislike) {
-        const jsonData = await removeDislikeProductReview({
-          productId,
-          reviewId: index,
-        });
-        if (jsonData.success) {
-          setIsDislike(false);
-          setDislikeCount((prev) => prev - 1);
-        }
-      } else {
-        const jsonData = await dislikeProductReview({
-          productId,
-          reviewId: index,
-        });
-        if (jsonData.success) {
-          setIsDislike(true);
-          setDislikeCount((prev) => prev + 1);
-          if (isLike) {
+  const handleDislike = async () => {
+    if (isDislike) {
+      const jsonData = await removeDislikeProductReview({
+        productId,
+        reviewId: index,
+      });
+      if (jsonData.success) {
+        setIsDislike(false);
+        setDislikeCount(jsonData.data.reviews[index].dislikeReview);
+      }
+    }
+
+    // two condition here, 1) only just do dislike without touching like button
+    //                     2) remove like and do dislike
+    else {
+      // do dislike and..
+      const jsonData = await dislikeProductReview({
+        productId,
+        reviewId: index,
+      });
+      if (jsonData.success) {
+        setIsDislike(true);
+        setDislikeCount(jsonData.data.reviews[index].dislikeReview);
+        // if like aualible then remove like
+        if (isLike) {
+          const jsonData = await removeLikeProductReview({
+            productId,
+            reviewId: index,
+          });
+          if (jsonData.success) {
             setIsLike(false);
-            setLikeCount((prev) => prev - 1);
+            setLikeCount(jsonData.data.reviews[index].likeReview);
           }
         }
       }
-    };
+    }
+  };
 
   return (
     <div key={index} className="mt-2">

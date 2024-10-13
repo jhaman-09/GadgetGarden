@@ -112,8 +112,8 @@ export const endPoint = {
   },
 
   removeDislikedReview: {
-    url: "/product/remove-disliked-review",
-    method: "POSt",
+    url: api + "/product/remove-disliked-review",
+    method: "POST",
   },
 
   // CART RELATED ROUTES
