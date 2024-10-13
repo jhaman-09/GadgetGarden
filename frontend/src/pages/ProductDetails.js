@@ -299,6 +299,7 @@ const ProductDetails = () => {
                         index={index}
                         productId={params?.id}
                         setData={setData}
+                        data={data}
                       />
                     ))
                   ) : (

@@ -418,7 +418,7 @@ export const deleteReview = async (req, res) => {
 
 export const likedReview = async (req, res) => {
   try {
-    const { productId, reviewId } = req.user;
+    const { productId, reviewId } = req.body;
     const user = req.user;
 
     if (!user) {
@@ -437,9 +437,7 @@ export const likedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
-    review.push({
-      likeReview: review.likeReview + 1,
-    });
+    review.likeReview += 1;
 
     await product.save();
 
@@ -460,7 +458,7 @@ export const likedReview = async (req, res) => {
 
 export const removeLikedReview = async (req, res) => {
   try {
-    const { productId, reviewId } = req.user;
+    const { productId, reviewId } = req.body;
     const user = req.user;
 
     if (!user) {
@@ -480,15 +478,13 @@ export const removeLikedReview = async (req, res) => {
     }
 
     if (review.likeReview > 0) {
-      review.push({
-        likeReview: review.likeReview - 1,
-      });
+      review.likeReview -= 1;
     }
 
     await product.save();
 
     res.status(200).json({
-      message: "Review liked successfully....",
+      message: "Removed review liked successfully....",
       data: product,
       error: false,
       success: true,
@@ -504,7 +500,7 @@ export const removeLikedReview = async (req, res) => {
 
 export const dislikedReview = async (req, res) => {
   try {
-    const { productId, reviewId } = req.user;
+    const { productId, reviewId } = req.body;
     const user = req.user;
 
     if (!user) {
@@ -523,14 +519,12 @@ export const dislikedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
-    review.push({
-      dislikeReview: review.dislikeReview + 1,
-    });
+    review.dislikeReview += 1;
 
     await product.save();
 
     res.status(200).json({
-      message: "Review liked successfully....",
+      message: "Review disliked successfully....",
       data: product,
       error: false,
       success: true,
@@ -546,7 +540,7 @@ export const dislikedReview = async (req, res) => {
 
 export const removeDislikedReview = async (req, res) => {
   try {
-    const { productId, reviewId } = req.user;
+    const { productId, reviewId } = req.body;
     const user = req.user;
 
     if (!user) {
@@ -566,15 +560,13 @@ export const removeDislikedReview = async (req, res) => {
     }
 
     if (review.dislikeReview > 0) {
-      review.push({
-        dislikeReview: review.dislikeReview - 1,
-      });
+      review.dislikeReview -= 1;
     }
 
     await product.save();
 
     res.status(200).json({
-      message: "Review liked successfully....",
+      message: "Removed Review disliked successfully....",
       data: product,
       error: false,
       success: true,

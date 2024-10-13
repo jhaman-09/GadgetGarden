@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCommentOnReview } from "../hooks/useCommentOnReview";
 import { FaRegWindowClose } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { AiOutlineLike } from "react-icons/ai";
+import { AiOutlineDislike } from "react-icons/ai";
+import { useLikeProductReview } from "../hooks/useLikeProductReview";
+import { useRemoveDislikeProductReview } from "../hooks/useRemoveDislikeProductReview";
+import { useDislikeProductReview } from "../hooks/useDislikeProductReview";
+import { useRemoveLikeProductReview } from "../hooks/useRemoveLikeProductReview";
 
-const Review = ({ review, index, productId, setData }) => {
+const Review = ({ review, index, productId, setData, data }) => {
   const [addReply, setAddReply] = useState(false);
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [commentText, setCommentText] = useState("");
 
+  const [likeCount, setLikeCount] = useState(review.likeReview || 0);
+  const [dislikeCount, setDislikeCount] = useState(review.dislikeReview || 0);
+
+  const [isLike, setIsLike] = useState(false);
+  const [isDislike, setIsDislike] = useState(false);
+
   const commentOnReview = useCommentOnReview();
 
   const handleCommentSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e?.preventDefault(); // Prevent default form submission
     setIsSubmittingReply(true);
     const jsonData = await commentOnReview({
       commentText: commentText,
@@ -29,6 +41,60 @@ const Review = ({ review, index, productId, setData }) => {
     setCommentText(""); // Clear input field
   };
 
+  const likeProductReview = useLikeProductReview();
+  const dislikeProductReview = useDislikeProductReview();
+  const removeLikeProductReview = useRemoveLikeProductReview();
+  const removeDislikeProductReview = useRemoveDislikeProductReview();
+
+  const handleLike = async () => {
+    if (isLike) {
+      const jsonData = await removeLikeProductReview({
+        productId,
+        reviewId: index,
+      });
+      if (jsonData.success) {
+        setIsLike(false);
+        setLikeCount((prev) => prev - 1);
+      }
+    } else {
+      const jsonData = await likeProductReview({ productId, reviewId: index });
+      if (jsonData.success) {
+        setIsLike(true);
+        setLikeCount((prev) => prev + 1);
+        if (isDislike) {
+          setIsDislike(false);
+          setDislikeCount((prev) => prev - 1);
+        }
+      }
+    }
+  };
+
+    const handleDislike = async () => {
+      if (isDislike) {
+        const jsonData = await removeDislikeProductReview({
+          productId,
+          reviewId: index,
+        });
+        if (jsonData.success) {
+          setIsDislike(false);
+          setDislikeCount((prev) => prev - 1);
+        }
+      } else {
+        const jsonData = await dislikeProductReview({
+          productId,
+          reviewId: index,
+        });
+        if (jsonData.success) {
+          setIsDislike(true);
+          setDislikeCount((prev) => prev + 1);
+          if (isLike) {
+            setIsLike(false);
+            setLikeCount((prev) => prev - 1);
+          }
+        }
+      }
+    };
+
   return (
     <div key={index} className="mt-2">
       {/* User Info */}
@@ -43,7 +109,29 @@ const Review = ({ review, index, productId, setData }) => {
           <FaUserCircle className="w-5 h-5" />
         )}
 
-        <p>{review?.reviewedByUserName || review?.commentedByUserName}</p>
+        <p className="flex gap-5 items-center">
+          {review?.reviewedByUserName || review?.commentedByUserName}
+          <p className="flex gap-5 text-base items-center cursor-pointer">
+            {review?.reviewText && (
+              <>
+                <div className="flex items-center gap-2">
+                  {/* Like and Dislike Buttons */}
+                  <AiOutlineLike
+                    className={isLike ? "text-blue-500" : ""}
+                    onClick={handleLike}
+                  />
+                  <span>{likeCount}</span>
+
+                  <AiOutlineDislike
+                    className={isDislike ? "text-blue-500" : ""}
+                    onClick={handleDislike}
+                  />
+                  <span>{dislikeCount}</span>
+                </div>
+              </>
+            )}
+          </p>
+        </p>
       </span>
 
       {/* Review or Comment Text */}
@@ -52,7 +140,7 @@ const Review = ({ review, index, productId, setData }) => {
         {review?.reviewText && ( // only show in Review to reply
           <button
             onClick={() => setAddReply(true)} // Correct the onClick behavior
-            className="p-1 px-2 bg-slate-200"
+            className="py-1 px-2 bg-slate-200 rounded-sm"
           >
             Reply
           </button>
