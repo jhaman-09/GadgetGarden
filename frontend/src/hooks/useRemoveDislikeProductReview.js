@@ -14,9 +14,6 @@ export const useRemoveDislikeProductReview = () => {
       });
 
       const jsonData = await response.json();
-      if (jsonData.success) {
-        toast.success(jsonData.message);
-      }
       if (jsonData.error) {
         toast.error(jsonData.message);
       }
