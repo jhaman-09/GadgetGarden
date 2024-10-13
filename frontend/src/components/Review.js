@@ -141,13 +141,13 @@ const Review = ({ review, index, productId, setData, data }) => {
                 <div className="flex items-center gap-2">
                   {/* Like and Dislike Buttons */}
                   <AiOutlineLike
-                    className={isLike ? "text-blue-500" : ""}
+                    className={isLike ? "text-primary" : ""}
                     onClick={handleLike}
                   />
                   <span>{likeCount}</span>
 
                   <AiOutlineDislike
-                    className={isDislike ? "text-blue-500" : ""}
+                    className={isDislike ? "text-primary" : ""}
                     onClick={handleDislike}
                   />
                   <span>{dislikeCount}</span>
@@ -175,11 +175,11 @@ const Review = ({ review, index, productId, setData, data }) => {
       {addReply && (
         <form
           onSubmit={(e) => handleCommentSubmit(e)}
-          className="flex items-end gap-2 relative mt-2 transition-all"
+          className="flex flex-col gap-2 relative mt-2 transition-all"
         >
           <textarea
             placeholder="Your Review or Comment"
-            className="border p-2 rounded"
+            className="border p-2 rounded md:w-52 w-72 md:h-16 h-20 "
             rows={4}
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
@@ -187,14 +187,14 @@ const Review = ({ review, index, productId, setData, data }) => {
           />
           <p
             onClick={() => setAddReply(false)}
-            className="relative text-red-600  mb-20"
+            className="text-red-600 absolute md:left-52 left-72 px-2 cursor-pointer"
           >
             <FaRegWindowClose />
           </p>
 
           <button
             type="submit"
-            className={`bg-primary text-white py-1 px-2 absolute ml-8 rounded flex items-end ${
+            className={`bg-primary text-white py-1 px-2 rounded md:w-52 w-72 ${
               isSubmittingReply ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isSubmittingReply}
