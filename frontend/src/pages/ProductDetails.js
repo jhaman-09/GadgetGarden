@@ -261,15 +261,15 @@ const ProductDetails = () => {
 
             {/* {Buy and Sell Button} */}
 
-            <div className="flex flex-col lg:flex-row gap-3 w-1/2 lg:w-full lg:items-center">
+            <div className="flex flex-col lg:flex-row gap-3 md:w-1/2 w-full lg:w-full lg:items-center">
               <button
-                className="border-2 border-primary rounded px-3 py-1 min-w-[125px] text-primary font-medium hover:bg-primary hover:text-white transition-all"
+                className="border-2 border-primary rounded px-3 py-2 md:py-1 md:max-w-[130px] w-full text-primary font-medium hover:bg-primary hover:text-white transition-all"
                 onClick={(e) => handleBuYNow(e, data._id)}
               >
                 Buy
               </button>
               <button
-                className="border-2 border-pink-600 hover:border-primary rounded px-3 py-1 min-w-[125px] text-white bg-primary font-medium hover:bg-white hover:text-secondary transition-all"
+                className="border-2 border-primary hover:border-primary rounded px-3 py-2 md:py-1 md:max-w-[130px] w-full text-white bg-primary font-medium hover:bg-white hover:text-secondary transition-all"
                 onClick={(e) => handleAddToCart(e, data._id)}
               >
                 Add to Cart

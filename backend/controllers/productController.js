@@ -47,7 +47,7 @@ export const uploadProduct = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Product Uploaded Successfully",
+      message: "Product uploaded successfully!",
       data: productSave,
     });
   } catch (error) {
@@ -103,7 +103,7 @@ export const editProduct = async (req, res) => {
     );
 
     res.status(200).json({
-      message: "Product update Successfully..!",
+      message: "Product update successfully..!",
       data: updatedProduct,
       success: true,
       error: false,
@@ -136,7 +136,7 @@ export const oneProductFromEachCategory = async (req, res) => {
     // Step 4: Return the array of selected products as the response
 
     return res.status(200).json({
-      message: "Product Found from each category..!",
+      message: "Product found from each category..!",
       data: productsFromEachCategory,
       error: false,
       success: true,
@@ -155,7 +155,7 @@ export const allProductsOfThatCategory = async (req, res) => {
     const { category } = req.body || req.query; // post req to send category or take from url query part
 
     if (!category) {
-      throw new Error("Please Select a Category...!");
+      throw new Error("Please select a category...!");
     }
 
     const products = await Product.find({ category });
@@ -166,7 +166,7 @@ export const allProductsOfThatCategory = async (req, res) => {
 
     res.status(200).json({
       data: products,
-      message: "Products Found Successfully..!",
+      message: "Products found successfully..!",
       error: false,
       succee: true,
     });
@@ -194,7 +194,7 @@ export const getProductById = async (req, res) => {
     }
     res.status(200).json({
       data: product,
-      message: "Product Found Successfully...!",
+      message: "Product found successfully...!",
       error: false,
       success: true,
     });
@@ -221,7 +221,7 @@ export const getProductsBySearch = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Product Found Successfully..!",
+      message: "Product found successfully..!",
       data: products,
       error: false,
       succee: true,
@@ -255,7 +255,7 @@ export const getFilterProductsByCategory = async (req, res) => {
 
     res.status(200).json({
       data: products,
-      message: "Categories Products Data Found...!",
+      message: "Categories products found...!",
       error: false,
       success: true,
     });
@@ -300,7 +300,7 @@ export const addReviewOnProduct = async (req, res) => {
 
     res.status(200).json({
       data: product,
-      message: "Review Added Successfully....!",
+      message: "Review added successfully....!",
       error: false,
       success: true,
     });
@@ -353,7 +353,7 @@ export const editReview = async (req, res) => {
     await product.save();
 
     res.status(200).json({
-      message: "Review Edited Successfully....",
+      message: "Review edited successfully!",
       data: product,
       error: false,
       success: true,
@@ -442,7 +442,7 @@ export const likedReview = async (req, res) => {
     await product.save();
 
     res.status(200).json({
-      message: "Review liked successfully....",
+      message: "Review liked!",
       data: product,
       error: false,
       success: true,
@@ -484,7 +484,7 @@ export const removeLikedReview = async (req, res) => {
     await product.save();
 
     res.status(200).json({
-      message: "Removed review liked successfully....",
+      message: "Removed review liked!",
       data: product,
       error: false,
       success: true,
@@ -524,7 +524,7 @@ export const dislikedReview = async (req, res) => {
     await product.save();
 
     res.status(200).json({
-      message: "Review disliked successfully....",
+      message: "Review disliked!",
       data: product,
       error: false,
       success: true,
@@ -566,7 +566,7 @@ export const removeDislikedReview = async (req, res) => {
     await product.save();
 
     res.status(200).json({
-      message: "Removed Review disliked successfully....",
+      message: "Removed review disliked!",
       data: product,
       error: false,
       success: true,
