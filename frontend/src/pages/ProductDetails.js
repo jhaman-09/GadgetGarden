@@ -269,7 +269,7 @@ const ProductDetails = () => {
                 Buy
               </button>
               <button
-                className="border-2 border-primary hover:border-primary rounded px-3 py-2 md:py-1 md:max-w-[130px] w-full text-white bg-primary font-medium hover:bg-white hover:text-secondary transition-all"
+                className="border-2 border-primary hover:border-primary rounded px-3 py-2 md:py-1 md:max-w-[130px] w-full text-white bg-primary font-medium hover:bg-white hover:text-primary transition-all"
                 onClick={(e) => handleAddToCart(e, data._id)}
               >
                 Add to Cart
