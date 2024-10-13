@@ -416,6 +416,178 @@ export const deleteReview = async (req, res) => {
   }
 };
 
+export const likedReview = async (req, res) => {
+  try {
+    const { productId, reviewId } = req.user;
+    const user = req.user;
+
+    if (!user) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    review.push({
+      likeReview: review.likeReview + 1,
+    });
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Review liked successfully....",
+      data: product,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const removeLikedReview = async (req, res) => {
+  try {
+    const { productId, reviewId } = req.user;
+    const user = req.user;
+
+    if (!user) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    if (review.likeReview > 0) {
+      review.push({
+        likeReview: review.likeReview - 1,
+      });
+    }
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Review liked successfully....",
+      data: product,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const dislikedReview = async (req, res) => {
+  try {
+    const { productId, reviewId } = req.user;
+    const user = req.user;
+
+    if (!user) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    review.push({
+      dislikeReview: review.dislikeReview + 1,
+    });
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Review liked successfully....",
+      data: product,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+export const removeDislikedReview = async (req, res) => {
+  try {
+    const { productId, reviewId } = req.user;
+    const user = req.user;
+
+    if (!user) {
+      throw new Error("You have to Login/Signup first...!");
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      throw new Error("Product not found...!");
+    }
+
+    const review = product.reviews[reviewId];
+
+    if (!review) {
+      throw new Error("Review not found....!");
+    }
+
+    if (review.dislikeReview > 0) {
+      review.push({
+        dislikeReview: review.dislikeReview - 1,
+      });
+    }
+
+    await product.save();
+
+    res.status(200).json({
+      message: "Review liked successfully....",
+      data: product,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export const commentOnReview = async (req, res) => {
   try {
     const { commentText, productId, reviewId } = req.body; // here review Id is index of reviewsArray review

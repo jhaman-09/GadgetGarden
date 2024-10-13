@@ -53,6 +53,18 @@ export const reviewProductSchema = new mongoose.Schema(
       max: 5,
     },
 
+    likeReview: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    dislikeReview: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
     reviewText: {
       type: String,
       required: [true, "Please Provide a review text"],
@@ -63,7 +75,7 @@ export const reviewProductSchema = new mongoose.Schema(
       required: true,
       default: "Anonymous User", // Default name
     },
-    
+
     reviewedByProfilePic: {
       type: String, // URL or path to profile picture
     },

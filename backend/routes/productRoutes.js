@@ -5,13 +5,17 @@ import {
   allProductsOfThatCategory,
   commentOnReview,
   deleteReview,
+  dislikedReview,
   editProduct,
   editReview,
   getAllProduct,
   getFilterProductsByCategory,
   getProductById,
   getProductsBySearch,
+  likedReview,
   oneProductFromEachCategory,
+  removeDislikedReview,
+  removeLikedReview,
   replyToComment,
   uploadProduct,
 } from "../controllers/productController.js";
@@ -46,6 +50,15 @@ router.post("/comment-review", authToken, commentOnReview);
 
 // reply to the comment
 router.post("/reply-comment", authToken, replyToComment);
+
+// Like or Dislike Reviews...
+router.post("/like-review", authToken, likedReview);
+
+router.post("/remove-liked-review", authToken, removeLikedReview);
+
+router.post("/dislike-review", authToken, dislikedReview);
+
+router.post("/remove-disliked-review", authToken, removeDislikedReview)
 
 
 export default router;
