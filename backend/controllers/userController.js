@@ -27,7 +27,7 @@ export const register = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "User Registered Successfully",
+      message: "Registered successfully..!",
       user,
     });
   } catch (error) {
@@ -71,7 +71,7 @@ export const login = async (req, res) => {
       };
 
       res.cookie("token", token, tokenOptions).status(200).json({
-        message: "Login Successfully",
+        message: "Login successfully..!",
         user: user,
         token: token,
         success: true,
@@ -94,7 +94,7 @@ export const logout = async (req, res) => {
     res.clearCookie("token");
     res.json({
       success: true,
-      message: "User Logout Successfully...!",
+      message: "Logout successfully..!",
       error: false,
       user: [],
     });
@@ -120,7 +120,7 @@ export const userDetails = async (req, res) => {
     }
 
     return res.status(200).json({
-      message: "Found User Details Successfully...!",
+      message: "Found user details successfully..!",
       success: true,
       error: false,
       user: user,
@@ -147,7 +147,7 @@ export const allUsers = async (req, res) => {
     
     res.status(200).json({
       users: users,
-      message: "All users found",
+      message: "All users found..!",
       error: false,
       success: true,
     });
@@ -236,7 +236,7 @@ export const updateUser = async (req, res) => {
 
     res.status(200).json({
       data: updatedUser,
-      message: "User Updated Successfully",
+      message: "User updated successfully..!",
       success: true,
       error: false,
     });
@@ -278,7 +278,7 @@ export const addToCardProduct = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Product added to cart successfully!",
+      message: "Added to cart..!",
       cart: user.cart,
       success: true,
       error: false,
@@ -329,7 +329,7 @@ export const reduceProductFromCart = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Product quantity reduced successfully!",
+      message: "Reduced cart..!",
       cart: user.cart, // Returning updated cart
       success: true,
       error: false,
@@ -371,7 +371,7 @@ export const deleteProductFromCart = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Product Deleted From Cart successfully!",
+      message: "Removed from cart..!",
       cart: user.cart, // Returning updated cart
       success: true,
       error: false,
@@ -393,7 +393,7 @@ export const getCartProduct_Id = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Cart Products Id found successfully..!",
+      message: "Cart products id found successfully..!",
       data: user.cart,
       error: false,
       success: true,
@@ -411,7 +411,7 @@ export const getAllCartProducts = async (req, res) => {
   try {
     const user = req.user;
     if (!user) {
-      throw new Error("Please Sir, Login First..!");
+      throw new Error("Please, login first..!");
     }
 
     const cartProducts = [];
@@ -428,7 +428,7 @@ export const getAllCartProducts = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Cart Products Found Successfully..!",
+      message: "Cart Products Found..!",
       data: cartProducts,
       error: false,
       success: true,
