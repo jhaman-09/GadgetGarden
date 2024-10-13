@@ -24,9 +24,9 @@ const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
         <h1 className="text-2xl font-semibold py-4">{`Search Items: ${data.length}`}</h1>
       )}
 
-      {data.length === 0 && (
+      {data.length === 0 && !loading && (
         <h1 className="text-secondary text-center text-2xl md:text-4xl">
-          No Data Found Sir....!
+          Nothing Found..!
         </h1>
       )}
 
