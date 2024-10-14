@@ -64,6 +64,9 @@ export const reviewProductSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    
+    likedBy: [], // Array of user IDs who liked the review
+    dislikedBy: [],
 
     reviewText: {
       type: String,

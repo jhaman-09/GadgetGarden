@@ -437,6 +437,7 @@ export const likedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
+    review.likedBy.push(user?._id)
     review.likeReview += 1;
 
     await product.save();
@@ -477,8 +478,13 @@ export const removeLikedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
-    if (review.likeReview > 0) {
-      review.likeReview -= 1;
+    // Check if the user has disliked the review
+    if (review.likeReview > 0 && review.likedBy.includes(user._id)) {
+      // Filter out the user ID from the dislikedBy array
+      review.likedBy = review.likedBy.filter(
+        (userID) => userID.toString() !== user._id.toString()
+      );
+      review.likeReview -= 1; // Decrease the dislike count
     }
 
     await product.save();
@@ -519,6 +525,7 @@ export const dislikedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
+    review.dislikedBy.push(user._id);
     review.dislikeReview += 1;
 
     await product.save();
@@ -559,8 +566,13 @@ export const removeDislikedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
-    if (review.dislikeReview > 0) {
-      review.dislikeReview -= 1;
+    // Check if the user has disliked the review
+    if (review.dislikeReview > 0 && review.dislikedBy.includes(user._id)) {
+      // Filter out the user ID from the dislikedBy array
+      review.dislikedBy = review.dislikedBy.filter(
+        (userID) => userID.toString() !== user._id.toString()
+      );
+      review.dislikeReview -= 1; // Decrease the dislike count
     }
 
     await product.save();

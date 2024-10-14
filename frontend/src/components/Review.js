@@ -8,8 +8,9 @@ import { useLikeProductReview } from "../hooks/useLikeProductReview";
 import { useRemoveDislikeProductReview } from "../hooks/useRemoveDislikeProductReview";
 import { useDislikeProductReview } from "../hooks/useDislikeProductReview";
 import { useRemoveLikeProductReview } from "../hooks/useRemoveLikeProductReview";
+import { useSelector } from "react-redux";
 
-const Review = ({ review, index, productId, setData, data }) => {
+const Review = ({ review, index, productId, setData }) => {
   const [addReply, setAddReply] = useState(false);
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -19,6 +20,8 @@ const Review = ({ review, index, productId, setData, data }) => {
 
   const [isLike, setIsLike] = useState(false);
   const [isDislike, setIsDislike] = useState(false);
+
+  const {user} = useSelector((store) => store.user);
 
   const commentOnReview = useCommentOnReview();
 
@@ -45,6 +48,18 @@ const Review = ({ review, index, productId, setData, data }) => {
   const dislikeProductReview = useDislikeProductReview();
   const removeLikeProductReview = useRemoveLikeProductReview();
   const removeDislikeProductReview = useRemoveDislikeProductReview();
+
+  console.log(user);
+  
+  useEffect(() => {
+    // Check if the current user has liked or disliked the review
+    if (review?.likedBy?.includes(user?._id)) {
+      setIsLike(true);
+    }
+    if (review?.dislikedBy?.includes(user?._id)) {
+      setIsDislike(true);
+    }
+  }, [review, user]);
 
   const handleLike = async () => {
     if (isLike) {
