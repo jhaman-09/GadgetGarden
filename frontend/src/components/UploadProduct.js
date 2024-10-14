@@ -265,7 +265,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
               uploading ? "bg-secondary" : "bg-primary hover:bg-secondary"
             }`}
           >
-            {uploading ? "Updating...." : "Update product"}
+            {uploading ? "Uploading...." : "Uploading product"}
           </button>
         </form>
       </div>
