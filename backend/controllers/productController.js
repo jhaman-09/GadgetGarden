@@ -49,6 +49,7 @@ export const uploadProduct = async (req, res) => {
       success: true,
       message: "Product uploaded successfully!",
       data: productSave,
+      error: false,
     });
   } catch (error) {
     res.status(401).json({
@@ -92,6 +93,7 @@ export const editProduct = async (req, res) => {
     if (price || sellingPrice) {
       dataToUpdate.discount = ((price - sellingPrice) / price) * 100; // Calculate percentage discount
     }
+
     const updatedProduct = await Product.findByIdAndUpdate(
       _id,
       {
@@ -109,7 +111,7 @@ export const editProduct = async (req, res) => {
       error: false,
     });
   } catch (error) {
-    res.status(401).json({
+    res.status(400).json({
       message: error.message || error,
       error: true,
       success: false,
@@ -437,7 +439,7 @@ export const likedReview = async (req, res) => {
       throw new Error("Review not found....!");
     }
 
-    review.likedBy.push(user?._id)
+    review.likedBy.push(user?._id);
     review.likeReview += 1;
 
     await product.save();

@@ -14,16 +14,16 @@ export const useEditProduct = () => {
         });
 
         const jsonData = await response.json();
-        if (jsonData.success) {
+        if (jsonData?.success) {
           toast.success(jsonData.message);
           onClose();
         }
-        if (jsonData.error) {
+        if (jsonData?.error) {
           toast.error(jsonData.message);
         }        
         return jsonData;
       } catch (error) {
-        toast.error(error);
+        toast.error(error || "An error occurred while updating the product..!");
       }
     };
     return editProduct;
