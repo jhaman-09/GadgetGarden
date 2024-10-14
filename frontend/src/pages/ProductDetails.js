@@ -157,7 +157,6 @@ const ProductDetails = () => {
     setReviewInput({ name: "", rating: 0, text: "" });
     setIsSubmittingReview(false);
   };
-  
 
   return (
     <div className="container mx-auto p-4 scrollBar-none">
