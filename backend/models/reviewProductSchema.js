@@ -27,7 +27,6 @@ const commentSchema = new mongoose.Schema(
     commentedByUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
 
     replies: {
@@ -86,7 +85,6 @@ export const reviewProductSchema = new mongoose.Schema(
     reviewedByUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
 
     comments: [commentSchema], // embed comments in each review

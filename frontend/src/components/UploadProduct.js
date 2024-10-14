@@ -7,7 +7,7 @@ import { uploadImageToClodinary } from "../helper/UploadToClodinary";
 import DisplayImageFullScreen from "./DisplayImageFullScreen";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
-const UploadProduct = ({ onClose, fetchData }) => {
+const UploadProduct = ({ onClose, setAllProduct }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
   const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
   const [data, setData] = useState({
@@ -75,7 +75,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
       if (jsonData.success) {
         toast.success(jsonData.message);
         onClose();
-        fetchData();
+        setAllProduct((prev) => [...prev, jsonData.data]);
       }
       if (jsonData.error) {
         toast.error(jsonData.message);
@@ -140,7 +140,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
             >
               {categories &&
                 categories.map((ele, idx) => (
-                  <option value={ele.value} key={ele.id + idx} >
+                  <option value={ele.value} key={ele.id + idx}>
                     {ele.name}
                   </option>
                 ))}

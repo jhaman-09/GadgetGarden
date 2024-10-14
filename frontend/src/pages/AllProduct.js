@@ -29,11 +29,15 @@ const AllProduct = () => {
     handleFetchAllProductData();
   }, []);
 
-  if (!user) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
-  return loading ? (<Loader/>) : (
+  return loading ? (
+    <Loader />
+  ) : (
     <div>
       <div className="bg-white py-2 md:px-4 flex justify-between items-center">
         <h2 className="font-bold text-lg">All Products</h2>
@@ -47,12 +51,12 @@ const AllProduct = () => {
 
       <div className="flex items-center flex-wrap gap-5 py-4 h-[calc(100vh-190px)] overflow-y-scroll">
         {allProduct &&
-          allProduct.map((product, index) => {
+          allProduct?.map((product) => {
             return (
               <AdminProductCard
                 data={product}
-                key={index + "allProduct"}
-                fetchData={handleFetchAllProductData}
+                key={product._id}
+                setAllProduct={setAllProduct}   // passing for editing product without re-rendring all admin-products
               />
             );
           })}
@@ -61,7 +65,7 @@ const AllProduct = () => {
       {showProductUpload && (
         <UploadProduct
           onClose={() => setShowProductUpload(false)}
-          fetchData={handleFetchAllProductData}
+          setAllProduct={setAllProduct}
         />
       )}
     </div>

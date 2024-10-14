@@ -7,7 +7,7 @@ import AdminEditProduct from "./AdminEditProduct";
   /* Product Card.... */
 }
 
-const AdminProductCard = ({ data, fetchData }) => {
+const AdminProductCard = ({ data, setAllProduct }) => {
   const [editPruduct, setEditProduct] = useState(false);
 
   const toInteger = (num) => {
@@ -32,7 +32,9 @@ const AdminProductCard = ({ data, fetchData }) => {
       <div>
         <span className="flex">
           <p className="font-semibold">{displayCurrency(data?.sellingPrice)}</p>
-          <p className="px-2 text-green-700 font-semibold">{toInteger(data.discount)}% off</p>
+          <p className="px-2 text-green-700 font-semibold">
+            {toInteger(data.discount)}% off
+          </p>
         </span>
         <div
           className="w-fit ml-auto p-2  border-2 border-black hover:border-2 hover:border-primary hover:shadow-lg rounded-full cursor-pointer"
@@ -46,7 +48,8 @@ const AdminProductCard = ({ data, fetchData }) => {
         <AdminEditProduct
           productData={data}
           onClose={() => setEditProduct(false)}
-          fetchData={fetchData}
+          // fetchData={fetchData}
+          setAllProduct={setAllProduct}
         />
       )}
     </div>

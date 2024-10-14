@@ -11,7 +11,7 @@ import { useEditProduct } from "../hooks/useEditProduct";
   /* Admin can Edit its own Uploaded Products*/
 }
 
-const AdminEditProduct = ({ productData, onClose, fetchData }) => {
+const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
   const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
   const [data, setData] = useState({
@@ -24,7 +24,6 @@ const AdminEditProduct = ({ productData, onClose, fetchData }) => {
     price: productData.price,
     sellingPrice: productData.sellingPrice,
   });
-
 
   const editProduct = useEditProduct();
 
@@ -67,8 +66,16 @@ const AdminEditProduct = ({ productData, onClose, fetchData }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    await editProduct({ data, onClose, fetchData });
+    e.preventDefault();
+    const jsonData = await editProduct({ data, onClose });
+    if (jsonData.success) {
+      setData(jsonData?.data);
+      setAllProduct((prev) =>
+        prev.map((product) =>
+          product._id === jsonData?.data._id ? jsonData?.data : product
+        )
+      );
+    }
   };
 
   return (
