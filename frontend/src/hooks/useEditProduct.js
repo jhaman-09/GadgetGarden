@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { endPoint } from "../helper/api";
 
 export const useEditProduct = () => {
-    const editProduct = async (props) => {
+    const editProduct = async ({ data, onClose, fetchData }) => {
       try {
         const response = await fetch(endPoint.editProduct.url, {
           method: endPoint.editProduct.method,
@@ -10,14 +10,14 @@ export const useEditProduct = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(props?.data),
+          body: JSON.stringify(data),
         });
 
         const jsonData = await response.json();
         if (jsonData.success) {
           toast.success(jsonData.message);
-          props?.onClose();
-          props?.fetchData();
+          onClose();
+          fetchData();
         }
         if (jsonData.error) {
           toast.error(jsonData.message);
