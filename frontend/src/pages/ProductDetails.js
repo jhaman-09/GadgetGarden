@@ -42,8 +42,7 @@ const ProductDetails = () => {
 
   // Reviews scroll
   const [isReviewSectionVisible, setIsReviewSectionVisible] = useState(false);
-  const reviewSectionRef = useRef(null);
-  const scrollAbleSectionRef = useRef(null);
+  const reviewSectionRef = useRef(null); // This will track the reviews section
 
   const params = useParams();
   const navigate = useNavigate();
@@ -104,32 +103,30 @@ const ProductDetails = () => {
   };
 
   // Scroll review and description
-  const handleScroll = () => {
-    const scrollAbleSection = scrollAbleSectionRef.current;
-    const reviewSection = reviewSectionRef.current;
-
-    if (scrollAbleSection && reviewSection) {
-      const reviewPosition = reviewSection.getBoundingClientRect();
-      const containerPosition = scrollAbleSection.getBoundingClientRect();
-
-      // Check if review section is in view
-      if (reviewPosition.top <= containerPosition.bottom) {
-        setIsReviewSectionVisible(true);
-      } else {
-        setIsReviewSectionVisible(false);
-      }
-    }
-  };
-
   useEffect(() => {
-    const scrollAbleSection = scrollAbleSectionRef.current;
-    if (scrollAbleSection) {
-      scrollAbleSection.addEventListener("scroll", handleScroll);
+    // Create an Intersection Observer instance
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Get the first entry (we only have one target)
+        const [entry] = entries;
+        setIsReviewSectionVisible(entry.isIntersecting); // Set state based on visibility
+      },
+      {
+        root: null, // Use the viewport as the root
+        threshold: 0.5, // Trigger when 50% of the section is visible
+      }
+    );
+
+    // Observe the review section
+    const reviewSection = reviewSectionRef.current;
+    if (reviewSection) {
+      observer.observe(reviewSection);
     }
 
+    // Cleanup: Stop observing when component unmounts
     return () => {
-      if (scrollAbleSection) {
-        scrollAbleSection.removeEventListener("scroll", handleScroll);
+      if (reviewSection) {
+        observer.unobserve(reviewSection);
       }
     };
   }, []);
@@ -276,20 +273,19 @@ const ProductDetails = () => {
             </div>
 
             <div className="mt-2">
-              <p className="text-slate-700 font-medium">
-                {isReviewSectionVisible ? "Reviews" : "Description"}
+              <p className="text-slate-900 font-medium">
+                  {isReviewSectionVisible ? "Reviews" : "Description & Reviews:"}
               </p>
-              <div
-                className="text-base lg:text-sm overflow-y-scroll max-h-[146px]"
-                ref={scrollAbleSectionRef}
-              >
+              <div className="overflow-y-auto max-h-[145px]">
                 {/* {Description} */}
                 <p className="mb-4">{data?.description}</p>
 
                 {/* {Reviews} */}
                 {/* {Stars Rating , input Reviews, commenst and its replis and aslo shows all reviews and its comments} */}
                 <div ref={reviewSectionRef}>
-                  <p className="font-medium">Ratings & Reviews: </p>
+                  <p className="text-black font-semibold">
+                    Ratings & Reviews:{" "}
+                  </p>
                   {data?.reviews?.length > 0 ? (
                     data?.reviews.map((review, index) => (
                       <Review

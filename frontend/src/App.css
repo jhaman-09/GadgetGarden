@@ -3,7 +3,7 @@
 }
 
 .userTable {
-  @apply bg-black;
+  @apply bg-slate-800;
   @apply text-white
 }
 

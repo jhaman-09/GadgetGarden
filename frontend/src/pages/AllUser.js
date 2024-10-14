@@ -4,6 +4,8 @@ import { MdModeEdit } from "react-icons/md";
 import { useFetchAllUsers } from "../hooks/useFetchAllUsers.js";
 import UpdateUserDetails from "../components/UpdateUserDetails.js";
 import Loader from "../components/Loader";
+import { FaLock } from "react-icons/fa";
+
 
 import {
   maskEmail,
@@ -49,7 +51,9 @@ const AllUser = () => {
      }
    }, [user, navigate]); 
 
-  return users.length === 0 ? (<Loader/>) : (
+  return users.length === 0 ? (
+    <Loader />
+  ) : (
     <div className="bg-white pb-4 ">
       <table className="w-full userTable">
         <thead>
@@ -73,7 +77,7 @@ const AllUser = () => {
             <td>{moment(user?.updatedAt).format("LL")}</td>
             <td className="p-2">
               <button
-                className="bg-green-600 p-2 cursor-pointer hover:bg-white border-yellow-50 hover:text-black rounded-sm"
+                className="bg-green-500 p-2 cursor-pointer transition-all hover:bg-white border-yellow-50 hover:text-black rounded-sm"
                 onClick={() => {
                   setUpdateUserDetails(user);
                   setEditDetails(true);
@@ -83,7 +87,7 @@ const AllUser = () => {
               </button>
             </td>
           </tr>
-          {users && (
+          {users &&
             users.map((ele, index) => {
               const isNotCurrentUser =
                 ele?._id.toString() !== user?._id.toString();
@@ -97,18 +101,17 @@ const AllUser = () => {
                   <td>{moment(ele?.updatedAt).format("LL")}</td>
                   <td className="p-2">
                     <button
-                      className="bg-green-400 p-2 cursor-pointe hover:text-slate-800 rounded-sm"
+                      className="bg-red-400 p-2 cursor-pointe text-stone-800 hover:text-white rounded-sm transition-all"
                       onClick={() => {
                         toast("You cannot update other user details..!");
                       }}
                     >
-                      <MdModeEdit />
+                      <FaLock />
                     </button>
                   </td>
                 </tr>
               );
-            })
-          )}
+            })}
         </tbody>
       </table>
 
@@ -126,7 +129,7 @@ const AllUser = () => {
         />
       )}
     </div>
-  ) ;
+  );
 };
 
 export default AllUser;
