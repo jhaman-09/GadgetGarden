@@ -25,6 +25,8 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
     sellingPrice: productData.sellingPrice,
   });
 
+  const [updating, setUpdating] = useState(false);
+
   const editProduct = useEditProduct();
 
   const handleChange = (e) => {
@@ -67,6 +69,7 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUpdating(true);
     const jsonData = await editProduct({ data, onClose });
     if (jsonData.success) {
       setData(jsonData?.data);
@@ -76,7 +79,8 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
         )
       );
     }
-  };
+    setUpdating(false);
+  };  
 
   return (
     <div className="top-0 bottom-0 left-0 right-0 bg-slate-200 h-full w-full fixed bg-opacity-35 flex justify-center items-center">
@@ -250,8 +254,12 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
             ></textarea>
           </div>
 
-          <button className="px-3 my-5 py-2 rounded-sm transition-all bg-primary text-white  hover:bg-secondary">
-            Update Product
+          <button
+            className={`px-3 my-5 py-2 rounded-sm transition-all text-white ${
+              updating ? "bg-secondary" : "bg-primary hover:bg-secondary"
+            }`}
+          >
+            {updating ? "Updating...." : "Update product"}
           </button>
         </form>
       </div>

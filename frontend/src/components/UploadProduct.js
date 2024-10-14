@@ -20,6 +20,9 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
     sellingPrice: "",
   });
 
+  const [uploading, setUploading] = useState(false);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -60,6 +63,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true)
 
     try {
       const response = await fetch(endPoint.uploadProduct.url, {
@@ -80,6 +84,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
       if (jsonData.error) {
         toast.error(jsonData.message);
       }
+      setUploading(false)
     } catch (error) {}
   };
 
@@ -255,8 +260,12 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
             ></textarea>
           </div>
 
-          <button className="px-3 my-5 py-2 rounded-sm transition-all bg-primary text-white  hover:bg-secondary">
-            Uplord Product
+          <button
+            className={`px-3 my-5 py-2 rounded-sm transition-all text-white ${
+              uploading ? "bg-secondary" : "bg-primary hover:bg-secondary"
+            }`}
+          >
+            {uploading ? "Updating...." : "Update product"}
           </button>
         </form>
       </div>
