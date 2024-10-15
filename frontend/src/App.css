@@ -20,3 +20,16 @@
 }
 
  
+/* Hide footer (move it out of view) */
+.hide-footer {
+  transform: translateY(100%);
+}
+
+/* Show footer (reset it to original position) */
+.show-footer {
+  transform: translateY(0);
+}
+
+footer {
+  transition: transform 0.3s ease-in-out;
+}

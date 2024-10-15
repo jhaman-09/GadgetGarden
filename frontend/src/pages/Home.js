@@ -6,7 +6,7 @@ import VerticalProducts from "../components/VerticalProducts.js";
 
 const Home = () => {
   return (
-    <div className="md:mb-10">
+    <div>
       <CategoryProductList />
       <BannerAdvertiseProduct />
 

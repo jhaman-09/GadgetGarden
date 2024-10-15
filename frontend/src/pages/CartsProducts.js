@@ -55,8 +55,8 @@ const CartsProducts = () => {
       ) : (
         // {Cart Products Details}
         <div class="grid md:grid-cols-3 mx-4 md:mx-24 gap-4 md:gap-8">
-          <div className="md:h-screen md:col-span-2 col-span-1 overflow-y-scroll">
-            <div class=" grid gap-4 md:mb-10">
+          <div className=" md:col-span-2 col-span-1 overflow-y-scroll">
+            <div class=" grid gap-4">
               {cartProducts &&
                 cartProducts.map((cartItem) => {
                   return (
