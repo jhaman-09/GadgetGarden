@@ -19,8 +19,8 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "20mb" })); // convert user requested data into json formate
-app.use(express.urlencoded({ extended: true, limit: "20mb" }));
+app.use(express.json({ limit: "10mb" })); // convert user requested data into json formate
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
