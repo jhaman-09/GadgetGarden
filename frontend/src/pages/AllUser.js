@@ -54,7 +54,7 @@ const AllUser = () => {
   return users.length === 0 ? (
     <Loader />
   ) : (
-    <div className="bg-white pb-4 ">
+    <div className="bg-white pb-4 h-screen w-full">
       <table className="w-full userTable">
         <thead>
           <tr className="bg-black text-white">
