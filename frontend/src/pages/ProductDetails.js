@@ -54,7 +54,7 @@ const ProductDetails = () => {
   const fetchProductDetails = async (paramsId) => {
     setLoading(true);
     const jsonData = await productDetails(paramsId);
-    if (jsonData.success) {
+    if (jsonData?.success) {
       setData(jsonData?.data);
       getAverageRating(jsonData.data.reviews); // it is a function to calculate avg rating
       setActiveImage(jsonData?.data?.productImage[0]);
@@ -145,7 +145,7 @@ const ProductDetails = () => {
     };
 
     const jsonData = await reviewProduct({ ...newReview });
-    if (jsonData.success) {
+    if (jsonData?.success) {
       setData((prevData) => ({
         ...prevData,
         reviews: jsonData.data.reviews,
@@ -274,7 +274,7 @@ const ProductDetails = () => {
 
             <div className="mt-2">
               <p className="text-slate-900 font-medium">
-                  {isReviewSectionVisible ? "Reviews" : "Description & Reviews:"}
+                {isReviewSectionVisible ? "Reviews" : "Description & Reviews:"}
               </p>
               <div className="overflow-y-auto max-h-[145px]">
                 {/* {Description} */}

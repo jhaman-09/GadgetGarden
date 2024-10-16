@@ -22,7 +22,6 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
 
   const [uploading, setUploading] = useState(false);
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -63,7 +62,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUploading(true)
+    setUploading(true);
 
     try {
       const response = await fetch(endPoint.uploadProduct.url, {
@@ -76,7 +75,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
       });
 
       const jsonData = await response.json();
-      if (jsonData.success) {
+      if (jsonData?.success) {
         toast.success(jsonData.message);
         onClose();
         setAllProduct((prev) => [...prev, jsonData.data]);
@@ -84,7 +83,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
       if (jsonData.error) {
         toast.error(jsonData.message);
       }
-      setUploading(false)
+      setUploading(false);
     } catch (error) {}
   };
 

@@ -19,7 +19,7 @@ const AllProduct = () => {
   const handleFetchAllProductData = async () => {
     setLoading(true);
     const jsonData = await adminAllUploadedProducts();
-    if (jsonData.success) {
+    if (jsonData?.success) {
       setAllProduct(jsonData.data);
     }
     setLoading(false);

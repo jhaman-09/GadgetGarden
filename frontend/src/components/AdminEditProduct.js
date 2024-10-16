@@ -71,7 +71,7 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
     e.preventDefault();
     setUpdating(true);
     const jsonData = await editProduct({ data, onClose });
-    if (jsonData.success) {
+    if (jsonData?.success) {
       setData(jsonData?.data);
       setAllProduct((prev) =>
         prev.map((product) =>

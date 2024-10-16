@@ -19,7 +19,7 @@ export const useReduceFromCart = () => {
       });
 
       const jsonData = await res.json();
-      if (jsonData.success) {
+      if (jsonData?.success) {
         toast.success(jsonData.message);
         getAllCartProducts();
       } else {

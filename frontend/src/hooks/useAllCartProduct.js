@@ -13,7 +13,7 @@ export const useFetchCartAllProduct = () => {
       });
 
       const jsonData = await response.json();
-      if (jsonData.success) {
+      if (jsonData?.success) {
         dispatch(addToCart(jsonData.data));
       } else {
       }

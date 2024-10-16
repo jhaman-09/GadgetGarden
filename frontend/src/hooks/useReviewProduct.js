@@ -20,7 +20,7 @@ export const useReviewProduct = () => {
     if (jsonData.error) {
       toast.error(jsonData.message);
     }
-    if (jsonData.success) {
+    if (jsonData?.success) {
       toast(jsonData.message);
     }
     return jsonData;

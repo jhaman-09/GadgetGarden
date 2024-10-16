@@ -21,7 +21,7 @@ const Review = ({ review, index, productId, setData }) => {
   const [isLike, setIsLike] = useState(false);
   const [isDislike, setIsDislike] = useState(false);
 
-  const {user} = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user);
 
   const commentOnReview = useCommentOnReview();
 
@@ -33,7 +33,7 @@ const Review = ({ review, index, productId, setData }) => {
       productId,
       reviewId: index,
     });
-    if (jsonData.success) {
+    if (jsonData?.success) {
       setData((prevData) => ({
         ...prevData,
         reviews: jsonData.data.reviews,
@@ -50,7 +50,7 @@ const Review = ({ review, index, productId, setData }) => {
   const removeDislikeProductReview = useRemoveDislikeProductReview();
 
   console.log(user);
-  
+
   useEffect(() => {
     // Check if the current user has liked or disliked the review
     if (review?.likedBy?.includes(user?._id)) {
@@ -68,7 +68,7 @@ const Review = ({ review, index, productId, setData }) => {
         reviewId: index,
       });
 
-      if (jsonData.success) {
+      if (jsonData?.success) {
         setIsLike(false);
         setLikeCount(jsonData.data.reviews[index].likeReview);
       }
@@ -78,7 +78,7 @@ const Review = ({ review, index, productId, setData }) => {
     else {
       // here do like and
       const jsonData = await likeProductReview({ productId, reviewId: index });
-      if (jsonData.success) {
+      if (jsonData?.success) {
         setIsLike(true);
         setLikeCount(jsonData.data.reviews[index].likeReview);
         // and here if dislike allready then remove it..
@@ -87,7 +87,7 @@ const Review = ({ review, index, productId, setData }) => {
             productId,
             reviewId: index,
           });
-          if (jsonData.success) {
+          if (jsonData?.success) {
             setDislikeCount(jsonData.data.reviews[index].dislikeReview);
             setIsDislike(false);
           }
@@ -102,7 +102,7 @@ const Review = ({ review, index, productId, setData }) => {
         productId,
         reviewId: index,
       });
-      if (jsonData.success) {
+      if (jsonData?.success) {
         setIsDislike(false);
         setDislikeCount(jsonData.data.reviews[index].dislikeReview);
       }
@@ -116,7 +116,7 @@ const Review = ({ review, index, productId, setData }) => {
         productId,
         reviewId: index,
       });
-      if (jsonData.success) {
+      if (jsonData?.success) {
         setIsDislike(true);
         setDislikeCount(jsonData.data.reviews[index].dislikeReview);
         // if like aualible then remove like
@@ -125,7 +125,7 @@ const Review = ({ review, index, productId, setData }) => {
             productId,
             reviewId: index,
           });
-          if (jsonData.success) {
+          if (jsonData?.success) {
             setIsLike(false);
             setLikeCount(jsonData.data.reviews[index].likeReview);
           }

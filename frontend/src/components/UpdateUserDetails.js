@@ -81,7 +81,7 @@ const UpdateUserDetails = ({
 
   const handleUpdateUserRole = async () => {
     const jsonData = await updateAllDetailsOfUser(PayloadToUpdate);
-    if (jsonData.success) {
+    if (jsonData?.success) {
       CallToFetchAllUserAgain();
       setIsEditing(false); // Close editing mode
     }

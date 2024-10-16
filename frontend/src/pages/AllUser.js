@@ -6,7 +6,6 @@ import UpdateUserDetails from "../components/UpdateUserDetails.js";
 import Loader from "../components/Loader";
 import { FaLock } from "react-icons/fa";
 
-
 import {
   maskEmail,
   maskName,
@@ -36,7 +35,7 @@ const AllUser = () => {
 
   const handleFetchUsers = async () => {
     const jsonData = await fetchAllUsers();
-    if (jsonData.success) {
+    if (jsonData?.success) {
       setUsers(jsonData.users);
     }
   };
@@ -45,11 +44,11 @@ const AllUser = () => {
     handleFetchUsers();
   }, []);
 
-   useEffect(() => {
-     if (!user) {
-       navigate("/");
-     }
-   }, [user, navigate]); 
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return users.length === 0 ? (
     <Loader />

@@ -15,7 +15,7 @@ export const useFetchUser = () => {
       });
 
       const jsonData = await response.json();
-      if (jsonData.success) {
+      if (jsonData?.success) {
         dispatch(addUser(jsonData.user));
         getAllCartProducts();
       } else {
