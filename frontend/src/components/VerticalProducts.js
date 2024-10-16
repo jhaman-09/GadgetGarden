@@ -14,9 +14,9 @@ const VerticalProducts = ({ category, heading }) => {
 
   const fetchCategoryByProduct = async () => {
     setLoading(true);
-    const categoryProduct = await fetchProductsByCategory(category);
+    const {jsonData} = await fetchProductsByCategory(category);
     setLoading(false);
-    setData(categoryProduct.data);
+    setData(jsonData.data);
   };
 
   useEffect(() => {

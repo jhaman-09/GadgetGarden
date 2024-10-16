@@ -14,7 +14,7 @@ export const useFetchProductsByCategory = () => {
     });
 
     const jsonData = await response.json();
-    return jsonData;
+    return {jsonData,category};
   };
   return fetchProductsByCategory;
 }
