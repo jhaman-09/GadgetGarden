@@ -2,28 +2,8 @@ import React, { useEffect, useState } from "react";
 import { endPoint } from "../helper/api.js";
 import { Link } from "react-router-dom";
 
-const CategoryProductList = () => {
-  const [oneProductFromEachCategory, setOneProductFromEachCategory] = useState(
-    []
-  );
-  const [loading, setLoading] = useState(false);
-
+const CategoryProductList = ({ categoryList, loading }) => {
   const categoryLoading = new Array(13).fill(null);
-
-  const fetchOneProductFromEachCategory = async () => {
-    setLoading(true);
-    const response = await fetch(endPoint.oneProductFromEachCategory.url, {
-      method: endPoint.oneProductFromEachCategory.method,
-      credentials: "include",
-    });
-    const jsonData = await response.json();
-    setLoading(false);
-    setOneProductFromEachCategory(jsonData.data);
-  };
-
-  useEffect(() => {
-    fetchOneProductFromEachCategory();
-  }, []);
   return (
     <div className="container mx-auto p-4 scrollBar-none">
       <div className="flex justify-between items-center gap-2 overflow-y-scroll scrollbar-none">
@@ -38,7 +18,7 @@ const CategoryProductList = () => {
                 ></div>
               );
             })
-          : oneProductFromEachCategory?.map((product, idx) => {
+          : categoryList?.map((product, idx) => {
               return (
                 <Link
                   to={"/product-category?category=" + product?.category}
