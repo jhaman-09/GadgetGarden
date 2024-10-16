@@ -1,5 +1,6 @@
-// const api = "http://localhost:4000/api/v1";
-const api = "https://e-commerce-ai03.onrender.com/api/v1";
+const api = "http://localhost:4000/api/v1";
+// const api = "https://e-commerce-6se2.onrender.com/api/v1";
+
 
 export const endPoint = {
   // USER RELATED ROUTES
