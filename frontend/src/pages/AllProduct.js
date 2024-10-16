@@ -38,7 +38,7 @@ const AllProduct = () => {
   return loading ? (
     <Loader />
   ) : (
-    <div>
+    <div className="h-screen w-full">
       <div className="bg-white py-2 md:px-4 flex justify-between items-center">
         <h2 className="font-bold text-lg">All Products</h2>
         <button
@@ -49,7 +49,7 @@ const AllProduct = () => {
         </button>
       </div>
 
-      <div className="flex items-center flex-wrap gap-5 py-4 h-[calc(100vh-190px)] overflow-y-scroll">
+      <div className="flex items-center flex-wrap gap-5 py-4 h-[calc(100vh-190px)]">
         {allProduct &&
           allProduct?.map((product) => {
             return (

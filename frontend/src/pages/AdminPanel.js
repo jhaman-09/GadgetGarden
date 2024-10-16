@@ -12,8 +12,8 @@ const AdminPanel = () => {
   },[user]) 
 
   return (
-    <div className="min-h-[calc(100vh-120px)] bg-white flex">
-      <aside className="min-h-full w-full max-w-60 bg-white customShadow">
+    <div className="h-full bg-white flex w-full">
+      <aside className="min-h-full w-[240px] bg-white customShadow fixed">
         <div className="flex flex-col justify-center items-center">
           <div className="text-3xl cursor-pointer relative flex justify-center mt-3">
             {user?.profilePic ? (
@@ -46,7 +46,7 @@ const AdminPanel = () => {
           </nav>
         </div>
       </aside>
-      <main className="w-full h-full p-2">
+      <main className="h-screen ml-[240px] w-full p-2">
         <Outlet />
       </main>
     </div>
