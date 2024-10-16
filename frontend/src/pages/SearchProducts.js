@@ -23,9 +23,9 @@ const SearchProducts = () => {
   }, [query]);
 
   return (
-    <>
+    <div className="ml-10 md:mx-2 mb-24 md:mb-2">
       <VarticalyShowProducts allowMargin={"true"} data={data} loading={loading} />
-    </>
+    </div>
   );
 };
 

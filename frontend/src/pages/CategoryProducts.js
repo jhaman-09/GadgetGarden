@@ -140,7 +140,7 @@ const CategoryProducts = () => {
         </div>
 
         {/* {Right side - visible on all screens} */}
-        <div className="px-4 scrollBar-none">
+        <div className="px-4 scrollBar-none mb-2">
           <div className="md:min-h-[calc(100vh)] min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
             <VarticalyShowProducts
               data={data}
