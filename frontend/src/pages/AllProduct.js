@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 const AllProduct = () => {
   const [showProductUpload, setShowProductUpload] = useState(false);
   const [allProduct, setAllProduct] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((store) => store.user);
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const AllProduct = () => {
               <AdminProductCard
                 data={product}
                 key={product._id}
-                setAllProduct={setAllProduct}   // passing for editing product without re-rendring all admin-products
+                setAllProduct={setAllProduct} // passing for editing product without re-rendring all admin-products
               />
             );
           })}

@@ -55,8 +55,8 @@ const CartsProducts = () => {
       ) : (
         // {Cart Products Details}
         <div class="grid md:grid-cols-3 mx-4 md:mx-24 gap-4 md:gap-8">
-          <div className=" md:col-span-2 col-span-1 overflow-y-scroll">
-            <div class=" grid gap-4">
+          <div className=" md:col-span-2 col-span-1">
+            <div class=" grid gap-4 md:mb-12">
               {cartProducts &&
                 cartProducts.map((cartItem) => {
                   return (
@@ -149,7 +149,7 @@ const CartsProducts = () => {
           </div>
 
           {/* {Cart Summary of Products} */}
-          <div className="col-span-1 h-auto rounded-lg">
+          <div className="col-span-1 h-auto rounded-lg mb-24">
             <div className="md:top-20 p-4 rounded-lg shadow-lg transition-all bottom-12 md:sticky">
               <h3 className="text-xl font-semibold mb-4">Cart Summary</h3>
               <div className="flex justify-between">

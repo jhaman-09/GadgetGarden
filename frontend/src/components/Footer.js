@@ -143,7 +143,7 @@ const Footer = () => {
     <footer
       id="footer"
       className={`fixed bottom-0 left-0 w-full bg-gray-200 transition-transform duration-300 ${
-        scrollDirection === "up" ? "show-footer" : "hide-footer"
+        scrollDirection !== "up" ? "show-footer" : "hide-footer"
       }`}
     >
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-evenly px-4 gap-2 h-[100px] md:h-auto w-full py-3">

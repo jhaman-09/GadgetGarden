@@ -71,11 +71,11 @@ const CategoryProducts = () => {
   }, [filteredCategoryArray]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto mb-28 md:mb-10">
       {/* Grid for medium and larger screens */}
       <div className="hidden md:grid grid-cols-[220px,1fr]">
         {/* {Left Side - hidden on mobile} */}
-        <div className="bg-white p-2 min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
+        <div className="bg-white p-2 md:min-h-[calc(100vh)] min-h-[calc(100vh-120px)]  overflow-y-scroll max-h-[calc(100vh-120px)] mt-1">
           {/* {Sort by} */}
           <div>
             <h3 className="text-base uppercase font-medium text-slate-700 border-b pb-1 border-slate-500">
@@ -140,8 +140,8 @@ const CategoryProducts = () => {
         </div>
 
         {/* {Right side - visible on all screens} */}
-        <div className="px-4">
-          <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
+        <div className="scrollBar-none">
+          <div className="md:min-h-[calc(100vh)] min-h-[calc(100vh-120px)]  overflow-y-scroll max-h-[calc(100vh-120px)]">
             <VarticalyShowProducts
               data={data}
               loading={loading}
@@ -152,7 +152,7 @@ const CategoryProducts = () => {
       </div>
 
       {/* For mobile screens, show only the right side */}
-      <div className="md:hidden">
+      <div className="md:hidden ml-9">
         <VarticalyShowProducts
           data={data}
           loading={loading}

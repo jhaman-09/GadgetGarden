@@ -8,7 +8,6 @@ const HorizontelProduct = ({ category, heading }) => {
   const [loading, setLoading] = useState(false);
   const loadingCardArray = new Array(13).fill(null);
 
-  const [scroll, setScroll] = useState(0);
   const scrollElement = useRef();
   const fetchProductsByCategory = useFetchProductsByCategory();
 

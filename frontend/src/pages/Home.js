@@ -6,7 +6,7 @@ import VerticalProducts from "../components/VerticalProducts.js";
 
 const Home = () => {
   return (
-    <div>
+    <div className="md:mb-12 mb-24">
       <CategoryProductList />
       <BannerAdvertiseProduct />
 
@@ -28,14 +28,8 @@ const Home = () => {
         category={"camera"}
         heading={"High Resolution Camera"}
       />
-      <VerticalProducts
-        category={"trimmer"}
-        heading={"Most Durable Trimmer"}
-      />
-      <VerticalProducts
-        category={"speaker"}
-        heading={"Top Selling Speaker"}
-      />
+      <VerticalProducts category={"trimmer"} heading={"Most Durable Trimmer"} />
+      <VerticalProducts category={"speaker"} heading={"Top Selling Speaker"} />
       <VerticalProducts
         category={"earphone"}
         heading={"Stylish Earphone From Top Brands"}
