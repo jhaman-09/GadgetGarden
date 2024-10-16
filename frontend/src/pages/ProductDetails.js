@@ -156,7 +156,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 scrollBar-none mb-20 md:mb-6">
+    <div className="container mx-auto p-4 scrollBar-none mb-20 md:mb-6 mt-10 md:mt-0">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-4">
         <div className="h-96 flex flex-col-reverse lg:flex-row  gap-4">
           {/* Side Product Images */}
@@ -191,7 +191,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Main Product Image */}
-          <div className="h-[350px] mx-auto w-[350px] md:h-96 md:w-96 bg-slate-200 relative p-2">
+          <div className="h-[350px] w-[350px] md:h-96 md:w-96 bg-slate-200 relative p-2">
             <img
               src={activeImage}
               alt="main_product_image"
