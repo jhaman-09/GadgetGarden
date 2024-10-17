@@ -21,7 +21,7 @@ const HorizontelProduct = ({ heading, data, loading }) => {
             className="transition-all animate-pulse cursor-none ease-in-out text-2xl font-semibold py-4"
             sequence={[".......", 1000, "", 1000]}
             wrapper="span"
-            speed={20}
+            speed={5}
             repeat={Infinity}
             style={{ fontSize: "2em", display: "inline-block" }}
           />

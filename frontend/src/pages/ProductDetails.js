@@ -9,7 +9,6 @@ import AddReview from "../components/AddReview";
 import { getAverageRating, Reviews } from "../components/calculateAvrageRating";
 import { useSelector } from "react-redux";
 import VerticalProducts from "../components/VerticalProducts";
-import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -39,7 +38,7 @@ const ProductDetails = () => {
 
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   // for forcly re-reder this component again and again when detail of product change
-  const [forceUpdate, setForceUpdate] = useState(0);
+  const [forceUpdate, setForceUpdate] = useState(false);
 
   // Reviews scroll
   const [isReviewSectionVisible, setIsReviewSectionVisible] = useState(false);
@@ -53,11 +52,12 @@ const ProductDetails = () => {
 
   const [first, setFirst] = useState([]);
 
-  const fetchProductsByCategory = useFetchProductsByCategory();
   const hanldecategoryProduct = async (catgory) => {
-    const jsonData = await fetchProductsByCategory(catgory);
-    setFirst(jsonData.data);
-    setForceUpdate((prev) => prev + 1);
+    const recommendedProducts = allProducts.filter(
+      (product) => product.category === catgory
+    );
+    setFirst(recommendedProducts);
+    setForceUpdate((prev) => !prev);
   };
 
   useEffect(() => {
