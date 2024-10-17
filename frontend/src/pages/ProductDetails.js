@@ -72,8 +72,6 @@ const ProductDetails = () => {
     hanldecategoryProduct(data?.category);
   }, [allProducts, params?.id, data?.category]);
 
-  console.log(first);
-
   const handleZoomImage = useCallback(
     (e) => {
       setZoomImage(true);
