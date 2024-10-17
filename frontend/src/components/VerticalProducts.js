@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import HorizontalProductCardLoading from "./HorizontalProductCardLoading";
 import HorizontalProductCard from "./HorizontalProductCard";
 
-const VerticalProducts = ({ heading, data, loading }) => {
+const VerticalProducts = ({ heading, data, loading, recommended }) => {
   const loadingCardArray = new Array(13).fill(null);
 
   const scrollElement = useRef();
@@ -19,10 +19,12 @@ const VerticalProducts = ({ heading, data, loading }) => {
           ? loadingCardArray.map((index) => (
               <HorizontalProductCardLoading key={index} />
             ))
-          : data !== null  && data.map((product) => (
+          : data !== null &&
+            data.map((product) => (
               <HorizontalProductCard
                 product={product}
                 key={product?.productName}
+                recommended={recommended}
               />
             ))}
       </div>

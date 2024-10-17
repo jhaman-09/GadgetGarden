@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import displayCurrency from "../helper/displayCurrency";
-import RecommendationProducts from "../components/RecommendationProducts";
 import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { categories } from "../helper/categoriesOptions";
-import { useFetchProductDetails } from "../hooks/useFetchProductDetails";
 import Review from "../components/Review";
 import { useReviewProduct } from "../hooks/useReviewProduct";
 import AddReview from "../components/AddReview";
 import { getAverageRating, Reviews } from "../components/calculateAvrageRating";
+import { useSelector } from "react-redux";
+import VerticalProducts from "../components/VerticalProducts";
+import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -21,16 +22,14 @@ const ProductDetails = () => {
     discount: "",
     reviews: [],
   });
-  const [loading, setLoading] = useState(false);
+
+  // const [loading, setLoading] = useState(false);
   const [activeImage, setActiveImage] = useState("");
   const [zoomImage, setZoomImage] = useState(false);
   const [zoomImageCoordinate, setZoomImageCoordinate] = useState({
     x: 0,
     y: 0,
   });
-
-  // for forcly re-reder this component again and again when detail of product change
-  const [forceUpdate, setForceUpdate] = useState(0);
 
   const [reviewInput, setReviewInput] = useState({
     name: "",
@@ -39,6 +38,8 @@ const ProductDetails = () => {
   });
 
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  // for forcly re-reder this component again and again when detail of product change
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   // Reviews scroll
   const [isReviewSectionVisible, setIsReviewSectionVisible] = useState(false);
@@ -47,25 +48,31 @@ const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const productDetails = useFetchProductDetails();
-
+  const { allProducts, loading } = useSelector((store) => store.home);
   const productImageLodingArray = new Array(4).fill(null);
 
-  const fetchProductDetails = async (paramsId) => {
-    setLoading(true);
-    const jsonData = await productDetails(paramsId);
-    if (jsonData?.success) {
-      setData(jsonData?.data);
-      getAverageRating(jsonData.data.reviews); // it is a function to calculate avg rating
-      setActiveImage(jsonData?.data?.productImage[0]);
-      setForceUpdate((prev) => prev + 1);
-    }
-    setLoading(false);
+  const [first, setFirst] = useState([]);
+
+  const fetchProductsByCategory = useFetchProductsByCategory();
+  const hanldecategoryProduct = async (catgory) => {
+    const jsonData = await fetchProductsByCategory(catgory);
+    setFirst(jsonData.data);
+    setForceUpdate((prev) => prev + 1);
   };
 
   useEffect(() => {
-    fetchProductDetails(params?.id);
-  }, [params?.id]);
+    if (allProducts.length > 0) {
+      const product = allProducts.find((product) => product._id === params?.id);
+      setData(product);
+      getAverageRating(product.reviews); // it is a function to calculate avg rating
+      setActiveImage(product?.productImage[0]);
+    } else {
+      setData(null);
+    }
+    hanldecategoryProduct(data?.category);
+  }, [allProducts, params?.id, data?.category]);
+
+  console.log(first);
 
   const handleZoomImage = useCallback(
     (e) => {
@@ -314,30 +321,42 @@ const ProductDetails = () => {
       </div>
 
       {categories?.length > 0 && data?.category && (
-        <>
-          {/* In This Component, I have to forcly re-reder the whole componnet which is not a good practice */}
-          <RecommendationProducts
-            key={forceUpdate}
-            category={data.category}
-            heading={"Recommended Product"}
-          />
+        <div>
+          {/* Render the recommended products based on a specific set */}
+          {first?.length > 0 && (
+            <VerticalProducts
+              key={forceUpdate}
+              heading="Recommended Products"
+              data={first}
+              loading={loading}
+              recommended={true}
+            />
+          )}
 
-          {categories?.map((ele) => {
-            const isNotCurrentCategory =
-              ele?.value.toString() !== data?.category;
-            return (
-              isNotCurrentCategory &&
-              ele?.value &&
-              ele?.value.length > 0 && (
-                <RecommendationProducts
-                  key={ele?.value}
-                  category={ele?.value}
-                  heading={"Recommended Product"}
-                />
-              )
+          {/* Render products from other categories */}
+          {categories.map((option) => {
+            let productsForCategory = allProducts.filter(
+              (product) =>
+                product?.category === option?.value &&
+                option?.value !== data?.category
             );
+
+            // Only return the VerticalProducts component if productsForCategory has products
+            if (productsForCategory.length > 0) {
+              return (
+                <div key={option.value}>
+                  <VerticalProducts
+                    heading={option?.headline || option?.value} // Fallback to category name if no headline
+                    data={productsForCategory}
+                    loading={loading}
+                    recommended={true}
+                  />
+                </div>
+              );
+            }
+            return null;
           })}
-        </>
+        </div>
       )}
     </div>
   );
