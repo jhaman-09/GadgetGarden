@@ -3,9 +3,9 @@ import { endPoint } from "../helper/api";
 
 export const useFetchAllProductsOfAdmin = () => {
     const adminAllUploadedProducts = async() => {
-      const res = await fetch(endPoint.allProduct.url, {
+      const res = await fetch(endPoint.allProductsUploadedByAdmin.url, {
         credentials: "include",
-        method: endPoint.allProduct.method,
+        method: endPoint.allProductsUploadedByAdmin.method,
       });
 
       const jsonData = await res.json();

@@ -1,26 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import HorizontalProductCardLoading from "./HorizontalProductCardLoading";
 import HorizontalProductCard from "./HorizontalProductCard";
-import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 
-const HorizontelProduct = ({ category, heading }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+const HorizontelProduct = ({ heading, data, loading }) => {
   const loadingCardArray = new Array(13).fill(null);
 
   const scrollElement = useRef();
-  const fetchProductsByCategory = useFetchProductsByCategory();
-
-  const fetchCategoryByProduct = async () => {
-    setLoading(true);
-    const categoryProduct = await fetchProductsByCategory(category);
-    setLoading(false);
-    setData(categoryProduct.data);
-  };
-
-  useEffect(() => {
-    fetchCategoryByProduct();
-  }, []);
 
   return (
     <div className="container px-4 mx-auto relative my-6 scrollBar-none">

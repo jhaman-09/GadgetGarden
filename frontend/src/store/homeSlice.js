@@ -3,19 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const homeSlice = createSlice({
   name: "home",
   initialState: {
-    categoryList: [],
-    categoryListFetched: false,
+    allProducts: [],
+    loading: true,
   },
 
   reducers: {
-    addCategoryList: (state, action) => {
-      state.categoryList = action.payload;
+    addAllProducts: (state, action) => {
+      state.allProducts = action.payload;
     },
-    addHomeFetched: (state, action) => {
-      state.categoryListFetched = action.payload;
+    addAllProductsFetched: (state, action) => {
+      state.loading = action.payload;
     },
   },
 });
 
-export const { addCategoryList, addHomeFetched } = homeSlice.actions;
+export const { addAllProducts, addAllProductsFetched } = homeSlice.actions;
 export default homeSlice.reducer;

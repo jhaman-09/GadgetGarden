@@ -1,6 +1,26 @@
 import { Product } from "../models/productSchema.js";
 import onlyAdminUploadProduct from "../middlewares/isRoleAdmin.js";
 import onlyAdminUploadProudct from "../middlewares/isRoleAdmin.js";
+
+export const allProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+
+    res.status(200).json({
+      message: "All Products Found",
+      data: products,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error.message || "Server Error..!",
+      error: true,
+      success: false,
+    });
+  }
+};
+
 export const uploadProduct = async (req, res) => {
   try {
     const { _id } = req.user;
@@ -60,7 +80,7 @@ export const uploadProduct = async (req, res) => {
   }
 };
 
-export const getAllProduct = async (req, res) => {
+export const getAllProductsUploaded = async (req, res) => {
   try {
     const { _id } = req.user;
     const allProducts = await Product.find({ uploadedBy: _id });

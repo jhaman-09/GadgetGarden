@@ -1,27 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import HorizontalProductCardLoading from "./HorizontalProductCardLoading";
 import HorizontalProductCard from "./HorizontalProductCard";
-import { useFetchProductsByCategory } from "../hooks/useFetchProductsByCategory";
 
-const VerticalProducts = ({ category, heading }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+const VerticalProducts = ({ heading, data, loading }) => {
   const loadingCardArray = new Array(13).fill(null);
 
   const scrollElement = useRef();
-    const fetchProductsByCategory = useFetchProductsByCategory();
-
-
-  const fetchCategoryByProduct = async () => {
-    setLoading(true);
-    const categoryProduct = await fetchProductsByCategory(category);
-    setLoading(false);
-    setData(categoryProduct.data);
-  };
-
-  useEffect(() => {
-    fetchCategoryByProduct();
-  }, []);
 
   return (
     <div className="container p-4 mx-auto rounded relative my-6 scrollBar-none">
@@ -32,10 +16,10 @@ const VerticalProducts = ({ category, heading }) => {
         ref={scrollElement}
       >
         {loading
-          ? loadingCardArray.map((product, index) => (
+          ? loadingCardArray.map((index) => (
               <HorizontalProductCardLoading key={index} />
             ))
-          : data.map((product) => (
+          : data !== null  && data.map((product) => (
               <HorizontalProductCard
                 product={product}
                 key={product?.productName}

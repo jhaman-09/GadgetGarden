@@ -1,7 +1,6 @@
 const api = "http://localhost:4000/api/v1";
 // const api = "https://e-commerce-6se2.onrender.com/api/v1";
 
-
 export const endPoint = {
   // USER RELATED ROUTES
 
@@ -36,10 +35,16 @@ export const endPoint = {
     url: api + "/product/upload-product",
     method: "POST",
   },
-  allProduct: {
-    url: api + "/product/all-product",
+  allProductsUploadedByAdmin: {
+    url: api + "/product/all-products-uploaded-by-admin",
     method: "GET",
   },
+
+  allProducts: {
+    url: api + "/product/all-products",
+    method: "GET",
+  },
+
   editProduct: {
     url: api + "/product/update-product",
     method: "POST",

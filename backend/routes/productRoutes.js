@@ -2,13 +2,14 @@ import express from "express";
 import { authToken } from "../middlewares/auth.js";
 import {
   addReviewOnProduct,
+  allProducts,
   allProductsOfThatCategory,
   commentOnReview,
   deleteReview,
   dislikedReview,
   editProduct,
   editReview,
-  getAllProduct,
+  getAllProductsUploaded,
   getFilterProductsByCategory,
   getProductById,
   getProductsBySearch,
@@ -23,19 +24,23 @@ import {
 const router = express.Router();
 
 router.post("/upload-product", authToken, uploadProduct);
-router.get("/all-product", authToken, getAllProduct);
+router.get(
+  "/all-products-uploaded-by-admin",
+  authToken,
+  getAllProductsUploaded
+);
 router.post("/update-product", authToken, editProduct);
 router.get("/category-product", oneProductFromEachCategory);
 router.post("/products-by-category", allProductsOfThatCategory);
 router.post("/product-details", getProductById);
 
+router.get("/all-products", allProducts);
 
 // search Product using query
-router.get("/search", getProductsBySearch)
+router.get("/search", getProductsBySearch);
 
 // get Products according to given categories..
 router.post("/filter-categories", getFilterProductsByCategory);
-
 
 // Review And Comments on Reviews...
 router.post("/review-product", authToken, addReviewOnProduct);
@@ -58,7 +63,6 @@ router.post("/remove-liked-review", authToken, removeLikedReview);
 
 router.post("/dislike-review", authToken, dislikedReview);
 
-router.post("/remove-disliked-review", authToken, removeDislikedReview)
-
+router.post("/remove-disliked-review", authToken, removeDislikedReview);
 
 export default router;
