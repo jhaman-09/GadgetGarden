@@ -50,7 +50,7 @@ const Home = () => {
       {
         <HorizontelProduct
           category={"airpode"}
-          heading={"Top Selling Airpodes"}
+          heading={!loading ? "Top Selling Airpodes" : "..................."}
           data={allProducts.filter(
             (product) => product?.category === "airpode"
           )}
@@ -61,7 +61,9 @@ const Home = () => {
       {
         <HorizontelProduct
           category={"mobile"}
-          heading={"Best Selling Smartphones"}
+          heading={
+            !loading ? "Best Selling Smartphones" : "..................."
+          }
           data={allProducts.filter((product) => product?.category === "mobile")} // Pass the filtered array of airpode products
           loading={loading}
         />
