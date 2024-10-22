@@ -18,4 +18,3 @@ export const dbConnection = () => {
       console.log(`An error occurred while connecting to the database: ${err}`);
     });
 };
- 
