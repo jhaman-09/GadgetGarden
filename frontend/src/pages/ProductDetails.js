@@ -39,7 +39,7 @@ const ProductDetails = () => {
   });
 
   const dispatch = useDispatch();
-  const {autherized } = useSelector(store => store.user);
+  const { autherized, cartProducts } = useSelector((store) => store.user);
 
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   // for forcly re-reder this component again and again when detail of product change
@@ -107,13 +107,20 @@ const ProductDetails = () => {
     fetchAddToCart(e, product_id);
   };
 
-  const handleBuYNow = (e, product_id) => {
-    if (autherized === false) {
+  const handleBuYNow = async (e, product_id) => {
+    if (!autherized) {
       navigate("/login");
-    }
-    else {
-      fetchAddToCart(e, product_id);
-      navigate("/cart");
+    } else {
+      const isInCart = cartProducts.some(
+        (ele) => ele.product?._id === product_id
+      );      
+
+      if (isInCart) {
+        navigate("/cart");
+      } else {
+        await fetchAddToCart(e, product_id); // wait for the product to be added to the cart
+        navigate("/cart");
+      }
     }
   };
 
@@ -165,7 +172,7 @@ const ProductDetails = () => {
         ...prevData,
         reviews: jsonData.data.reviews,
       }));
-      // update the redux store of this product 
+      // update the redux store of this product
       dispatch(updateProduct(jsonData.data));
     }
     setReviewInput({ name: "", rating: 0, text: "" });
@@ -282,7 +289,7 @@ const ProductDetails = () => {
                 className="border-2 border-primary rounded px-3 py-2 md:py-1 md:max-w-[130px] w-full text-primary font-medium hover:bg-primary hover:text-white transition-all"
                 onClick={(e) => handleBuYNow(e, data._id)}
               >
-                Buy
+                Buy Now
               </button>
               <button
                 className="border-2 border-primary hover:border-primary rounded px-3 py-2 md:py-1 md:max-w-[130px] w-full text-white bg-primary font-medium hover:bg-white hover:text-primary transition-all"

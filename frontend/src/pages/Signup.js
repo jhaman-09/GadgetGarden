@@ -5,6 +5,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import imageToBase64 from "../helper/imageToBase64.js";
 import { useSignUp } from "../hooks/useSignUp.js";
+import { validatePassword } from "../helper/passwordValidator.js";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
@@ -16,8 +17,11 @@ const Signup = () => {
     confirmPassword: "",
     profilePic: "",
     role: "",
-    phone : ""
+    phone: "",
   });
+
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [confirmPasswordValid, setconfirmPasswordValid] = useState(true);
 
   const signUp = useSignUp();
 
@@ -33,7 +37,13 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    await signUp(e, data);
+    if (!passwordValid) {
+      alert(
+        "Password must be at least 8 characters long and contain at least one special character."
+      );
+    } else {
+      await signUp(e, data);
+    }
   };
 
   const handleUploadPic = async (e) => {
@@ -125,7 +135,14 @@ const Signup = () => {
                   placeholder="Enter Your Password.."
                   name="password"
                   value={data.password}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    if (!validatePassword(e.target.value)) {
+                      setPasswordValid(false);
+                    } else {
+                      setPasswordValid(true);
+                    }
+                  }}
                   required
                   className="outline-none h-full w-full bg-transparent"
                 />
@@ -136,6 +153,9 @@ const Signup = () => {
                   <span>{!showPass ? <FaEye /> : <FaEyeSlash />}</span>
                 </div>
               </div>
+              <p className="text-red-600 text-sm">
+                {!passwordValid && "Password not valid.."}
+              </p>
             </div>
 
             <div>
@@ -146,7 +166,14 @@ const Signup = () => {
                   placeholder="Enter Confirm Password.."
                   name="confirmPassword"
                   value={data.confirmPassword}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    if (!validatePassword(e.target.value)) {
+                      setconfirmPasswordValid(false);
+                    } else {
+                      setconfirmPasswordValid(true);
+                    }
+                  }}
                   required
                   className="outline-none h-full w-full bg-transparent"
                 />
@@ -157,6 +184,9 @@ const Signup = () => {
                   <span>{!showConfPass ? <FaEye /> : <FaEyeSlash />}</span>
                 </div>
               </div>
+              <p className="text-red-600 text-sm">
+                {!confirmPasswordValid && "Password not valid.."}
+              </p>
             </div>
 
             <div>

@@ -92,7 +92,7 @@ const AllUser = () => {
                 ele?._id.toString() !== user?._id.toString();
               return !isNotCurrentUser ? null : (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{index + 2}</td>
                   <td>{maskName(ele.name)}</td>
                   <td>{maskEmail(ele?.email)}</td>
                   <td>{ele?.role}</td>
