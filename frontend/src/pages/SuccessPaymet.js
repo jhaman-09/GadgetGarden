@@ -9,9 +9,14 @@ const SuccessPayment = () => {
         <p className="text-4xl bg-white text-green-600 rounded-full p-4 shadow-lg">
           <MdOutlineDoneOutline className="text-5xl" />
         </p>
-        <p className="text-center text-3xl font-bold text-white animate-bounce tracking-wide">
-          Payment Successful! 🎉👍
-        </p>
+        <div className="flex md:gap-2 items-center justify-center">
+          <p className="text-center ml-12 text-3xl font-bold text-white animate-bounce tracking-wide">
+            Payment Successful!
+          </p>
+          <p className="md:mb-1 text-3xl font-bold text-white animate-bounce tracking-wide">
+            🎉👍
+          </p>
+        </div>
         <p className="text-lg text-white text-opacity-90">
           Thank you for your purchase. Your payment was processed successfully.
         </p>
