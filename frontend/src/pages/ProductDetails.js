@@ -10,6 +10,7 @@ import { getAverageRating, Reviews } from "../components/calculateAvrageRating";
 import { useDispatch, useSelector } from "react-redux";
 import VerticalProducts from "../components/VerticalProducts";
 import { updateProduct } from "../store/homeSlice";
+
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -69,7 +70,7 @@ const ProductDetails = () => {
     if (allProducts.length > 0) {
       const product = allProducts.find((product) => product._id === params?.id);
       setData(product);
-      getAverageRating(product.reviews); // it is a function to calculate avg rating
+      getAverageRating(product?.reviews); // it is a function to calculate avg rating
       setActiveImage(product?.productImage[0]);
     } else {
       setData(null);
@@ -113,7 +114,7 @@ const ProductDetails = () => {
     } else {
       const isInCart = cartProducts.some(
         (ele) => ele.product?._id === product_id
-      );      
+      );
 
       if (isInCart) {
         navigate("/cart");

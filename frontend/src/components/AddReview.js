@@ -8,7 +8,7 @@ const AddReview = ({ handleReviewSubmit, reviewInput, setReviewInput, isSubmitti
       <h3 className="text-lg font-medium flex gap-4 items-center">
         Add a Review or Comment{" "}
         <p className="text-white flex gap-2 items-center bg-green-700 rounded-md px-2 text-base">
-          {Math.round(getAverageRating(data.reviews) * 10) / 10} <FaStar />
+          {Math.round(getAverageRating(data?.reviews) * 10) / 10} <FaStar />
         </p>
       </h3>
       <form onSubmit={(e) => handleReviewSubmit(e)}>
