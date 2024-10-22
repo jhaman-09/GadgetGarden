@@ -39,6 +39,7 @@ const ProductDetails = () => {
   });
 
   const dispatch = useDispatch();
+  const {autherized } = useSelector(store => store.user);
 
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   // for forcly re-reder this component again and again when detail of product change
@@ -107,8 +108,13 @@ const ProductDetails = () => {
   };
 
   const handleBuYNow = (e, product_id) => {
-    fetchAddToCart(e, product_id);
-    navigate("/cart");
+    if (autherized === false) {
+      navigate("/login");
+    }
+    else {
+      fetchAddToCart(e, product_id);
+      navigate("/cart");
+    }
   };
 
   // Scroll review and description

@@ -72,3 +72,5 @@ export const deleteProductById = async (req, res) => {
 };
 
 
+
+
