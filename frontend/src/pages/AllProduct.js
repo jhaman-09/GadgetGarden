@@ -39,7 +39,7 @@ const AllProduct = () => {
     <Loader />
   ) : (
     <div className="h-screen w-full">
-      <div className="bg-white py-2 md:px-4 flex justify-between items-center">
+      <div className="bg-white pt-4 md:px-4 flex justify-between items-center">
         <h2 className="font-bold text-lg">All Products</h2>
         <button
           className="md:border-2 border md:px-2 md:text-base text-sm  md:py-1 border-primary md:rounded-full rounded text-primary hover:bg-primary hover:text-white transition-all"
@@ -49,7 +49,7 @@ const AllProduct = () => {
         </button>
       </div>
 
-      <div className="flex items-center flex-wrap gap-5 py-4 h-[calc(100vh-190px)]">
+      <div className="flex items-center pb-24 md:pb-14 bg-white flex-wrap gap-5 py-4">
         {allProduct &&
           allProduct?.map((product) => {
             return (

@@ -7,8 +7,9 @@ import Review from "../components/Review";
 import { useReviewProduct } from "../hooks/useReviewProduct";
 import AddReview from "../components/AddReview";
 import { getAverageRating, Reviews } from "../components/calculateAvrageRating";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import VerticalProducts from "../components/VerticalProducts";
+import { updateProduct } from "../store/homeSlice";
 const ProductDetails = () => {
   const [data, setData] = useState({
     productName: "",
@@ -20,6 +21,7 @@ const ProductDetails = () => {
     category: "",
     discount: "",
     reviews: [],
+    _id: "",
   });
 
   // const [loading, setLoading] = useState(false);
@@ -35,6 +37,8 @@ const ProductDetails = () => {
     text: "",
     rating: 0,
   });
+
+  const dispatch = useDispatch();
 
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   // for forcly re-reder this component again and again when detail of product change
@@ -54,7 +58,7 @@ const ProductDetails = () => {
 
   const hanldecategoryProduct = async (catgory) => {
     const recommendedProducts = allProducts.filter(
-      (product) => product.category === catgory
+      (product) => product.category === catgory && params.id !== product._id
     );
     setFirst(recommendedProducts);
     setForceUpdate((prev) => !prev);
@@ -155,6 +159,8 @@ const ProductDetails = () => {
         ...prevData,
         reviews: jsonData.data.reviews,
       }));
+      // update the redux store of this product 
+      dispatch(updateProduct(jsonData.data));
     }
     setReviewInput({ name: "", rating: 0, text: "" });
     setIsSubmittingReview(false);
@@ -240,10 +246,13 @@ const ProductDetails = () => {
             <h2 className="text-2xl lg:text-4xl font-medium line-clamp-2">
               {data?.productName}
             </h2>
-            <p className="capitalize text-slate-400">{data?.category}</p>
 
-            {/* {to calculate and show the avarage rating in the form of stars} */}
-            <Reviews data={data} />
+            <span className="flex gap-2 mt-2">
+              <p className="capitalize text-slate-400">{data?.category}</p>
+
+              {/* {to calculate and show the avarage rating in the form of stars} */}
+              <Reviews data={data} />
+            </span>
 
             {/* {Price and Discount} */}
             <div className="flex lg:flex-row gap-2 lg:gap-2 lg:items-center my-1 text-2xl">

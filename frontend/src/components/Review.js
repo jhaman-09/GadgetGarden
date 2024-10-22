@@ -8,7 +8,8 @@ import { useLikeProductReview } from "../hooks/useLikeProductReview";
 import { useRemoveDislikeProductReview } from "../hooks/useRemoveDislikeProductReview";
 import { useDislikeProductReview } from "../hooks/useDislikeProductReview";
 import { useRemoveLikeProductReview } from "../hooks/useRemoveLikeProductReview";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProduct } from "../store/homeSlice";
 
 const Review = ({ review, index, productId, setData }) => {
   const [addReply, setAddReply] = useState(false);
@@ -21,6 +22,7 @@ const Review = ({ review, index, productId, setData }) => {
   const [isLike, setIsLike] = useState(false);
   const [isDislike, setIsDislike] = useState(false);
 
+  const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
 
   const commentOnReview = useCommentOnReview();
@@ -38,6 +40,7 @@ const Review = ({ review, index, productId, setData }) => {
         ...prevData,
         reviews: jsonData.data.reviews,
       }));
+      dispatch(updateProduct(jsonData?.data));
     }
     setIsSubmittingReply(false);
     setAddReply(false); // Hide reply box after submitting
@@ -71,6 +74,7 @@ const Review = ({ review, index, productId, setData }) => {
       if (jsonData?.success) {
         setIsLike(false);
         setLikeCount(jsonData.data.reviews[index].likeReview);
+        dispatch(updateProduct(jsonData?.data));
       }
     }
     // two condition here, 1) only just do like without touching dislike button
@@ -81,6 +85,8 @@ const Review = ({ review, index, productId, setData }) => {
       if (jsonData?.success) {
         setIsLike(true);
         setLikeCount(jsonData.data.reviews[index].likeReview);
+        dispatch(updateProduct(jsonData?.data));
+
         // and here if dislike allready then remove it..
         if (isDislike) {
           const jsonData = await removeDislikeProductReview({
@@ -90,6 +96,7 @@ const Review = ({ review, index, productId, setData }) => {
           if (jsonData?.success) {
             setDislikeCount(jsonData.data.reviews[index].dislikeReview);
             setIsDislike(false);
+            dispatch(updateProduct(jsonData?.data));
           }
         }
       }
@@ -105,6 +112,7 @@ const Review = ({ review, index, productId, setData }) => {
       if (jsonData?.success) {
         setIsDislike(false);
         setDislikeCount(jsonData.data.reviews[index].dislikeReview);
+        dispatch(updateProduct(jsonData?.data));
       }
     }
 
@@ -119,6 +127,8 @@ const Review = ({ review, index, productId, setData }) => {
       if (jsonData?.success) {
         setIsDislike(true);
         setDislikeCount(jsonData.data.reviews[index].dislikeReview);
+        dispatch(updateProduct(jsonData?.data));
+
         // if like aualible then remove like
         if (isLike) {
           const jsonData = await removeLikeProductReview({
@@ -128,6 +138,7 @@ const Review = ({ review, index, productId, setData }) => {
           if (jsonData?.success) {
             setIsLike(false);
             setLikeCount(jsonData.data.reviews[index].likeReview);
+            dispatch(updateProduct(jsonData?.data));
           }
         }
       }

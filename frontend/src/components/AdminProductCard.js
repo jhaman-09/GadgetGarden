@@ -15,7 +15,7 @@ const AdminProductCard = ({ data, setAllProduct }) => {
   };
 
   return (
-    <div className=" p-4 text-black rounded  hover:transition-all">
+    <div className="p-4 text-black rounded  hover:transition-all">
       <div className="w-40 flex">
         <div>
           <div className="w-32 h-32 flex justify-center items-center">

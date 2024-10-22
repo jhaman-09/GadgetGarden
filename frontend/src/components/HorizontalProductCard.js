@@ -12,7 +12,11 @@ const HorizontalProductCard = (props) => {
 
   return (
     <Link
-      to={props.recommended ? "/product/" + props?.product?._id : "product/" + props?.product?._id}
+      to={
+        props.recommended
+          ? "/product/" + props?.product?._id
+          : "product/" + props?.product?._id
+      }
       className={
         props.design
           ? `w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow h-[148px] ${props?.design}`
@@ -41,7 +45,25 @@ const HorizontalProductCard = (props) => {
         <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black">
           {props?.product?.productName}
         </h2>
-        <p className="capitalize text-slate-500">{props?.product?.category}</p>
+
+        <span
+          className={`flex gap-2 items-center ${
+            props?.design ? "lg:text-base" : "gap-6"
+          }`}
+        >
+          <p className="capitalize text-slate-500">
+            {props?.product?.category}
+          </p>
+          <p
+            className={`text-green-900 font-semibold ${
+              !props?.design
+                ? "text-white lg:text-md font-medium bg-green-800 rounded-full px-2"
+                : ""
+            } `}
+          >
+            {Math.floor(props?.product?.discount)}% off
+          </p>
+        </span>
 
         <div className={props.design ? `flex gap-2` : `flex gap-3`}>
           <p className="text-primary font-medium">
