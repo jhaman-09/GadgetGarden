@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { endPoint } from "../helper/api.js";
 import { Link } from "react-router-dom";
 
 const CategoryProductList = ({ categoryList, loading }) => {
