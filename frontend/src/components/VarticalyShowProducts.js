@@ -2,6 +2,7 @@ import React from "react";
 import displayCurrency from "../helper/displayCurrency";
 import { useFetchAddToCart } from "../hooks/useFetchAddToCart";
 import { Link } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 
 const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
   const loadingCardArray = new Array(13).fill(null);
@@ -25,9 +26,23 @@ const VarticalyShowProducts = ({ data, loading, allowMargin }) => {
       )}
 
       {data.length === 0 && !loading && (
-        <h1 className="text-black font-semibold text-center text-2xl md:text-4xl">
-          Nothing Found..!😒
-        </h1>
+        <div className="flex flex-col items-center justify-center h-screen pb-20">
+          <h1 className="text-black font-semibold text-center text-2xl md:text-4xl mb-4">
+            Nothing Found..! 😒
+          </h1>
+          <p className="text-lg text-gray-600 mb-2 text-center">
+            We couldn't find any products matching your search.
+          </p>
+          <p className="text-sm text-gray-500 text-center">
+            Please try different keywords or filters to find what you need.
+          </p>
+          <Link
+            to="/"
+            className="mt-4 px-6 py-2 bg-primary hover:bg-secondary transition-colors duration-300 text-white font-semibold rounded-lg shadow-md"
+          >
+            Go Back to Home
+          </Link>
+        </div>
       )}
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,330px))] gap-3 justify-center md:justify-between md:gap-4 overflow-x-scroll scrollbar-none transition-all">

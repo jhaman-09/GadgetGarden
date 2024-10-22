@@ -7,6 +7,7 @@ import { useReduceFromCart } from "../hooks/useReduceFromCart";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { useFetchDeleteProductFromCart } from "../hooks/useDeleteProductFromCart";
 import { usePaymentGateway } from "../hooks/usePaymentGateway";
+import { FaShoppingCart } from "react-icons/fa";
 
 const CartsProducts = () => {
   const { user, cartProducts } = useSelector((store) => store.user);
@@ -38,19 +39,24 @@ const CartsProducts = () => {
   ) : (
     <div className="container p-4 mx-auto rounded">
       {cartProducts && cartProducts.length === 0 ? (
-        <div className="flex-grow flex justify-center items-center md:h-screen">
-          <div className="flex flex-col md:top-64 items-center justify-center md:fixed">
-            <h1 className="text-center text-4xl font-semibold py-2">
-              Empty cart!
-            </h1>
-            <p className="text-4xl">😒</p>
-            <Link
-              to={"/"}
-              className="bg-primary rounded-lg border-2 hover:bg-secondary cursor-pointer transition-all mt-3 hover:text-black md:px-8 px-4 py-2 text-white"
-            >
-              <button>Continue</button>
-            </Link>
-          </div>
+        <div className="flex flex-col items-center justify-center pb-20 h-screen">
+          <FaShoppingCart className="text-8xl text-gray-400 mb-4" />{" "}
+          {/* Cart Icon */}
+          <h1 className="text-center text-5xl font-bold text-gray-800">
+            Your Cart is Empty
+          </h1>
+          <p className="text-6xl text-gray-400 my-4">😒</p>
+          <p className="text-center text-lg text-gray-600 mb-6">
+            Looks like you haven't added anything to your cart yet.
+            <br />
+            Start shopping to fill your cart with amazing products!
+          </p>
+          <Link
+            to={"/"}
+            className="bg-primary hover:bg-secondary transition-colors duration-300 text-white font-semibold rounded-lg px-6 py-3 shadow-md"
+          >
+            Continue Shopping
+          </Link>
         </div>
       ) : (
         // {Cart Products Details}

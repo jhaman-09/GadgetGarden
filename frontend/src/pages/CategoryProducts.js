@@ -3,6 +3,7 @@ import { categories } from "../helper/categoriesOptions";
 import VarticalyShowProducts from "../components/VarticalyShowProducts";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useFilterProductsThroughCategories } from "../hooks/useFilterProductsThroughCategories";
+import Loader from "../components/Loader";
 
 const CategoryProducts = () => {
   const location = useLocation();
@@ -142,22 +143,30 @@ const CategoryProducts = () => {
         {/* {Right side - visible on all screens} */}
         <div className="px-4 scrollBar-none mb-2">
           <div className="md:min-h-[calc(100vh)] min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
-            <VarticalyShowProducts
-              data={data}
-              loading={loading}
-              allowMargin="false"
-            />
+            {loading ? (
+              <Loader /> // Display a spinner while loading
+            ) : (
+              <VarticalyShowProducts
+                data={data}
+                loading={loading}
+                allowMargin="false"
+              />
+            )}
           </div>
         </div>
       </div>
 
       {/* For mobile screens, show only the right side */}
       <div className="md:hidden ml-9">
-        <VarticalyShowProducts
-          data={data}
-          loading={loading}
-          allowMargin="false"
-        />
+        {loading ? (
+          <Loader /> // Display a spinner while loading
+        ) : (
+          <VarticalyShowProducts
+            data={data}
+            loading={loading}
+            allowMargin="false"
+          />
+        )}
       </div>
     </div>
   );
