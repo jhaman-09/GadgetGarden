@@ -15,7 +15,7 @@ export const useLikeProductReview = () => {
 
       const jsonData = await response.json();
       if (jsonData.error) {
-        toast.error(jsonData.message);
+        toast(jsonData.message);
       }
       return jsonData
     } catch (error) {

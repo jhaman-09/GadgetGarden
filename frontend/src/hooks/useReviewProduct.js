@@ -18,7 +18,7 @@ export const useReviewProduct = () => {
 
     const jsonData = await res.json();
     if (jsonData.error) {
-      toast.error(jsonData.message);
+      toast(jsonData.message);
     }
     if (jsonData?.success) {
       toast(jsonData.message);
