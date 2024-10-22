@@ -6,6 +6,8 @@ import { MdDelete } from "react-icons/md";
 import { uploadImageToClodinary } from "../helper/UploadToClodinary";
 import DisplayImageFullScreen from "./DisplayImageFullScreen";
 import { useEditProduct } from "../hooks/useEditProduct";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../store/homeSlice";
 
 {
   /* Admin can Edit its own Uploaded Products*/
@@ -24,6 +26,8 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
     price: productData.price,
     sellingPrice: productData.sellingPrice,
   });
+
+  const dispatch = useDispatch();
 
   const [updating, setUpdating] = useState(false);
 
@@ -78,6 +82,7 @@ const AdminEditProduct = ({ productData, onClose, setAllProduct }) => {
           product._id === jsonData?.data._id ? jsonData?.data : product
         )
       );
+      dispatch(updateProduct(jsonData?.data));
     }
     setUpdating(false);
   };  

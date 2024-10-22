@@ -7,6 +7,9 @@ import { uploadImageToClodinary } from "../helper/UploadToClodinary";
 import DisplayImageFullScreen from "./DisplayImageFullScreen";
 import { endPoint } from "../helper/api";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { uploadNewProduct } from "../store/homeSlice";
+
 const UploadProduct = ({ onClose, setAllProduct }) => {
   const [showImageFullScreen, setShowImageFullScreen] = useState(false);
   const [showImageFullScreenLink, setShowImageFullScreenLink] = useState("");
@@ -21,6 +24,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
   });
 
   const [uploading, setUploading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,6 +83,7 @@ const UploadProduct = ({ onClose, setAllProduct }) => {
         toast.success(jsonData.message);
         onClose();
         setAllProduct((prev) => [...prev, jsonData.data]);
+        dispatch(uploadNewProduct(jsonData.data));
       }
       if (jsonData.error) {
         toast.error(jsonData.message);
