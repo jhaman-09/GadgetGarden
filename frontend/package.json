@@ -30,7 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy": "rimraf build && npm run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
