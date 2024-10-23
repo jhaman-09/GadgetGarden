@@ -96,7 +96,7 @@ export const logout = async (req, res) => {
       secure: true,                     // Ensure it's secure when served over HTTPS (Vercel uses HTTPS by default)
       sameSite: "Strict",
     });
-    res.status(200).json({
+    res.status(200).json({ 
       success: true,
       message: "Logout successfully..!",
       error: false,
