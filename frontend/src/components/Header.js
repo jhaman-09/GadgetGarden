@@ -6,7 +6,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "../hooks/useLogout.js";
-import { isAutherized, removeCart, removeUser } from "../store/userSlice.js";
+import { removeUser } from "../store/userSlice.js";
 const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -20,8 +20,6 @@ const Header = () => {
     const jsonData = await logout();
     if (jsonData.success) {
       dispatch(removeUser());
-      dispatch(isAutherized(false));
-      dispatch(removeCart());
       navigate("/");
     }
   };

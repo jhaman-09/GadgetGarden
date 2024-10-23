@@ -16,6 +16,7 @@ const userSlice = createSlice({
     removeUser: (state) => {
       state.user = null;
       state.autherized = false;
+      state.cartProducts = [];
     },
     isAutherized: (state, action) => {
       state.autherized = action.payload;
