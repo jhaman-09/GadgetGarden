@@ -93,8 +93,9 @@ export const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: true,                     // Ensure it's secure when served over HTTPS (Vercel uses HTTPS by default)
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "None",
+      expires: new Date(Date.now()),
     });
     res.status(200).json({ 
       success: true,
